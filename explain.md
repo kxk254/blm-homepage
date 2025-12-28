@@ -1,15 +1,8 @@
-sudo tailscale funnel --bg 8500
-Available on the internet:
+### Install Tailscale
 
-https://kenji-konno-inspiron-3180.tailf2fd85.ts.net/
-|-- proxy http://127.0.0.1:8500
+curl -fsSL https://tailscale.com/install.sh | sh
 
-Funnel started and running in the background.
-To disable the proxy, run: tailscale funnel --https=443 off
 
-ss -tlnp | grep 8500
-tailscale funnel --help
-python3 -m http.server 8500 --bind 127.0.0.1
 
 ホスト名	TYPE	TTL	VALUE
 www        CNAME   3600  kenji-konno-inspiron-3180.tailf2fd85.ts.net
@@ -24,15 +17,6 @@ www        CNAME   3600  kenji-konno-inspiron-3180.tailf2fd85.ts.net
 https://www.onamae.com/guide/details.php?g=17
 
 
-nohup tailscale funnel --https=443 8500 > funnel.log 2>&1 &
-
-nohup python3 -m http.server 8500 > server.log 2>&1 &
-<!-- sudo tailscale funnel --https=443 --bg 8500 -->
-sudo tailscale funnel 8500
-
-=====
-sudo systemctl start nginx
-sudo systemctl enable nginx
 
 ===== TAILSCALE START
 
