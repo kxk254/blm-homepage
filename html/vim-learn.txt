@@ -1,0 +1,13 @@
+test typing
+
+Hello, Vim!
+We'll learn to edi, save and quit.
+
+deleted the line
+
+
+deleted the line
+
+
+deleted the line
+
