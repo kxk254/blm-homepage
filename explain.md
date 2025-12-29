@@ -25,6 +25,12 @@ sudo tailscale funnel -bg 8080
 sudo tailscale up --funnel
 sudo tailscale funnel enable
 
+https://backup-server.tailf2fd85.ts.net/
+|-- proxy http://127.0.0.1:8080
+
+Funnel started and running in the background.
+To disable the proxy, run: tailscale funnel --https=443 off
+
 ===== DOCKER STAR COMMAND
 cd /home/kenji-konno/blm-homepage
 docker build -t blm-nginx .
@@ -35,28 +41,64 @@ docker run -d -p 8080:80 --name blm-nginx blm-nginx
 
 ===== Cloudflare Tunnel
 
-tunnel: 691a17a6-918c-422a-afaf-e4097c71472b  # Use your actual Tunnel ID or name
-credentials-file: /home/YOUR_USERNAME/.cloudflared/691a17a6-918c-422a-afaf-e4097c71472b.json
+1.  cloudflared tunnel login
+cmd:  cloudflared tunnel login
+If you wish to copy your credentials to a server, they have been saved to:
+/home/konno/.cloudflared/cert.pem
+
+2. create tunnel
+cmd:  cloudflared tunnel create backup-server
+
+Tunnel credentials written to /home/konno/.cloudflared/18b4d133-31d2-4196-8eb4-60801ed7d3a5.json. cloudflared chose this file based on where your origin certificate was found. Keep this file secret. To revoke these credentials, delete the tunnel.
+
+Created tunnel backup-server with id 18b4d133-31d2-4196-8eb4-60801ed7d3a5
+
+3. create config file
+mkdir -p /etc/cloudflared
+sudo nano /etc/cloudflared/config.yml
+sudo chown root:root /etc/cloudflared/config.yml
+sudo chmod 644 /etc/cloudflared/config.yml
+
+/////
+tunnel: 18b4d133-31d2-4196-8eb4-60801ed7d3a5
+credentials-file: /home/konno/.cloudflared/18b4d133-31d2-4196-8eb4-60801ed7d3a5.json
 
 ingress:
+  # Route your root domain to local service
   - hostname: blmf.jp
-    service: http://localhost:8080
-  - hostname: www.blmf.jp
-    service: http://localhost:8080
+    service: http://127.0.0.1:8080
+
+  # Optional: catch-all 404 for any other requests
   - service: http_status:404
+  //////
 
-cloudflared tunnel login
-cloudflared tunnel create blmf-tunnel
-cloudflared tunnel route dns blmf.jp blmf-tunnel
-cloudflared tunnel run --url http://localhost:8080 blmf-tunnel
+blmf.jp → 18b4d133-31d2-4196-8eb4-60801ed7d3a5.cfargotunnel.com
 
-sudo systemctl daemon-reexec
-sudo systemctl daemon-reload
+4. create DNS
+
+cmd:  cloudflared tunnel route dns backup-server blmf.jp
+
+
+==> 2025-12-29T13:55:48Z INF Added CNAME blmf.jp which will route to this tunnel tunnelID=18b4d133-31d2-4196-8eb4-60801ed7d3a5
+
+## check the CNAME
+cmd:  dig blmf.jp CNAME
+blmf.jp.                1800    IN      SOA     mia.ns.cloudflare.com. dns.cloudflare.com. 2392502268 10000 2400 604800 1800
+
+cmd:  dig blmf.jp A
+blmf.jp.                300     IN      A       104.21.1.55
+blmf.jp.                300     IN      A       172.67.128.159
+
+5. run the tunnel
+
+cloudflared tunnel run backup-server
+
+6. use Systemd for production
+sudo cloudflared service install
 sudo systemctl enable cloudflared
 sudo systemctl start cloudflared
 sudo systemctl status cloudflared
 
-cloudflared tunnel info my-tunnel   → Active connection が表示される
 
-=== change ping rage
-sudo sysctl -w net.ipv4.ping_group_range="0 2147483647"
+::::::::
+
