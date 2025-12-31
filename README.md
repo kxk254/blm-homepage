@@ -98,3 +98,61 @@ sudo systemctl status cloudflared
 
 
 ::::::::
+
+# VENV
+source venv/bin/activate
+
+python manage.py runserver
+
+docker compose down
+
+docker compose up -d --build
+
+docker container prune
+
+docker volume rm
+
+docker image rmi
+
+docker volume prune 
+docker network prune 
+docker system prune 
+docker builder prune 
+docker system df
+
+### Postgres down
+sudo lsof -i :5432
+sudo systemctl stop postgresql
+
+
+## git operation
+### Daily workflow
+git fetch --prune git checkout main git pull --ff-only
+
+### When starting new work
+git checkout -b feature/foo
+
+### When switching PCs
+Just push before leaving:
+git push origin feature/foo
+
+### Then on the other PC:
+git fetch git checkout feature/foo
+
+Delete merged branches locally git branch --merged main | grep -v main | xargs git branch -d
+
+Auto-remove deleted remote branches git fetch --prune
+
+### Or permanently:
+git config --global fetch.prune true
+
+### Option 3: “Reset to remote” when things get messy
+If your local repo is messy but you don’t want to reclone:
+git fetch origin git reset --hard origin/main git clean -fd
+
+- This gives you a fresh state equivalent to re-clone, but faster.
+⚠️ This deletes uncommitted work.
+
+### Option 4: Worktrees (advanced but very clean)
+If you often switch branches:
+git worktree add ../repo-feature feature/foo
