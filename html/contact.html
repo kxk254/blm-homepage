@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Blue Millefeuille</title>
+    <style>
+        /* 高級感を出すためのタイポグラフィと配色 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333333;
+            font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+            line-height: 2.0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+         /* 繊細な細い線による装飾 [1] */
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.4s;
+        }
+        a:hover { opacity: 0.6; }
+
+
+        
+        /* ヘッダー：文字を小さくし、写真の邪魔をしない設計 [2, 3] */
+        header {
+            padding: 50px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            letter-spacing: 0.5em; /* 広い字間による高級感 */
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            margin: 0;
+            padding: 0;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+        }
+
+        /* ヘッダー（共通デザイン） */
+        header {
+            padding: 40px 60px;
+            text-align: center;
+            border-bottom: 1px solid #f2f2f2;
+            letter-spacing: 0.5em;
+        }
+        .logo { text-decoration: none; color: #222; font-size: 1.1rem; }
+
+        /* メインコンテンツ：丁寧な余白 */
+        main {
+            flex: 1;
+            padding: 250px 10%;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            color: #999;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+        }
+
+        /* フォーム：質素で洗練されたデザイン */
+        form {
+            text-align: left;
+            margin-bottom: 80px;
+        }
+
+        .form-group {
+            margin-bottom: 40px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #eee; /* 繊細な細い線 */
+            outline: none;
+            font-family: inherit;
+            background: transparent;
+            transition: border-color 0.4s;
+        }
+
+        input:focus, textarea:focus {
+            border-bottom-color: #333;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.4em;
+            cursor: pointer;
+            margin-top: 60px;
+            transition: background-color 0.4s;
+        }
+
+        button:hover {
+            background-color: #666;
+        }
+
+        /* 直接の連絡先・SNSリンク */
+        .direct-contact {
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            color: #777;
+        }
+
+        .direct-contact a {
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 2px;
+            margin-left: 10px;
+        }
+
+        .direct-contact div {
+            margin-bottom: 15px;
+        }
+
+        footer {
+            padding: 60px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #bbb;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">Blue Mille Feuille</a>
+    <nav>
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="https://mdfshop.base.shop/" target="_blank">SHOP</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <span class="section-title">Contact</span>
+    
+    <!-- 質素なフォーム -->
+    <!-- <form action="#" method="post">
+        <div class="form-group">
+            <label>NAME</label>
+            <input type="text" name="name" required>
+        </div>
+        <div class="form-group">
+            <label>MAIL ADDRESS</label>
+            <input type="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label>MESSAGE</label>
+            <textarea name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit">SEND</button>
+    </form> -->
+
+    <!-- メール・SNSの案内 -->
+    <div class="direct-contact">
+        <p>お問い合わせはこちら</p>
+        <div>
+            Email: <a href="mailto:bmflower2001@gmail.com">bmflower2001@gmail.com</a> <!-- ソース[3] -->
+        </div>
+        <div>
+            Instagram: <a href="https://www.instagram.com/bluemillefeuille2001" target="_blank">@bluemillefeuille2001</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2025 Blue Millefeuille. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

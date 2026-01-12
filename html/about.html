@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- 現在のメタデータを保持 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="日常に、そっときらめきを。Blue Millefeuilleのブランドストーリーと事業内容。">
+    <title>About | Blue Millefeuille - 日常に、そっときらめきを。</title>
+    
+    <style>
+        /* 
+           高級感と静寂を演出するスタイル設定
+        */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333333;
+            font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+            line-height: 2.2;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 繊細な細い線による境界 */
+        .thin-line {
+            height: 1px;
+            background-color: #eee;
+            width: 100px;
+            margin: 40px auto;
+        }
+        /* 繊細な細い線による装飾 [1] */
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.4s;
+        }
+        a:hover { opacity: 0.6; }
+
+
+        
+        /* ヘッダー：文字を小さくし、写真の邪魔をしない設計 [2, 3] */
+        header {
+            padding: 50px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            letter-spacing: 0.5em; /* 広い字間による高級感 */
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            margin: 0;
+            padding: 0;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+        }
+
+        /* ヒーローセクション：画面いっぱいのレイアウト */
+        .hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fcfcfc; /* 現在の写真を背景に設定することを想定 */
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .hero-inner h1 {
+            font-size: 1.6rem;
+            font-weight: normal;
+            letter-spacing: 0.4em;
+            margin-bottom: 20px;
+        }
+
+        .hero-inner p {
+            font-size: 0.85rem;
+            color: #888;
+            letter-spacing: 0.2em;
+        }
+
+        /* コンテンツセクション：丁寧な余白 */
+        section {
+            padding: 140px 10%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            padding-top: 100px;
+            margin-bottom: 80px;
+            display: block;
+        }
+
+        /* ブランドコンセプト */
+        .concept-box {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .concept-lead {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            letter-spacing: 0.2em;
+        }
+
+        /* サービス項目の全体設定 */
+        .service-item {
+            margin-bottom: 150px; /* セクション間の広い余白 */
+            text-align: center;
+        }
+
+        /* 見出し：文字間隔を広くして高級感を出す */
+        .service-item h3 {
+            font-size: 1.2rem;
+            letter-spacing: 0.4em;
+            color: #333;
+            margin-bottom: 50px;
+            font-weight: normal;
+        }
+
+        /* 画像グループ：デスクトップでは3枚横並び */
+        .service-image-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px; /* 写真同士の余白 */
+            margin-bottom: 40px;
+        }
+
+        /* 各写真の枠：シャビーシックなグレーの細い縁取り */
+        .image-wrapper {
+            background-color: #f8f8f8; /* 写真がない時のプレースホルダー色 */
+            border: 1px solid #f0f0f0; /* 極めて細い線での装飾 */
+            overflow: hidden;
+            aspect-ratio: 3 / 4; /* 縦長の写真で雑誌のような印象に */
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 枠に合わせて綺麗にトリミング */
+            transition: transform 0.6s ease;
+        }
+
+        /* ホバー時にわずかに拡大する上品な演出 */
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 説明文：読みやすさを考慮したグレーと余白 */
+        .service-description {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 2.2;
+            letter-spacing: 0.05em;
+        }
+
+
+        /* Coming Soon ボックスのデザイン */
+        .coming-soon-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+        }
+
+        .coming-soon-box {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* 雑誌のような横長レイアウト */
+            background-color: #f8f8f8; /* 非常に淡いグレー */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #f0f0f0; /* 繊細な細い線 [1] */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 背景に薄くロゴを入れるなどの演出（オプション） */
+        .coming-soon-box::before {
+            content: "Blue Millefeuille";
+            position: absolute;
+            font-size: 5rem;
+            color: #f3f3f3;
+            font-family: serif;
+            white-space: nowrap;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .coming-soon-text {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .coming-soon-text .en {
+            display: block;
+            font-size: 1.4rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .coming-soon-text .jp {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: #aaa;
+        }
+
+        .section-divider {
+            width: 1px;
+            height: 60px;
+            background-color: #eee;
+            margin: 0 auto 40px auto;
+        }
+
+        
+        
+        /* フッター：ミニマルなデザイン [9] */
+        footer {
+            padding: 100px 80px;
+            border-top: 1px solid #f2f2f2;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: #aaaaaa;
+            text-align: center;
+        }
+
+        .footer-links {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        /* モバイル対応 */
+        @media (max-width: 768px) {
+            header { padding: 20px 30px; }
+            section { padding: 80px 20px; }
+            .hero-inner h1 { font-size: 1.2rem; }
+
+            .service-image-group {
+                grid-template-columns: 0.7fr; /* 1列に変更 */
+                gap: 20px;
+                padding: 0 10px;
+
+                /*  */
+                display: grid;
+                justify-content: center;
+            }
+            
+            .image-wrapper {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+            .image-wrapper img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+
+            /*  */
+
+            .service-item h3 {
+                margin-bottom: 30px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">Blue Mille Feuille</a>
+    <nav>
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="https://mdfshop.base.shop/" target="_blank">SHOP</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="about">
+    <span class="section-title">About Us</span>
+    <div class="concept-box">
+        <p class="concept-lead">「毎日を、昨日より少しだけ華やかに。」</p>
+        <p>
+            Blue Millefeuilleは、お花・アクセサリー・美容という<br>
+            3つのエッセンスを重ね合わせ、心豊かなライフスタイルを提案しています。<br><br>
+            ミルフィーユの層が重なり合って一つの美味しさを作るように、<br>
+            耳元に輝くイヤリング、部屋を彩る季節の花、そして内側から美しさを育む食習慣。<br>
+            それらが調和したとき、あなたの日常には心地よい「きらめき」が生まれます。
+        </p>
+        <div class="thin-line"></div>
+        <p style="font-size: 0.85rem; color: #888;">
+            完璧ではないからこその美しさ。<br>
+            シャビーシックな思想を背景に、自然体な特別感を演出します。
+        </p>
+    </div>
+</section>
+
+<section id="services" style="background-color: #fcfcfc; max-width: none;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <span class="section-title">Our Services</span>
+        
+        <div class="services-grid">
+            <!-- Flower -->
+            <div class="service-item">
+                <h3>Flower Arrangement</h3>
+                
+                <!-- 3枚の写真を並べるグリッド構造 -->
+                <div class="service-image-group">
+                    <div class="image-wrapper">
+                        <img src="../media/asset/fa1.JPG" alt="アレンジ1" />
+                    </div>
+                    <div class="image-wrapper">
+                        <img src="../media/asset/fa2.JPG" alt="アレンジ2" />
+                    </div>
+                    <div class="image-wrapper">
+                        <img src="../media/asset/fa3.JPG" alt="アレンジ3" />
+                    </div>
+                </div>
+
+                <p class="service-description">
+                    代官山・祐天寺で愛され続けて20年以上。2001年の開校以来、大切にしているのは「花と向き合う時間の豊かさ」です。花を通じた自己表現と癒やしのひとときをお届けします。
+                </p>
+            </div>
+
+            <!-- Accessories -->
+            <div class="service-item">
+                <h3>Accessories</h3>
+
+                <!-- 3枚の写真を並べるグリッド構造 -->
+                <div class="service-image-group">
+                    <div class="image-wrapper">
+                        <img src="../media/asset/ac1.PNG" alt="アクセサリー1" />
+                    </div>
+                    <div class="image-wrapper">
+                        <img src="../media/asset/ac2.png" alt="アクセサリー2" />
+                    </div>
+                    <div class="image-wrapper">
+                        <img src="../media/asset/ac3.JPG" alt="アクセサリー3" />
+                    </div>
+                </div>
+               
+                <p>どんなお洋服にもなじむ、きらめくお守り。日常に自然に溶け込み、ふとした瞬間に自信をくれる。毎日を少しだけ華やかにしてくれるイヤリングを中心としたラインナップです。</p>
+            </div>
+
+            <!-- Beauty -->
+            <div class="service-item">
+                <h3>Beauty</h3>
+
+                <!-- 3枚の写真を並べるグリッド構造 -->
+                <div class="coming-soon-container">
+                    <div class="coming-soon-text">
+                        <span class="en">Coming Soon</span>
+                        <span class="jp"><a href="https://www.instagram.com/hakkoubeauty365/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"
+            alt="Instagram" width="24" />Instagramにて近日公開予定</a></span>
+                    </div>
+
+                </div>
+
+                <p>美しさは健やかな体から。発酵大学での学びに基づき、美容に良い発酵食品を追求。今後は<a href="https://www.instagram.com/hakkoubeauty365/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"
+            alt="Instagram" width="24" />Instagramを通じて</a>、皆様の毎日を健やかにする情報を発信してまいります。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer>
+    <div class="social-links">
+        <a href="https://www.instagram.com/bluemillefeuille2001"
+          target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"
+            alt="Instagram" width="24" />
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=100070949671198"
+          target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"
+            alt="Facebook" width="24" />
+        </a>
+        <a href="https://mdfshop.base.shop" target="_blank">
+        <img src="../media/asset/base_tip_apply_logo_rgb_tip_ios.png"
+            alt="BASE" width="24" />
+        </a>
+      </div>
+    <p>&copy; 2025 Blue Millefeuille All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
