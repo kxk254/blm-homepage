@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- 現在のメタデータを保持 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="日常に、そっときらめきを。耳元に小さな幸せを運ぶイヤリング、Blue Millefeuille。">
+    <title>Blue Millefeuille | 日常に、そっときらめきを</title>
+    
+    <style>
+        /* 
+           高級感を出すためのリセットと基本設定 
+           フォントは洗練された明朝体スタックを採用
+        */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* 白を基調 [3, 6] */
+            color: #333333;
+            font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+            line-height: 2.2;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 繊細な細い線による装飾 [1] */
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.4s;
+        }
+        a:hover { opacity: 0.6; }
+
+        /* ヘッダー：文字を小さくし、写真の邪魔をしない設計 [2, 3] */
+        header {
+            padding: 50px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            letter-spacing: 0.5em; /* 広い字間による高級感 */
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            margin: 0;
+            padding: 0;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+        }
+
+        /* ヒーローセクション：写真を大きく使い印象的に [1, 3] */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* ここに現在のメインビジュアルを配置 */
+            /* background-color: #f9f9f9;   */
+            background-image: url("/blmf/blm-homepage/media/asset/main.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 0 10%;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0; /* top:0; right:0; bottom:0; left:0 */
+            background-color: rgba(255, 255, 255, 0.65); 
+            z-index: 1;
+        }
+
+        .hero-text {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            padding-top: 250px;
+            font-size: 1.5rem;
+            font-weight: normal;
+            letter-spacing: 0.4em;            
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        /* 丁寧な余白（ホワイトスペース）を活用したコンセプト [2, 5] */
+        .section-padding {
+            padding: 160px 0;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .concept-title {
+            font-size: 0.8rem;
+            color: #999;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            display: block;
+        }
+
+        .concept-body {
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+        }
+
+        /* 商品一覧：グレーの階調と余白のバランス [7, 8] */
+        .items {
+            background-color: #ffffff;
+            padding-bottom: 120px;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px; /* 繊細な境界線 */
+            background-color: #f2f2f2; /* 境界線代わりのグレー */
+            margin: 0 80px;
+        }
+
+        .item-card {
+            background-color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .item-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-color: #f7f7f7; /* ここに現在の商品の写真を配置 */
+            margin-bottom: 30px;
+            transition: transform 0.6s ease;
+        }
+        img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            }
+
+        .item-card:hover .item-image {
+            transform: scale(0.98); /* 控えめなアニメーション */
+        }
+
+        .item-name {
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+        }
+
+        .item-price {
+            font-size: 0.8rem;
+            color: #888888;
+        }
+
+        /* フッター：ミニマルなデザイン [9] */
+        footer {
+            padding: 100px 80px;
+            border-top: 1px solid #f2f2f2;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: #aaaaaa;
+            text-align: center;
+        }
+
+        .footer-links {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 30px; }
+            .item-grid { grid-template-columns: 1fr; margin: 0 30px; }
+            section { padding: 80px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo">Blue Mille Feuille</a>
+    <nav>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">ABOUT</a></li>
+            <li><a href="#">ITEMS</a></li>
+            <li><a href="#">CONTACT</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-text">
+        <h1>日常に、そっときらめきを・・・・</h1> <!-- ソース[7, 10] -->
+        <p style="font-size: 0.8rem; color: #222; letter-spacing: 0.3em;">
+            Your "Everyday" with a hint of special.
+        </p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <span class="concept-title">Concept</span>
+    <div class="concept-body">
+        <p>
+            どんなお洋服にも自然になじみながら、<br>
+            耳元に小さな幸せを運ぶイヤリング。<br>
+            毎日を少しだけ華やかにしてくれる、<br>
+            きらめくお守りのような存在です。 <!-- ソース[7] -->
+        </p>
+        <p style="margin-top: 40px; color: #707070;">
+            あなたの“いつも”に、さりげない特別を・・・・
+        </p>
+    </div>
+</section>
+
+<div class="items">
+    <div class="item-grid">
+        <!-- ストーンフラワーシリーズ [7, 8] -->
+        <div class="item-card">
+            <div class="item-image"><img src="../media/asset/0921-1.png" alt="小物1" /></div> <!-- 現行写真を使用 -->
+            <div class="item-name">ストーンフラワーシリーズ<br>イヤリング</div>
+            <div class="item-price">¥3,300</div>
+        </div>
+
+        <!-- ストーンシリーズ [8, 11] -->
+        <div class="item-card">
+            <div class="item-image"><img src="../media/asset/0921-5.png" alt="小物2" /></div> <!-- 現行写真を使用 -->
+            <div class="item-name">ストーンシリーズ<br>イヤリング（トパーズ）</div>
+            <div class="item-price">¥4,400</div>
+        </div>
+
+        <!-- フラワーシリーズ [11, 12] -->
+        <div class="item-card">
+            <div class="item-image"><img src="../media/asset/0921-14.png" alt="小物3" /></div> <!-- 現行写真を使用 -->
+            <div class="item-name">フラワーシリーズ<br>イヤリング（グレー）</div>
+            <div class="item-price">¥4,400</div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    
+    <div class="social-links">
+        <a href="https://www.instagram.com/bluemillefeuille2001"
+          target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"
+            alt="Instagram" width="24" />
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=100070949671198"
+          target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"
+            alt="Facebook" width="24" />
+        </a>
+      </div>
+      <div class="footer-links">
+        <a href="#">ABOUT</a>
+        <a href="#">CONTACT</a>
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">特定商取引法に基づく表記</a>
+    </div>
+    <p>&copy; 2025 Blue Mille Feuille All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
