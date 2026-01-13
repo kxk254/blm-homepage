@@ -1,10 +1,57 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+
     <!-- 現在のメタデータを保持 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="日常に、そっときらめきを。Blue Millefeuilleのブランドストーリーと事業内容。">
+
+    <!-- SEO基本設定 -->
+    <meta name="description"
+      content="Blue Millefeuilleは、日常にそっときらめきを添えるハンドメイドアクセサリーショップ。ストーンフラワーシリーズのイヤリングで、毎日を少し華やかに。">
+    <meta name="keywords"
+      content="ハンドメイド,イヤリング,アクセサリー,シャビーシック,バロックストーン,パール,ギフト,ナチュラル,Blue Millefeuille">
+    <meta name="author" content="Blue Millefeuille">
+
+    <!-- OGP設定 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Blue Millefeuille | きらめくハンドメイドアクセサリー">
+    <meta property="og:description"
+      content="耳元に小さな幸せを。ストーンフラワーシリーズのイヤリングで、あなたの“いつも”にさりげない特別を。">
+    <meta property="og:url" content="https://blmf.jp/">
+    <meta property="og:image" content="https://blmf.jp/media/asset/0921-1.png">
+    <meta property="og:site_name" content="Blue Millefeuille">
+    <meta property="og:locale" content="ja_JP">
+
+    <!-- Twitterカード設定 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Blue Millefeuille | きらめくハンドメイドアクセサリー">
+    <meta name="twitter:description" content="耳元に小さな幸せを。日常にそっと輝きを添えるイヤリング。">
+    <meta name="twitter:image" content="https://blmf.jp/media/asset/0921-1.png">
+
+    <!-- ファビコン -->
+    <link rel="icon" href="favicon-v.ico" type="image/x-icon">
+
+    <!-- 検索エンジンにインデックスさせる -->
+    <meta name="robots" content="index, follow">
+    <!-- test change 2025-09-30 test -->
+    <meta charset="UTF-8" />
+    <meta name="facebook-domain-verification"
+      content="gjrduvz2zjxhn29u4csx22x222j450" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Google tag (gtag.js) -->
+    <script async
+      src="https://www.googletagmanager.com/gtag/js?id=G-Z775PKZ8XR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-Z775PKZ8XR');
+    </script>
+    <!-- Link your CSS file -->
+    <link rel="stylesheet" href="../css/style.css">
+
     <title>About | Blue Millefeuille - 日常に、そっときらめきを。</title>
     
     <style>
@@ -299,7 +346,26 @@
 
 <header>
     <a href="index.html" class="logo">Blue Mille Feuille</a>
-    <nav>
+
+    <!-- ハンバーガーボタン -->
+    <div class="hamburger" id="js-hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- モバイル用ナビゲーション -->
+    <nav class="nav-overlay" id="js-nav">
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="https://mdfshop.base.shop/" target="_blank">SHOP</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+    </nav>
+
+
+    <nav class="desktop-nav">
         <ul>
             <li><a href="index.html">HOME</a></li>
             <li><a href="about.html">ABOUT</a></li>
@@ -423,6 +489,26 @@
     </div>
     <p>&copy; 2025 Blue Millefeuille All Rights Reserved.</p>
 </footer>
+
+<script>
+    // メニューの開閉制御
+    const hamburger = document.getElementById('js-hamburger');
+    const nav = document.getElementById('js-nav');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('is-active');
+        nav.classList.toggle('is-active');
+    });
+
+    // メニューリンクをクリックした時にメニューを閉じる
+    const navLinks = document.querySelectorAll('.nav-overlay a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('is-active');
+            nav.classList.remove('is-active');
+        });
+    });
+</script>
 
 </body>
 </html>
