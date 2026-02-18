@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import styles from "./ItemCard.module.css";
 
 type CardProps = {
   id: string;
