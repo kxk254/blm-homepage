@@ -13,10 +13,6 @@ export default function Header() {
   return (
     <header>
       <div className={styles.header}>
-
-  useEffect(() => {
-    console.log("isMobile changed:", isMobile);
-  }, [isMobile]);
         <Link href="/" className={styles.logo}>
           Blue Mille Feuille
         </Link>

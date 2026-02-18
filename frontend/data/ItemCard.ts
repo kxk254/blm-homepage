@@ -7,7 +7,7 @@ export const cards: CardProps[] = [
     productDescription:
       "クレッセント型のスタイリッシュなイヤリング。スワロスキーやバールのキラキラ感が華やかなデザインです。",
     productPrice: 4400,
-    imageSrc: "/asset/0921-2.png",
+    imageSrc: "/asset/0921-2.PNG",
     link: "https://mdfshop.base.shop/items/119245582",
   },
   {
