@@ -1,12 +1,7 @@
 /* 繊細な細い線による装飾 [1] */
-.aLink {
-  text-decoration: none;
-  color: inherit;
-  transition: opacity 0.4s;
-}
 
 .header {
-  padding: 30px 80px;
+  padding: 50px 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -31,16 +26,6 @@
 }
 .logo:hover {
   opacity: 0.6;
-}
-
-.nav ul {
-  display: flex;
-  list-style: none;
-  gap: 40px;
-  margin: 0;
-  padding: 0;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
 }
 
 /* --- モバイル用ハンバーガーメニューのスタイル　はじまり --- */
@@ -124,31 +109,63 @@
   opacity: 1;
   transform: translateY(0);
 }
-
 /* リンクテキスト：明朝体と広い字間 [3] */
 .navOverlay ul li a {
   font-family: "Yu Mincho", serif;
-  font-size: 1rem;
+  font-size: 0.7rem;
   letter-spacing: 0.5em;
   color: #333;
   text-decoration: none;
   display: block;
+  transition: opacity 0.4s;
+}
+.navOverlay a:hover {
+  opacity: 0.6;
 }
 
 .menuControlerMov {
   display: none;
-  background: red;
-}
-.menuControlerNorm {
-  display: block;
-  background: red;
 }
 
+/*  通常メニューバー */
+.menuControlerNorm {
+  display: block;
+}
+
+.menuControlerNorm ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+}
+
+.menuControlerNorm a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.4s;
+}
+
+.menuControlerNorm a:hover {
+  opacity: 0.6;
+}
+
+/* メディア対応　  */
 @media (max-width: 768px) {
   .menuControlerMov {
     display: block;
   }
   .menuControlerNorm {
     display: none;
+  }
+  .logo {
+    font-size: 0.8rem;
+    letter-spacing: 0.28rem;
+  }
+  .header {
+    padding: 50px 20px;
+    display: flex;
   }
 }
