@@ -11,7 +11,6 @@ export default function NoramNav({ className }: MobileNavProps) {
       <nav className={className}>
         <ul>
           <li>
-            Noraml Nav
             <a href="/">HOME</a>
           </li>
           <li>
