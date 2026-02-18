@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import styles from "@/src/layout/Header.module.css";
 import Link from "next/link";
 
-export default function MobileNav() {
+type MobileNavProps = { className?: string };
+
+export default function MobileNav({ className }: MobileNavProps) {
   const [isActive, setIsActive] = useState(false);
 
   const toggleMenu = () => {
@@ -18,7 +20,7 @@ export default function MobileNav() {
   }, [isActive]);
 
   return (
-    <nav>
+    <nav className={className}>
       {/* Hamburger button */}
       <div
         onClick={toggleMenu}
