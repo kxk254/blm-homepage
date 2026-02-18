@@ -1,0 +1,76 @@
+/* ヒーローセクション：写真を大きく使い印象的に [1, 3] */
+.hero {
+  margin-top: 0px;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* ここに現在のメインビジュアルを配置 */
+  /* background-color: #f9f9f9;   */
+  background-image: url("/asset/main.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0 10%;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background-color: rgba(255, 255, 255, 0.65);
+  z-index: 1;
+}
+
+.heroText {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.heroText h1 {
+  padding-top: 250px;
+  font-size: 1.5rem;
+  font-weight: normal;
+  letter-spacing: 0.4em;
+  margin-bottom: 30px;
+  color: #222;
+  opacity: 0.7;
+}
+
+.heroText p {
+  font-size: 0.8rem;
+  color: #222;
+  letter-spacing: 0.25rem;
+  opacity: 0.9;
+}
+
+/* 丁寧な余白（ホワイトスペース）を活用したコンセプト [2, 5] */
+.sectionPadding {
+  padding: 160px 0;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.conceptTitle {
+  font-size: 0.8rem;
+  color: #999;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+  display: block;
+}
+
+.conceptBody {
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  opacity: 0.8;
+}
+.conceptBody2 {
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  margin-top: 40px;
+  color: #707070;
+}
