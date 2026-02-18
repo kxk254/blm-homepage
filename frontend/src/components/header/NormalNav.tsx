@@ -1,7 +1,14 @@
-export default function NoramNav() {
+"use client";
+import React, { useState, useEffect } from "react";
+import styles from "@/src/layout/Header.module.css";
+import Link from "next/link";
+
+type MobileNavProps = { className?: string };
+
+export default function NoramNav({ className }: MobileNavProps) {
   return (
     <>
-      <nav>
+      <nav className={className}>
         <ul>
           <li>
             Noraml Nav
