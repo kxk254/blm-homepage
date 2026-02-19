@@ -1,23 +1,25 @@
 import Link from "next/link";
+import styles from "./ContactCard.module.css";
+import { service } from "@/data/ServiceCard";
 
-export default function ContactCard() {
+interface Service {
+  email: string;
+  instagram: string;
+}
+
+export default function ContactCard({ email, instagram }: Service) {
   return (
-    <main>
-      <div>
+    <main className={styles.mainContents}>
+      <div className={styles.directContact}>
         <p>お問い合わせはこちら</p>
         <div>
           Email:
-          <Link href="mailto:bmflower2001@gmail.com">
-            bmflower2001@gmail.com
-          </Link>
+          <Link href={`mailto:${email}`}>{email}</Link>
         </div>
         <div>
           Instagram:
-          <Link
-            href="https://www.instagram.com/bluemillefeuille2001"
-            target="_blank"
-          >
-            @bluemillefeuille2001
+          <Link href={`https://www.instagram.com/${instagram}`} target="_blank">
+            @{instagram}
           </Link>
         </div>
       </div>

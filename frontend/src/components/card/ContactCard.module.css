@@ -1,18 +1,31 @@
 /* 直接の連絡先・SNSリンク */
-.direct-contact {
+.mainContents {
+  flex: 1;
+  padding: 250px 10%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.directContact {
   font-size: 0.85rem;
   letter-spacing: 0.1em;
   color: #777;
 }
 
-.direct-contact a {
+.directContact a {
   color: #333;
   text-decoration: none;
   border-bottom: 1px solid #ccc;
   padding-bottom: 2px;
   margin-left: 10px;
+  transition: opacity 0.5s;
 }
 
-.direct-contact div {
+.directContact a:hover {
+  opacity: 0.6;
+}
+
+.directContact div {
   margin-bottom: 15px;
 }
