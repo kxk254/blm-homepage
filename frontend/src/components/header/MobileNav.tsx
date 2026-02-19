@@ -15,10 +15,6 @@ export default function MobileNav({ className }: MobileNavProps) {
     setIsActive(false);
   };
 
-  useEffect(() => {
-    console.log("toggle and close:", isActive);
-  }, [isActive]);
-
   return (
     <nav className={className}>
       {/* Hamburger button */}

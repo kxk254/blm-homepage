@@ -139,3 +139,8 @@ a.secondary {
     --button-secondary-border: #1a1a1a;
   }
 }
+
+.items {
+  background-color: #ffffff;
+  padding-bottom: 120px;
+}
