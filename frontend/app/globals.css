@@ -10,6 +10,9 @@
 
   /* フォント設定：高級感のある明朝体 [3], [4] */
   --font-luxury: "Yu Mincho", "Hiragino Mincho ProN", serif;
+
+  /* ヘッダーの高さを１４０ｐｘに設定　 */
+  --header-height: 140px;
 }
 /* --- 2. ベーススタイル（モバイルデフォルト） --- */
 body {
