@@ -1,0 +1,25 @@
+/* コンテンツセクション：丁寧な余白 */
+.section {
+  padding: 140px 10%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #999;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  padding-top: 100px;
+  margin-bottom: 80px;
+  display: block;
+}
+
+/* 繊細な細い線による境界 */
+.thinLine {
+  height: 1px;
+  background-color: #eee;
+  width: 100px;
+  margin: 40px auto;
+}

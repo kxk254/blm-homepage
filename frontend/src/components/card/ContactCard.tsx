@@ -1,13 +1,12 @@
 import Link from "next/link";
 import styles from "./ContactCard.module.css";
-import { service } from "@/data/ServiceCard";
 
-interface Service {
+interface Contact {
   email: string;
   instagram: string;
 }
 
-export default function ContactCard({ email, instagram }: Service) {
+export default function ContactCard({ email, instagram }: Contact) {
   return (
     <main className={styles.mainContents}>
       <div className={styles.directContact}>
