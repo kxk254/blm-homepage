@@ -41,7 +41,7 @@ export default function Footer() {
       </div>
       <div className={styles.footerLinks}>
         <Link href="/">ABOUT</Link>
-        <Link href="/">CONTACT</Link>
+        <Link href="/contact">CONTACT</Link>
       </div>
       <p>&copy; {currentYear} Blue Mille Feuille All Rights Reserved.</p>
     </footer>
