@@ -2,7 +2,7 @@ export const service: ServiceProps[] = [
   {
     id: "001",
     service: "Flower Arrangement",
-    imageSrc1: "/asset/fa1/JPG",
+    imageSrc1: "/asset/fa1.JPG",
     imageSrc2: "/asset/fa2.JPG",
     imageSrc3: "/asset/fa3.JPG",
     content: "",

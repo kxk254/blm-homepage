@@ -1,125 +1,106 @@
-/* ブランドコンセプト */
-.concept-box {
+/* グリッド全体 */
+.servicesGrid {
+  margin: 0 auto;
+  margin-bottom: 150px;
   text-align: center;
-  margin-bottom: 100px;
-}
-
-.concept-lead {
-  font-size: 1.1rem;
-  margin-bottom: 40px;
-  letter-spacing: 0.2em;
-}
-
-/* サービス項目の全体設定 */
-.service-item {
-  margin-bottom: 150px; /* セクション間の広い余白 */
-  text-align: center;
-}
-
-/* 見出し：文字間隔を広くして高級感を出す */
-.service-item h3 {
-  font-size: 1.2rem;
-  letter-spacing: 0.4em;
-  color: #333;
-  margin-bottom: 50px;
-  font-weight: normal;
 }
 
 /* 画像グループ：デスクトップでは3枚横並び */
-.service-image-group {
+.serviceImageGroup {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px; /* 写真同士の余白 */
   margin-bottom: 40px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 60px;
 }
 
 /* 各写真の枠：シャビーシックなグレーの細い縁取り */
-.image-wrapper {
+.imageWrapper {
   background-color: #f8f8f8; /* 写真がない時のプレースホルダー色 */
   border: 1px solid #f0f0f0; /* 極めて細い線での装飾 */
   overflow: hidden;
   aspect-ratio: 3 / 4; /* 縦長の写真で雑誌のような印象に */
+  position: relative;
+  width: 100%;
 }
 
-.image-wrapper img {
+.imageWrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover; /* 枠に合わせて綺麗にトリミング */
+  object-position: center;
   transition: transform 0.6s ease;
 }
 
 /* ホバー時にわずかに拡大する上品な演出 */
-.image-wrapper:hover img {
+.imageWrapper:hover img {
   transform: scale(1.05);
 }
 
-/* 説明文：読みやすさを考慮したグレーと余白 */
-.service-description {
-  max-width: 700px;
+.iconWrapper {
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: center;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
   margin: 0 auto;
+  gap: 4px;
+  text-decoration: none;
+  color: inherit;
+}
+/* 説明文：読みやすさを考慮したグレーと余白 */
+.descriptionContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.description {
   font-size: 0.9rem;
   color: #666;
   line-height: 2.2;
   letter-spacing: 0.05em;
 }
 
-/* Coming Soon ボックスのデザイン */
-.coming-soon-container {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto 60px auto;
-  padding: 0 20px;
-}
-
-.coming-soon-box {
-  width: 100%;
-  aspect-ratio: 16 / 9; /* 雑誌のような横長レイアウト */
-  background-color: #f8f8f8; /* 非常に淡いグレー */
-  display: flex;
+.descriptionItem {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border: 1px solid #f0f0f0; /* 繊細な細い線 [1] */
-  position: relative;
-  overflow: hidden;
+  gap: 4px;
+  white-space: normal;
+  color: inherit;
+  text-decoration: none;
 }
 
-/* 背景に薄くロゴを入れるなどの演出（オプション） */
-.coming-soon-box::before {
-  content: "Blue Millefeuille";
-  position: absolute;
-  font-size: 5rem;
-  color: #f3f3f3;
-  font-family: serif;
-  white-space: nowrap;
-  opacity: 0.5;
-  z-index: 1;
-}
+@media (max-width: 768px) {
+  .serviceImageGroup {
+    grid-template-columns: 0.7fr; /* 1列に変更 */
+    gap: 20px;
+    padding: 0 10px;
 
-.coming-soon-text {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
+    /*  */
+    display: grid;
+    justify-content: center;
+  }
 
-.coming-soon-text .en {
-  display: block;
-  font-size: 1.4rem;
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  color: #888;
-  margin-bottom: 15px;
-}
-
-.coming-soon-text .jp {
-  display: block;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  color: #aaa;
-}
-
-.section-divider {
-  width: 1px;
-  height: 60px;
-  background-color: #eee;
-  margin: 0 auto 40px auto;
+  .imageWrapper {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  .iconWrapper p {
+    font-size: 0.8rem;
+  }
+  .imageWrapper img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 }

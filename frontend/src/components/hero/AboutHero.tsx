@@ -2,10 +2,12 @@ import styles from "./AboutHero.module.css";
 
 export default function AboutHero() {
   return (
-    <section>
-      <span>About Us</span>
+    <section className={styles.conceptBox}>
+      <span className={styles.sectionTitle}>About Us</span>
       <div>
-        <p>「毎日を、昨日より少しだけ華やかに。」</p>
+        <p className={styles.sectionLead}>
+          「毎日を、昨日より少しだけ華やかに。」
+        </p>
         <p>
           Blue Millefeuilleは、お花・アクセサリー・美容という
           <br />
@@ -18,7 +20,12 @@ export default function AboutHero() {
           それらが調和したとき、あなたの日常には心地よい「きらめき」が生まれます。
         </p>
         <div className={styles.thinLine}></div>
-        <p></p>
+        <p className={styles.sectionBottom}>
+          {" "}
+          完璧ではないからこその美しさ。
+          <br />
+          シャビーシックな思想を背景に、自然体な特別感を演出します。
+        </p>
       </div>
     </section>
   );
