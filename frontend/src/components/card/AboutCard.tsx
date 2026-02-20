@@ -4,9 +4,9 @@ import { service } from "@/data/ServiceCard";
 
 export default function AboutCard() {
   return (
-    <section>
-      <div>
-        <span>Out Services</span>
+    <section className={styles.allSection}>
+      <div className={styles.serviceItem}>
+        <span className={styles.title}>Our Services</span>
         {service.map((item) => (
           <ServiceCard
             key={item.id}
@@ -14,7 +14,7 @@ export default function AboutCard() {
             service={item.service}
             imageSrc1={item.imageSrc1}
             imageSrc2={item.imageSrc2}
-            imageSrc3={item.omageSrc3}
+            imageSrc3={item.imageSrc3}
             content={item.content}
             link={item.link}
             icon={item.icon}
