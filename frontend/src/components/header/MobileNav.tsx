@@ -37,7 +37,7 @@ export default function MobileNav({ className }: MobileNavProps) {
               </Link>
             </li>
             <li>
-              <Link href="/" onClick={closeMenu}>
+              <Link href="/about" onClick={closeMenu}>
                 ABOUT
               </Link>
             </li>

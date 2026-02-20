@@ -10,6 +10,7 @@ export const service: ServiceProps[] = [
     icon: "",
     description: [
       {
+        id: "001",
         serviceId: "001",
         typeChoice: "text",
         content:
@@ -30,6 +31,7 @@ export const service: ServiceProps[] = [
     icon: "",
     description: [
       {
+        id: "001",
         serviceId: "002",
         typeChoice: "text",
         content:
@@ -40,7 +42,7 @@ export const service: ServiceProps[] = [
     ],
   },
   {
-    id: "001",
+    id: "003",
     service: "Beauty",
     imageSrc1: "",
     imageSrc2: "",
@@ -50,6 +52,7 @@ export const service: ServiceProps[] = [
     icon: "/asset/instagram.png",
     description: [
       {
+        id: "001",
         serviceId: "003",
         typeChoice: "text",
         content: "美しさは健やかな体から。",
@@ -57,6 +60,7 @@ export const service: ServiceProps[] = [
         icon: "",
       },
       {
+        id: "002",
         serviceId: "003",
         typeChoice: "link",
         content: "発酵食大学での学びに基づき",
@@ -64,6 +68,7 @@ export const service: ServiceProps[] = [
         icon: "",
       },
       {
+        id: "003",
         serviceId: "003",
         typeChoice: "text",
         content: "、美容に良い発酵食品を追求。今後は",
@@ -71,6 +76,7 @@ export const service: ServiceProps[] = [
         icon: "",
       },
       {
+        id: "004",
         serviceId: "003",
         typeChoice: "link",
         content: "Instagramを通じて",
@@ -78,6 +84,7 @@ export const service: ServiceProps[] = [
         icon: "/asset/instagram.png",
       },
       {
+        id: "005",
         serviceId: "003",
         typeChoice: "text",
         content: "、皆様の毎日を健やかにする情報を発信してまいります。",
