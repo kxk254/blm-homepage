@@ -86,7 +86,9 @@ export default function ServiceCard({
           ) : (
             <>
               <Link href={item.href} target="_blank">
-                <Image src={item.icon} alt="" />
+                {item.icon && (
+                  <Image src={item.icon} alt="" width={20} height={20} />
+                )}
                 <p>{item.content}</p>
               </Link>
             </>

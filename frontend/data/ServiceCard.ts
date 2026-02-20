@@ -10,6 +10,7 @@ export const service: ServiceProps[] = [
     icon: "",
     description: [
       {
+        id: "001",
         serviceId: "001",
         typeChoice: "text",
         content:
@@ -30,6 +31,7 @@ export const service: ServiceProps[] = [
     icon: "",
     description: [
       {
+        id: "001",
         serviceId: "002",
         typeChoice: "text",
         content:
