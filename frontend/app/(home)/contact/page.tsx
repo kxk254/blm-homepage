@@ -5,7 +5,11 @@ import { contact } from "@/data/ContactCard";
 export default function Contact() {
   return (
     <div className={styles.content}>
-      <ContactCard email={contact[0].email} instagram={contact[0].instagram} />
+      <ContactCard
+        id={contact[0].id}
+        email={contact[0].email}
+        instagram={contact[0].instagram}
+      />
     </div>
   );
 }

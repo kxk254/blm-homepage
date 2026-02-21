@@ -1,3 +1,5 @@
+import { ContactProps } from "./types";
+
 export const contact: ContactProps[] = [
   {
     id: "001",

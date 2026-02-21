@@ -3,6 +3,7 @@ import styles from "./ServiceCard.module.css";
 import Link from "next/link";
 
 interface DescriptionItem {
+  id: string;
   serviceId: string;
   typeChoice: string;
   content: string;
