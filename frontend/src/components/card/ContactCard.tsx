@@ -1,11 +1,6 @@
 import Link from "next/link";
 import styles from "./ContactCard.module.css";
-
-interface ContactProps {
-  id: string;
-  email: string;
-  instagram: string;
-}
+import { ContactProps } from "@/data/types";
 
 export default function ContactCard({ email, instagram }: ContactProps) {
   return (

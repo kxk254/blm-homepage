@@ -1,27 +1,7 @@
 import Image from "next/image";
 import styles from "./ServiceCard.module.css";
 import Link from "next/link";
-
-interface DescriptionItem {
-  id: string;
-  serviceId: string;
-  typeChoice: string;
-  content: string;
-  href: string;
-  icon: string;
-}
-
-interface ServiceCardProps {
-  id: string;
-  service: string;
-  imageSrc1?: string;
-  imageSrc2?: string;
-  imageSrc3?: string;
-  content: string;
-  link: string;
-  icon: string;
-  description: DescriptionItem[];
-}
+import { DescriptionItem, ServiceCardProps } from "@/data/types";
 
 export default function ServiceCard({
   id,
