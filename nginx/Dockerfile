@@ -2,8 +2,7 @@ FROM nginx:alpine
 
 RUN rm-rf /usr/share/nginx/html/*
 
-COPY ../html .usr/share/nginx/html 
-COPY ../frontend/public /usr/share/nginx/media 
+COPY frontend/ /usr/share/nginx/html 
 
 EXPOSE 80 
 
