@@ -1,10 +1,16 @@
 # version: "3"
 services:
   nginx:
-    build: .
+    build: ./nginx
     restart: always
     ports:
       - "8080:80"
     volumes:
-      - ./html:/usr/share/nginx/html
-      - ./media:/usr/share/nginx/media
+      - ./frontend:/usr/share/nginx/html
+      - ./frontend/public:/usr/share/nginx/media
+
+  frontend:
+    build: ./frontend 
+    ports:
+      - "3000:3000"
+    restart: always
