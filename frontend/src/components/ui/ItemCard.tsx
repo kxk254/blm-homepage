@@ -10,7 +10,7 @@ type CardProps = {
   productDescription: string;
   productPrice: number;
   imageSrc: string;
-  link?: string;
+  link: string;
 };
 
 export default function ItemCard({
@@ -26,7 +26,7 @@ export default function ItemCard({
   const formattedPrice = new Intl.NumberFormat("ja-JP", {
     style: "currency",
     currency: "JPY",
-    minimumFranctionDigits: 0,
+    minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(productPrice);
   return (

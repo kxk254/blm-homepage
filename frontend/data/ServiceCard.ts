@@ -1,4 +1,6 @@
-export const service: ServiceProps[] = [
+import { ServiceCardProps } from "./types";
+
+export const service: ServiceCardProps[] = [
   {
     id: "001",
     service: "Flower Arrangement",

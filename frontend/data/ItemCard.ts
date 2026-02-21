@@ -1,3 +1,5 @@
+import { CardProps } from "./types";
+
 export const cards: CardProps[] = [
   {
     id: "001",

@@ -1,16 +1,10 @@
 # version: "3"
 services:
-  nginx:
-    build: ./nginx
-    restart: always
-    ports:
-      - "8080:80"
-    volumes:
-      - ./frontend:/usr/share/nginx/html
-      - ./frontend/public:/usr/share/nginx/media
 
   frontend:
-    build: ./frontend 
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
     ports:
-      - "3000:3000"
+      - "3000:80"
     restart: always
