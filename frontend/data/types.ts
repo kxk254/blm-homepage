@@ -4,7 +4,7 @@ export interface ContactProps {
   instagram: string;
 }
 
-export type CardProps = {
+export interface CardProps {
   id: string;
   productType: string;
   productColor: string;
@@ -13,7 +13,7 @@ export type CardProps = {
   productPrice: number;
   imageSrc: string;
   link: string;
-};
+}
 
 export interface DescriptionItem {
   id: string;
