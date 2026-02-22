@@ -1,8 +1,5 @@
+from django.urls import include, path
 
-from django.urls import path, include
-import views 
+from . import views
 
-
-urlpatterns = [
-    path('', include('blmf.urls')),
-    ]
+urlpatterns = []
