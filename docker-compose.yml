@@ -2,7 +2,7 @@
 services:
 
   frontend:
-    container_name: blm-frontend
+    # container_name: blm-frontend
     build:
       context: .
       dockerfile: frontend/Dockerfile
@@ -12,7 +12,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: blm-nginx
+    # container_name: blm-nginx
     ports:
       - "80:80"
     volumes:
