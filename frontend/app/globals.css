@@ -1,0 +1,92 @@
+/* --- 1. グローバル定数（ブランドカラー・フォント） --- */
+:root {
+  /* 白とグレーを基調とした高級感・シャビー感 */
+  --bm-white: #ffffff;
+  --bm-gray-light: #f8f8f8; /* 背景・セクション用 */
+  --bm-gray-shabby: #f2f2f2; /* シャビーな質感の境界線 [1], [2] */
+  --bm-text-main: #333333; /* メインテキスト [3] */
+  --bm-text-sub: #777777; /* サブテキスト */
+  --bm-accent-gold: #bda67b; /* アンティークゴールド [1] */
+
+  /* フォント設定：高級感のある明朝体 [3], [4] */
+  --font-luxury: "Yu Mincho", "Hiragino Mincho ProN", serif;
+
+  /* ヘッダーの高さを１４０ｐｘに設定　 */
+  --header-height: 140px;
+}
+/* --- 2. ベーススタイル（モバイルデフォルト） --- */
+body {
+  background-color: var(--bm-white);
+  color: var(--bm-text-main);
+  font-family: var(--font-luxury);
+  line-height: 2.2;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  /* モバイル：余白を抑えつつ清潔感を維持 */
+  /* font-size: 14px; */
+}
+
+/* --- 3. ユーティリティクラス（モバイルファースト設計） --- */
+
+/* 贅沢な余白（White Space） [3] */
+.p-luxury {
+  padding: 60px 20px; /* モバイル：標準的な余白 */
+}
+
+/* 高級感のあるタイポグラフィ */
+.text-luxury {
+  letter-spacing: 0.2em; /* モバイル：少し広めの字間 [1] */
+  text-align: center;
+}
+
+/* シャビーシックなグリッドレイアウト（モバイルは1列） */
+.grid-shabby {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+/* --- 4. レスポンス対応（PC/タブレットへの採用） --- */
+
+/* md (768px以上): タブレット・小型PC向け */
+@media (min-width: 768px) {
+  body {
+    font-size: 15px; /* 少し大きくして可読性アップ */
+  }
+
+  .p-luxury {
+    padding: 100px 10%; /* 余白を広げて高級感を出す [3] */
+  }
+
+  .text-luxury {
+    letter-spacing: 0.4em; /* PC：雑誌のような広い字間 [3] */
+  }
+
+  .grid-shabby {
+    grid-template-columns: repeat(2, 1fr); /* 2列表示 */
+  }
+}
+
+/* lg (1024px以上): PC・大型モニター向け */
+@media (min-width: 1024px) {
+  .p-luxury {
+    padding: 140px 15%; /* 最大限の空白を使い、ゆったり見せる [3] */
+  }
+
+  .grid-shabby {
+    grid-template-columns: repeat(3, 1fr); /* 3列表示（お花紹介など） */
+  }
+}
+
+/* --- 5. シャビーシック装飾（共通） --- */
+.border-shabby {
+  border-bottom: 1px solid var(--bm-gray-shabby); /* 繊細な細い線 [1] */
+}
+
+.coming-soon-bg {
+  background-color: var(--bm-gray-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+}

@@ -1,0 +1,30 @@
+.allSection {
+  padding: 80px 10%;
+  max-width: none;
+  margin: 0 auto;
+  background: #fcfcfc;
+}
+.title {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #999;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  padding-top: 100px;
+  margin-bottom: 80px;
+  display: block;
+}
+/* サービス項目の全体設定 */
+.serviceItem {
+  margin-bottom: 150px; /* セクション間の広い余白 */
+  text-align: center;
+}
+
+/* 見出し：文字間隔を広くして高級感を出す */
+.serviceItem h3 {
+  font-size: 1.2rem;
+  letter-spacing: 0.4em;
+  color: #333;
+  margin-bottom: 50px;
+  font-weight: normal;
+}
