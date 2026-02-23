@@ -1,11 +1,11 @@
 export interface ContactProps {
-  id: string;
+  id: number;
   email: string;
   instagram: string;
 }
 
 export interface CardProps {
-  id: string;
+  id: number;
   productType: string;
   productColor: string;
   productName: string;
@@ -16,7 +16,7 @@ export interface CardProps {
 }
 
 export interface DescriptionItem {
-  id: string;
+  id: number;
   serviceId: string;
   typeChoice: string;
   content: string;
@@ -24,7 +24,7 @@ export interface DescriptionItem {
   icon: string;
 }
 export interface ServiceCardProps {
-  id: string;
+  id: number;
   service: string;
   imageSrc1?: string;
   imageSrc2?: string;
