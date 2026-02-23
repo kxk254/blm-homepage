@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 class ContactProps(models.Model):
     email = models.EmailField(max_length=100)
-    instagram = models.URLField(max_length=200)
+    instagram = models.CharField(max_length=200)
 
     def __str__(self):
         return self.email
@@ -29,9 +29,9 @@ class ServiceCard(models.Model):
     image_src1 = models.ImageField(upload_to="homepage", blank=True, null=True)
     image_src2 = models.ImageField(upload_to="homepage", blank=True, null=True)
     image_src3 = models.ImageField(upload_to="homepage", blank=True, null=True)
-    content = models.TextField()
+    content = models.TextField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
-    icon = models.CharField(max_length=100)
+    icon = models.ImageField(upload_to="homepage", blank=True, null=True)
 
     def __str__(self):
         return self.service
@@ -49,7 +49,7 @@ class DescriptionItem(models.Model):
     type_choice = models.CharField(max_length=100, choices=TypeChoices.choices)
     content = models.TextField()
     href = models.URLField(blank=True, null=True)
-    icon = models.CharField(max_length=100)
+    icon = models.ImageField(upload_to="homepage", blank=True, null=True)
 
     def __str__(self):
-        return f"{self.serivce.service} - {self.type_choices}"
+        return f"{self.service} - {self.type_choice}"
