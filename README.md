@@ -98,6 +98,9 @@ sudo systemctl status cloudflared
 
 
 ::::::::
+# Container start
+docker compose -p blm down
+docker compose -p blm up -d 
 
 # VENV
 source venv/bin/activate
