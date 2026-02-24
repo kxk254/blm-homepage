@@ -44,7 +44,7 @@ class DescriptionItem(models.Model):
         LINK = "link", "Link"
 
     service = models.ForeignKey(
-        ServiceCard, related_name="descriptions", on_delete=models.CASCADE
+        ServiceCard, related_name="description", on_delete=models.CASCADE
     )
     type_choice = models.CharField(max_length=100, choices=TypeChoices.choices)
     content = models.TextField()
