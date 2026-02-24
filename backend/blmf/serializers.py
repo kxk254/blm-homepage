@@ -5,9 +5,12 @@ from .models import CardProps, ContactProps, DescriptionItem, ServiceCard
 
 
 class CardPropsSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = CardProps
         fields = "__all__"
+
+    image_src = serializers.ImageField(use_url=False)
 
 
 class ContactPropsSerializer(serializers.ModelSerializer):
