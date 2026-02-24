@@ -38,7 +38,7 @@ class DescriptionItemSerializer(serializers.ModelSerializer):
 
 
 class ServiceCardSerializer(serializers.ModelSerializer):
-    descriptions = DescriptionItemSerializer(many=True)
+    description = DescriptionItemSerializer(many=True)
 
     class Meta:
         model = ServiceCard
