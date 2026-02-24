@@ -12,9 +12,9 @@ export default function AboutCard() {
             key={item.id}
             id={item.id}
             service={item.service}
-            imageSrc1={item.imageSrc1}
-            imageSrc2={item.imageSrc2}
-            imageSrc3={item.imageSrc3}
+            imageSrc1={item.image_src1}
+            imageSrc2={item.image_src2}
+            imageSrc3={item.image_src3}
             content={item.content}
             link={item.link}
             icon={item.icon}
