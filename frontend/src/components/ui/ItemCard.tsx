@@ -30,6 +30,7 @@ export default function ItemCard({
             width={200}
             height={200}
             className={styles.image}
+            unoptimized
           />
         </Link>
         <p>{productDescription}</p>
