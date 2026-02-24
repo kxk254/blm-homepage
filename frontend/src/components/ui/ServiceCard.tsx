@@ -29,17 +29,32 @@ export default function ServiceCard({
           <>
             {imageSrc1 && (
               <div className={styles.imageWrapper}>
-                <Image src={imageSrc1} alt={`${service} image1`} fill />
+                <Image
+                  src={imageSrc1}
+                  alt={`${service} image1`}
+                  fill
+                  unoptimized
+                />
               </div>
             )}
             {imageSrc2 && (
               <div className={styles.imageWrapper}>
-                <Image src={imageSrc2} alt={`${service} image2`} fill />
+                <Image
+                  src={imageSrc2}
+                  alt={`${service} image2`}
+                  fill
+                  unoptimized
+                />
               </div>
             )}
             {imageSrc3 && (
               <div className={styles.imageWrapper}>
-                <Image src={imageSrc3} alt={`${service} image3`} fill />
+                <Image
+                  src={imageSrc3}
+                  alt={`${service} image3`}
+                  fill
+                  unoptimized
+                />
               </div>
             )}
           </>
@@ -48,7 +63,7 @@ export default function ServiceCard({
       <div className={styles.descriptionContainer}>
         {description.map((item) => (
           <div key={item.id} className={styles.description}>
-            {item.typeChoice.toLowerCase() === "text" ? (
+            {item.type_choice.toLowerCase() === "text" ? (
               <span className={styles.descriptionItem}>{item.content}</span>
             ) : (
               <>
