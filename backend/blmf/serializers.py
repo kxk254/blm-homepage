@@ -10,7 +10,7 @@ class CardPropsSerializer(serializers.ModelSerializer):
         model = CardProps
         fields = "__all__"
 
-    image_src = serializers.ImageField(use_url=False)
+    # image_src = serializers.ImageField(use_url=False)
 
 
 class ContactPropsSerializer(serializers.ModelSerializer):
