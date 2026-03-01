@@ -21,7 +21,13 @@ export default function ServiceCard({
         {!imageSrc1 ? (
           <div className={styles.iconWrapper}>
             <Link href={link} target="_blank" className={styles.iconLink}>
-              <Image src={icon} alt={service} width={20} height={20} />
+              <Image
+                src={icon}
+                alt={service}
+                width={20}
+                height={20}
+                unoptimized
+              />
               <p>{content}</p>
             </Link>
           </div>
