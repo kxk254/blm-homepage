@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
-  position: fixed;
+  position: fixed; /* fixed; */
   width: 100%;
   top: 0;
   z-index: 1000;
