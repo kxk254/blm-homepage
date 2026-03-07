@@ -23,7 +23,7 @@ export default function HomeList() {
         </tr>
         <tbody>
           {users.map((user) => (
-            <tr>
+            <tr key={user.id}>
               <td>{user.service}</td>
               <td>{user.image_src1}</td>
               <td>{user.description}</td>
