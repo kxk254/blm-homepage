@@ -1,4 +1,4 @@
-import HomeCard from "@/src/components/forms/admin/homeCard";
+import HomeCard from "@/src/components/forms/admin/\HomeCard";
 import HomeList from "@/src/components/admin/HomeList";
 
 export default function Admin() {
