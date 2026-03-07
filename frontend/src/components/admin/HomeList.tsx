@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function HomeList() {
   const [users, setUsers] = useState([]);
@@ -24,9 +25,12 @@ export default function HomeList() {
         <tbody>
           {users.map((user) => (
             <tr>
-              <td>{user.service}</td>
-              <td>{user.image_src1}</td>
-              <td>{user.description}</td>
+              <td>{user.product_type}</td>
+              <td>{user.product_color}</td>
+              <td>{user.product_name}</td>
+              <td>
+                <Link href={`/admin/edit/${user.id}`}>Edit</Link>
+              </td>
             </tr>
           ))}
         </tbody>
