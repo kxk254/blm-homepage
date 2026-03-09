@@ -30,7 +30,7 @@ class ServiceCard(models.Model):
     image_src2 = models.ImageField(upload_to="homepage", blank=True, null=True)
     image_src3 = models.ImageField(upload_to="homepage", blank=True, null=True)
     content = models.TextField(blank=True, null=True)
-    link = models.URLField(blank=True, null=True)
+    link = models.CharField(max_length=200, blank=True, null=True)
     icon = models.ImageField(upload_to="homepage", blank=True, null=True)
 
     def __str__(self):

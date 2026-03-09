@@ -9,7 +9,7 @@ export default function Admin() {
     productName: "",
     productDescription: "",
     productPrice: 0,
-    image: "",
+    image: null,
     link: "",
   });
   const [image, setImage] = useState<File | null>(null);
@@ -17,11 +17,11 @@ export default function Admin() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFormData({ ...FormData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setImage(e.target.files[0]);
+      setFormData({ ...formData, image: e.target.files[0] });
     }
   };
 
@@ -44,16 +44,20 @@ export default function Admin() {
         {
           method: "POST",
           body: data, // FormData object
-          cache: "no-store",
+          // cache: "no-store",
         },
       );
       if (!response.ok) {
-        throw new Error(err.detail || "Failed to submit");
+        const err = await response.json();
+        const message = Object.values(err).flat().join(", ");
+        throw new Error(message || "Failed to submit");
       }
       alert("Successfully submitted!");
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("Error submitting form");
+      alert(
+        `Error submitting form, ${formData.image?.name} ${formData.productPrice} ${formData.link} ${error.message}`,
+      );
     } finally {
       setLoading(false);
     }
@@ -62,14 +66,14 @@ export default function Admin() {
   return (
     <div>
       <h1>Home Card</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>ProductTitle</label>
           <input
             type="text"
-            name="productTitle"
+            name="productType"
             required
-            value={formData.productTitle}
+            value={formData.productType}
             onChange={handleChange}
           />
         </div>
@@ -119,8 +123,7 @@ export default function Admin() {
             type="file"
             name="image"
             required
-            value={formData.image}
-            onChange={handleChange}
+            onChange={handleImageChange}
           />
         </div>
         <div>
