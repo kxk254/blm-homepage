@@ -71,9 +71,9 @@ export default function Admin() {
           <label>ProductTitle</label>
           <input
             type="text"
-            name="productTitle"
+            name="productType"
             required
-            value={formData.productTitle}
+            value={formData.productType}
             onChange={handleChange}
           />
         </div>

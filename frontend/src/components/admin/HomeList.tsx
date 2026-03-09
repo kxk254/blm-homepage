@@ -14,14 +14,20 @@ export default function HomeList() {
   }, []);
 
   // delete handler
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     const confirmDelete = confirm("Are you sure you want to delete this item?");
     if (!confirmDelete) return;
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/home/${id}`, {
-        method: "DELETE",
-      });
-      setUser((prev) => prev.filter((user) => user.id !== id));
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/home/${id}/`,
+        {
+          method: "DELETE",
+        },
+      );
+      if (!res.ok) {
+        throw new Error("Failed to delete");
+      }
+      setUsers((prev) => prev.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Delete failed:", error);
     }
@@ -38,7 +44,7 @@ export default function HomeList() {
         </tr>
         <tbody>
           {users.map((user) => (
-            <tr>
+            <tr key={user.id}>
               <td>{user.product_type}</td>
               <td>{user.product_color}</td>
               <td>{user.product_name}</td>
