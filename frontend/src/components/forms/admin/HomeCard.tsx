@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Admin() {
   const [formData, setFormData] = useState({
@@ -140,6 +141,7 @@ export default function Admin() {
           {loading ? "Submitting..." : "Submit"}
         </button>
       </form>
+      <Link href="/admin">Back to admin</Link>
     </div>
   );
 }
