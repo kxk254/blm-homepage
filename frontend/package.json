@@ -10,7 +10,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/lib/db/migrate.ts",
     "db:seed": "tsx src/lib/db/seed.ts",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:setup-storage": "tsx src/lib/supabase/setup-storage.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
