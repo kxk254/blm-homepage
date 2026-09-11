@@ -18,6 +18,7 @@ export default async function HomeCard() {
           productDescription={product.productDescription}
           productPrice={product.productPrice}
           imageSrc={product.imageSrc}
+          stockQuantity={product.stockQuantity}
         />
       ))}
     </div>

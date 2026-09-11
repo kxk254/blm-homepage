@@ -20,7 +20,8 @@ export interface CartItem {
   quantity: number;
 }
 
-type CartProduct = Omit<CardProps, "link">;
+// 在庫数はDBの最新値をチェックアウト時に見るべきものなので、カート自体には保持しない
+type CartProduct = Omit<CardProps, "link" | "stockQuantity">;
 
 interface CartContextValue {
   items: CartItem[];

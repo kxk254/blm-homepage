@@ -80,3 +80,14 @@
   background-color: var(--bm-silver-deep);
   color: var(--bm-white);
 }
+
+.addButton:disabled {
+  color: var(--bm-silver-deep);
+  border-color: var(--bm-silver-soft);
+  cursor: not-allowed;
+}
+
+.addButton:disabled:hover {
+  background-color: transparent;
+  color: var(--bm-silver-deep);
+}

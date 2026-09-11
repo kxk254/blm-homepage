@@ -15,9 +15,11 @@ export default function ItemCard({
   productDescription,
   productPrice,
   imageSrc,
+  stockQuantity,
 }: CardProps) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
+  const isSoldOut = stockQuantity <= 0;
 
   const formattedPrice = new Intl.NumberFormat("ja-JP", {
     style: "currency",
@@ -63,8 +65,13 @@ export default function ItemCard({
         type="button"
         className={styles.addButton}
         onClick={handleAddToCart}
+        disabled={isSoldOut}
       >
-        {added ? "カートに追加しました" : "カートに入れる"}
+        {isSoldOut
+          ? "SOLD OUT"
+          : added
+            ? "カートに追加しました"
+            : "カートに入れる"}
       </button>
     </div>
   );
