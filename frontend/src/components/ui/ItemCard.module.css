@@ -1,9 +1,12 @@
 /* 商品一覧：グレーの階調と余白のバランス [7, 8] */
 
 .itemCard {
+  display: block;
   background-color: var(--bm-white);
   padding: 60px 20px;
   text-align: center;
+  color: inherit;
+  text-decoration: none;
   transition: box-shadow 0.5s ease, transform 0.5s ease;
 }
 
@@ -88,6 +91,17 @@
 }
 
 .addButton:disabled:hover {
+  background-color: transparent;
+  color: var(--bm-silver-deep);
+}
+
+/* 一覧カード上のSOLD OUT表示（<span>のため:disabledが使えず別クラスで対応） */
+.soldOutLabel {
+  color: var(--bm-silver-deep);
+  border-color: var(--bm-silver-soft);
+}
+
+.soldOutLabel:hover {
   background-color: transparent;
   color: var(--bm-silver-deep);
 }

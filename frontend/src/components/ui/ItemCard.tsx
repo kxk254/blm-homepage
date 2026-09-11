@@ -1,11 +1,9 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
 import styles from "./ItemCard.module.css";
+import clsx from "clsx";
 
 import { CardProps } from "@/data/types";
-import { useCart } from "@/src/lib/cart/CartContext";
 
 export default function ItemCard({
   id,
@@ -17,8 +15,6 @@ export default function ItemCard({
   imageSrc,
   stockQuantity,
 }: CardProps) {
-  const { addItem } = useCart();
-  const [added, setAdded] = useState(false);
   const isSoldOut = stockQuantity <= 0;
 
   const formattedPrice = new Intl.NumberFormat("ja-JP", {
@@ -28,22 +24,8 @@ export default function ItemCard({
     maximumFractionDigits: 0,
   }).format(productPrice);
 
-  const handleAddToCart = () => {
-    addItem({
-      id,
-      productType,
-      productColor,
-      productName,
-      productDescription,
-      productPrice,
-      imageSrc,
-    });
-    setAdded(true);
-    window.setTimeout(() => setAdded(false), 1800);
-  };
-
   return (
-    <div className={styles.itemCard}>
+    <Link href={`/shop/${id}`} className={styles.itemCard}>
       <div className={styles.itemImage}>
         <Image
           src={imageSrc}
@@ -61,18 +43,11 @@ export default function ItemCard({
         {productType}({productColor})
       </div>
       <div className={styles.itemPrice}>{formattedPrice}</div>
-      <button
-        type="button"
-        className={styles.addButton}
-        onClick={handleAddToCart}
-        disabled={isSoldOut}
+      <span
+        className={clsx(styles.addButton, isSoldOut && styles.soldOutLabel)}
       >
-        {isSoldOut
-          ? "SOLD OUT"
-          : added
-            ? "カートに追加しました"
-            : "カートに入れる"}
-      </button>
-    </div>
+        {isSoldOut ? "SOLD OUT" : "商品詳細を見る"}
+      </span>
+    </Link>
   );
 }

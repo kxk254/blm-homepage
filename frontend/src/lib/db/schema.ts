@@ -17,6 +17,8 @@ export const products = pgTable("products", {
   productColor: varchar("product_color", { length: 100 }).notNull(),
   productName: varchar("product_name", { length: 200 }).notNull(),
   productDescription: text("product_description").notNull(),
+  // 商品詳細ページ用の長文説明（一覧カードのキャッチコピーとは別枠）
+  detailDescription: text("detail_description").notNull().default(""),
   productPrice: integer("product_price").notNull(),
   imageSrc: text("image_src").notNull(),
   // 手作り・一点物在庫の点数管理。0になったら購入不可（欠品）として扱う

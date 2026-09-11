@@ -1,0 +1,127 @@
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 180px 6% 160px;
+}
+
+.backLink {
+  display: block;
+  color: var(--bm-text-main);
+  text-decoration: none;
+  border-bottom: 1px solid var(--bm-silver-soft);
+  padding-bottom: 2px;
+  width: fit-content;
+  margin-bottom: 60px;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  transition: opacity 0.4s;
+}
+
+.backLink:hover {
+  opacity: 0.6;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: var(--bm-gray-light);
+  border: 1px solid var(--bm-silver-soft);
+  border-radius: 2px;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemNumber {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: var(--bm-silver-deep);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.itemName {
+  font-size: 1.3rem;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+  margin: 0 0 12px;
+}
+
+.itemMeta {
+  font-size: 0.85rem;
+  color: var(--bm-text-sub);
+  letter-spacing: 0.05em;
+  margin: 0 0 20px;
+}
+
+.itemPrice {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: var(--bm-silver-deep);
+  margin: 0 0 16px;
+}
+
+.stockAvailable {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--bm-text-sub);
+  margin: 0 0 30px;
+}
+
+.stockSoldOut {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--bm-silver-deep);
+  margin: 0 0 30px;
+}
+
+.itemDescription {
+  font-size: 0.85rem;
+  color: var(--bm-text-sub);
+  letter-spacing: 0.05em;
+  margin: 0 0 36px;
+}
+
+.detailSection {
+  margin-top: 50px;
+  padding-top: 40px;
+  border-top: 1px solid var(--bm-gray-shabby);
+}
+
+.detailHeading {
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bm-silver-deep);
+  margin: 0 0 24px;
+}
+
+.detailText {
+  font-size: 0.85rem;
+  line-height: 2;
+  color: var(--bm-text-main);
+  white-space: pre-line;
+  margin: 0;
+}
