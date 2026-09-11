@@ -32,21 +32,7 @@ export default function MobileNav({ className }: MobileNavProps) {
         >
           <ul>
             <li>
-              <Link href="/" onClick={closeMenu}>
-                HOME
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" onClick={closeMenu}>
-                ABOUT
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="https://mdfshop.base.shop/"
-                target="_blank"
-                onClick={closeMenu}
-              >
+              <Link href="/shop" onClick={closeMenu}>
                 SHOP
               </Link>
             </li>

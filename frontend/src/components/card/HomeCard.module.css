@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px; /* 繊細な境界線 */
-  background-color: #f2f2f2; /* 境界線代わりのグレー */
+  background-color: var(--bm-gray-shabby); /* 境界線代わりのグレー */
   margin: 0 auto;
   max-width: 1000px;
 }

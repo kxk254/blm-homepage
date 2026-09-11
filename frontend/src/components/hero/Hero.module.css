@@ -51,26 +51,28 @@
 }
 
 .heroText h1 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: normal;
   letter-spacing: 0.4em;
   margin: 0 0 30px;
   color: var(--bm-text-main);
-  opacity: 0.85;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
 
 .heroText p {
-  font-size: 0.8rem;
-  color: var(--bm-text-main);
+  font-size: 0.85rem;
+  color: var(--bm-text-sub);
   letter-spacing: 0.25rem;
-  opacity: 0.6;
 }
 
 @media (max-width: 600px) {
   .hero {
     padding: calc(var(--header-height) + 20px) 24px 90px;
+  }
+
+  .heroText h1 {
+    font-size: 1.35rem;
   }
 }
 
@@ -107,13 +109,13 @@
 .conceptBody {
   font-size: 1rem;
   letter-spacing: 0.15em;
-  opacity: 0.8;
+  color: #4a4a4a;
 }
 .conceptBody2 {
-  font-size: 1rem;
-  letter-spacing: 0.15em;
-  margin-top: 40px;
-  color: #707070;
+  font-size: 1.3rem;
+  letter-spacing: 0.18em;
+  margin-top: 48px;
+  color: var(--bm-text-main);
 }
 
 @media (max-width: 600px) {
@@ -123,5 +125,24 @@
 
   .conceptTitle {
     margin-bottom: 40px;
+  }
+
+  .conceptBody2 {
+    font-size: 1.05rem;
+  }
+}
+
+/* クラフトマンシップ：コンセプトの下に置く、手仕事の物語 */
+.craftSection {
+  padding: 140px 0;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  border-top: 1px solid var(--bm-silver-soft);
+}
+
+@media (max-width: 600px) {
+  .craftSection {
+    padding: 100px 24px;
   }
 }

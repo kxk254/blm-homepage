@@ -12,7 +12,6 @@ export interface CardProps {
   productDescription: string;
   productPrice: number;
   imageSrc: string;
-  link: string;
 }
 
 export interface DescriptionItem {

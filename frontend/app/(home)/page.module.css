@@ -1,4 +1,30 @@
 .items {
-  background-color: #ffffff;
-  padding-bottom: 120px;
+  background-color: var(--bm-white);
+  padding: 60px 0 120px;
+  text-align: center;
+}
+
+.shopEyebrow {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--bm-silver-deep);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin: 0 0 60px;
+}
+
+.shopMoreLink {
+  display: inline-block;
+  margin-top: 60px;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--bm-text-main);
+  text-decoration: none;
+  border-bottom: 1px solid var(--bm-silver-soft);
+  padding-bottom: 4px;
+  transition: opacity 0.4s;
+}
+
+.shopMoreLink:hover {
+  opacity: 0.6;
 }

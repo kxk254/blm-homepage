@@ -19,8 +19,8 @@
 
 /* 各写真の枠：シャビーシックなグレーの細い縁取り */
 .imageWrapper {
-  background-color: #f8f8f8; /* 写真がない時のプレースホルダー色 */
-  border: 1px solid #f0f0f0; /* 極めて細い線での装飾 */
+  background-color: var(--bm-gray-light); /* 写真がない時のプレースホルダー色 */
+  border: 1px solid var(--bm-silver-soft); /* 極めて細い線での装飾 */
   overflow: hidden;
   aspect-ratio: 3 / 4; /* 縦長の写真で雑誌のような印象に */
   position: relative;

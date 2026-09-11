@@ -1,9 +1,15 @@
 /* 商品一覧：グレーの階調と余白のバランス [7, 8] */
 
 .itemCard {
-  background-color: #ffffff;
+  background-color: var(--bm-white);
   padding: 60px 20px;
   text-align: center;
+  transition: box-shadow 0.5s ease, transform 0.5s ease;
+}
+
+.itemCard:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
 }
 
 .itemImage {
@@ -12,7 +18,7 @@
   width: 100%;
   aspect-ratio: 1/1;
   overflow: hidden;
-  background-color: #f7f7f7; /* ここに現在の商品の写真を配置 */
+  background-color: var(--bm-gray-light); /* ここに現在の商品の写真を配置 */
   margin-bottom: 30px;
   border: 1px solid var(--bm-silver-soft);
   border-radius: 2px;
@@ -25,6 +31,15 @@
 
 .itemImage:hover .image {
   transform: scale(1.05); /* 控えめな煌めきのズーム */
+}
+
+.itemNumber {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: var(--bm-silver-deep);
+  text-transform: uppercase;
+  margin-bottom: 16px;
 }
 
 .itemDescription {
@@ -44,4 +59,24 @@
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   color: var(--bm-silver-deep);
+}
+
+.addButton {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 12px 32px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bm-text-main);
+  background: transparent;
+  border: 1px solid var(--bm-silver-deep);
+  cursor: pointer;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.addButton:hover {
+  background-color: var(--bm-silver-deep);
+  color: var(--bm-white);
 }

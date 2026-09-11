@@ -40,8 +40,9 @@ export default function Footer() {
         </Link>
       </div>
       <div className={styles.footerLinks}>
-        <Link href="/about">ABOUT</Link>
+        <Link href="/shop">SHOP</Link>
         <Link href="/contact">CONTACT</Link>
+        <Link href="/tokushoho">特定商取引法に基づく表記</Link>
       </div>
       <p>&copy; {currentYear} Blue Mille Feuille All Rights Reserved.</p>
     </footer>

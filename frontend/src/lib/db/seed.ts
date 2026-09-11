@@ -1,6 +1,11 @@
-import { CardProps } from "./types";
+import { config } from "dotenv";
+config({ path: ".env.local" });
 
-export const cards: CardProps[] = [
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import { products, type NewProduct } from "./schema";
+
+const seedProducts: NewProduct[] = [
   {
     id: "001",
     productType: "イヤリング",
@@ -10,7 +15,6 @@ export const cards: CardProps[] = [
       "クレッセント型のスタイリッシュなイヤリング。スワロスキーやバールのキラキラ感が華やかなデザインです。",
     productPrice: 4400,
     imageSrc: "/asset/0921-2.PNG",
-    link: "https://mdfshop.base.shop/items/119245582",
   },
   {
     id: "002",
@@ -21,7 +25,6 @@ export const cards: CardProps[] = [
       "バロックストーンを使用したストーンフラワーシリーズのイヤリング。透明感のあるキラキラが華やかなイヤリングです。",
     productPrice: 3300,
     imageSrc: "/asset/0921-5.png",
-    link: "https://mdfshop.base.shop/items/119659926",
   },
   {
     id: "003",
@@ -32,6 +35,30 @@ export const cards: CardProps[] = [
       "モザイクパールを使用したストーンフラワーシリーズのイヤリング。上品でお洋服にも合わせやすいイヤリングです。",
     productPrice: 3300,
     imageSrc: "/asset/0921-14.png",
-    link: "https://mdfshop.base.shop/items/119245582",
   },
 ];
+
+async function main() {
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is not set. Add it to .env.local.");
+  }
+
+  const client = postgres(connectionString, { max: 1 });
+  const db = drizzle(client);
+
+  for (const product of seedProducts) {
+    await db
+      .insert(products)
+      .values(product)
+      .onConflictDoUpdate({ target: products.id, set: product });
+  }
+
+  await client.end();
+  console.log(`${seedProducts.length}件の商品をシードしました`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

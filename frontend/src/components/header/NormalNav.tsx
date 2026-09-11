@@ -11,15 +11,7 @@ export default function NoramNav({ className }: MobileNavProps) {
       <nav className={className}>
         <ul>
           <li>
-            <a href="/">HOME</a>
-          </li>
-          <li>
-            <a href="/about">ABOUT</a>
-          </li>
-          <li>
-            <a href="https://mdfshop.base.shop/" target="_blank">
-              SHOP
-            </a>
+            <a href="/shop">SHOP</a>
           </li>
           <li>
             <a href="/contact">CONTACT</a>

@@ -1,0 +1,47 @@
+/* その他の活動：本題(アクセサリー)から視覚的に切り離した控えめな区画 */
+.otherActivities {
+  padding: 140px 5% 100px;
+  background: var(--bm-gray-light);
+  border-top: 1px solid var(--bm-silver-soft);
+  text-align: center;
+}
+
+.otherTitle {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--bm-silver-deep);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.otherLead {
+  font-size: 0.85rem;
+  color: var(--bm-text-sub);
+  letter-spacing: 0.05em;
+  max-width: 560px;
+  margin: 0 auto 80px;
+  line-height: 2;
+}
+
+.serviceItemCompact {
+  margin-bottom: 100px;
+}
+
+.serviceItemCompact:last-child {
+  margin-bottom: 0;
+}
+
+.serviceItemCompact h3 {
+  font-size: 1.2rem;
+  letter-spacing: 0.4em;
+  color: #333;
+  margin-bottom: 50px;
+  font-weight: normal;
+}
+
+@media (max-width: 600px) {
+  .otherActivities {
+    padding: 100px 6% 80px;
+  }
+}

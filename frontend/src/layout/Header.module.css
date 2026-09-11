@@ -6,13 +6,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
+  background: var(--bm-white);
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   box-sizing: border-box;
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: 1px solid var(--bm-gray-shabby);
 }
 
 .logo {
@@ -121,6 +121,26 @@
   transition: opacity 0.4s;
 }
 .navOverlay a:hover {
+  opacity: 0.6;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.cartLink {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+  transition: opacity 0.4s;
+}
+
+.cartLink:hover {
   opacity: 0.6;
 }
 

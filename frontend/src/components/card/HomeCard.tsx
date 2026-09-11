@@ -1,11 +1,14 @@
-import { cards } from "@/data/ItemCard";
+import { db } from "@/src/lib/db/client";
+import { products } from "@/src/lib/db/schema";
 import styles from "./HomeCard.module.css";
 import ItemCard from "@/src/components/ui/ItemCard";
 
-export default function HomeCard() {
+export default async function HomeCard() {
+  const items = await db.select().from(products).orderBy(products.id);
+
   return (
     <div className={styles.itemGrid}>
-      {cards.map((product) => (
+      {items.map((product) => (
         <ItemCard
           key={product.id}
           id={product.id}
@@ -15,7 +18,6 @@ export default function HomeCard() {
           productDescription={product.productDescription}
           productPrice={product.productPrice}
           imageSrc={product.imageSrc}
-          link={product.link}
         />
       ))}
     </div>

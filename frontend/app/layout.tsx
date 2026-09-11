@@ -6,6 +6,7 @@ import Header from "@/src/layout/Header";
 import Footer from "@/src/layout/Footer";
 import styles from "./Root.module.css";
 import Script from "next/script";
+import { CartProvider } from "@/src/lib/cart/CartContext";
 
 const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
@@ -57,11 +58,13 @@ export default function RootLayout({
   return (
     <html lang="ja" className={notoSerifJP.variable}>
       <body>
-        <div className={styles.pageContainer}>
-          <Header />
-          <main className={styles.content}>{children}</main>
-          <Footer />
-        </div>
+        <CartProvider>
+          <div className={styles.pageContainer}>
+            <Header />
+            <main className={styles.content}>{children}</main>
+            <Footer />
+          </div>
+        </CartProvider>
 
         {/* Google Analytics */}
         <Script
