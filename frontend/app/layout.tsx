@@ -1,10 +1,18 @@
 import { ReactNode } from "react";
 import type { Metadata } from "next";
+import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import Header from "@/src/layout/Header";
 import Footer from "@/src/layout/Footer";
 import styles from "./Root.module.css";
 import Script from "next/script";
+
+const notoSerifJP = Noto_Serif_JP({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-noto-serif-jp",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Blue Millefeuille | きらめくハンドメイドアクセサリー",
@@ -47,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" className={notoSerifJP.variable}>
       <body>
         <div className={styles.pageContainer}>
           <Header />

@@ -1,25 +1,35 @@
-/* ヒーローセクション：写真を大きく使い印象的に [1, 3] */
+/* ヒーローセクション：写真の煌めきを活かし、テキストは下段に据える [1, 3] */
 .hero {
   margin-top: 0px;
-  height: 100vh;
+  min-height: 100vh;
+  box-sizing: border-box;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   position: relative;
-  /* ここに現在のメインビジュアルを配置 */
-  /* background-color: #f9f9f9;   */
-  background-image: url("/asset/main.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 0 10%;
+  overflow: hidden;
+  /* 固定ヘッダー分の高さを常に確保し、ヘッダーの高さが変わっても追従する */
+  padding: calc(var(--header-height) + 40px) 10% 130px;
+}
+
+.heroImage {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero::before {
   content: "";
   position: absolute;
   inset: 0; /* top:0; right:0; bottom:0; left:0 */
-  background-color: rgba(255, 255, 255, 0.65);
+  /* 上部は薄く写真のきらめきを見せ、下部だけ白を強めて文字を読ませる */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.1) 38%,
+    rgba(255, 255, 255, 0.58) 70%,
+    rgba(255, 255, 255, 0.86) 100%
+  );
   z-index: 1;
 }
 
@@ -27,23 +37,41 @@
   text-align: center;
   position: relative;
   z-index: 2;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.heroAccent {
+  display: block;
+  width: 44px;
+  height: 1px;
+  margin: 0 auto 28px;
+  background: var(--bm-silver-deep);
+  opacity: 0.8;
 }
 
 .heroText h1 {
-  padding-top: 250px;
   font-size: 1.5rem;
   font-weight: normal;
   letter-spacing: 0.4em;
-  margin-bottom: 30px;
-  color: #222;
-  opacity: 0.7;
+  margin: 0 0 30px;
+  color: var(--bm-text-main);
+  opacity: 0.85;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .heroText p {
   font-size: 0.8rem;
-  color: #222;
+  color: var(--bm-text-main);
   letter-spacing: 0.25rem;
-  opacity: 0.9;
+  opacity: 0.6;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: calc(var(--header-height) + 20px) 24px 90px;
+  }
 }
 
 /* 丁寧な余白（ホワイトスペース）を活用したコンセプト [2, 5] */
@@ -56,11 +84,24 @@
 
 .conceptTitle {
   font-size: 0.8rem;
-  color: #999;
+  color: var(--bm-silver-deep);
   letter-spacing: 0.6em;
   text-transform: uppercase;
   margin-bottom: 60px;
   display: block;
+  position: relative;
+  padding-bottom: 24px;
+}
+
+.conceptTitle::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 1px;
+  background: var(--bm-silver);
 }
 
 .conceptBody {
@@ -73,4 +114,14 @@
   letter-spacing: 0.15em;
   margin-top: 40px;
   color: #707070;
+}
+
+@media (max-width: 600px) {
+  .sectionPadding {
+    padding: 100px 24px;
+  }
+
+  .conceptTitle {
+    margin-bottom: 40px;
+  }
 }

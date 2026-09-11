@@ -6,7 +6,13 @@
   margin: 0 auto;
   max-width: 1000px;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .itemGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
   .itemGrid {
     grid-template-columns: 1fr;
     margin: 0 30px;

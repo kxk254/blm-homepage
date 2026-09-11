@@ -6,10 +6,14 @@
   --bm-gray-shabby: #f2f2f2; /* シャビーな質感の境界線 [1], [2] */
   --bm-text-main: #333333; /* メインテキスト [3] */
   --bm-text-sub: #777777; /* サブテキスト */
-  --bm-accent-gold: #bda67b; /* アンティークゴールド [1] */
+  --bm-silver: #c9ccd1; /* プラチナシルバー基調 */
+  --bm-silver-deep: #8b9099; /* シルバー(濃)：価格・ラベル等の強調用 */
+  --bm-silver-soft: #edeef0; /* シルバー(淡)：罫線・フレーム用 */
 
   /* フォント設定：高級感のある明朝体 [3], [4] */
-  --font-luxury: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  /* OSの明朝体を優先し、無い環境（Linux/Android等）はセルフホストのNoto Serif JPで補う */
+  --font-luxury: "Yu Mincho", "Hiragino Mincho ProN", var(--font-noto-serif-jp),
+    serif;
 
   /* ヘッダーの高さを１４０ｐｘに設定　 */
   --header-height: 140px;

@@ -5,7 +5,6 @@ import styles from "./ItemCard.module.css";
 import { CardProps } from "@/data/types";
 
 export default function ItemCard({
-  id,
   productType,
   productColor,
   productName,
@@ -22,18 +21,16 @@ export default function ItemCard({
   }).format(productPrice);
   return (
     <div className={styles.itemCard}>
-      <div className={styles.itemImage}>
-        <Link href={link}>
-          <Image
-            src={imageSrc}
-            alt={id}
-            width={200}
-            height={200}
-            className={styles.image}
-          />
-        </Link>
-        <p>{productDescription}</p>
-      </div>
+      <Link href={link} className={styles.itemImage}>
+        <Image
+          src={imageSrc}
+          alt={productName}
+          fill
+          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+          className={styles.image}
+        />
+      </Link>
+      <p className={styles.itemDescription}>{productDescription}</p>
       <div className={styles.itemName}>
         {productName}
         <br />

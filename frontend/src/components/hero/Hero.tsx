@@ -5,7 +5,16 @@ export default function Hero() {
   return (
     <div>
       <section className={styles.hero}>
+        <Image
+          src="/asset/main.jpg"
+          alt="Blue Mille Feuille のハンドメイドアクセサリー"
+          fill
+          priority
+          sizes="100vw"
+          className={styles.heroImage}
+        />
         <div className={styles.heroText}>
+          <span className={styles.heroAccent} />
           <h1>日常に、そっときらめきを・・・・</h1>
           <p>Your "Everyday" with a hint of special.</p>
         </div>

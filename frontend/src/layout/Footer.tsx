@@ -6,7 +6,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
   return (
     <footer className={styles.footer}>
-      <div>
+      <div className={styles.socialLinks}>
         <Link
           href="https://www.instagram.com/bluemillefeuille2001"
           target="_blank"
