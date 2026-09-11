@@ -15,6 +15,7 @@ const seedProducts: NewProduct[] = [
       "クレッセント型のスタイリッシュなイヤリング。スワロスキーやバールのキラキラ感が華やかなデザインです。",
     productPrice: 4400,
     imageSrc: "/asset/0921-2.PNG",
+    stockQuantity: 5,
   },
   {
     id: "002",
@@ -25,6 +26,7 @@ const seedProducts: NewProduct[] = [
       "バロックストーンを使用したストーンフラワーシリーズのイヤリング。透明感のあるキラキラが華やかなイヤリングです。",
     productPrice: 3300,
     imageSrc: "/asset/0921-5.png",
+    stockQuantity: 5,
   },
   {
     id: "003",
@@ -35,6 +37,7 @@ const seedProducts: NewProduct[] = [
       "モザイクパールを使用したストーンフラワーシリーズのイヤリング。上品でお洋服にも合わせやすいイヤリングです。",
     productPrice: 3300,
     imageSrc: "/asset/0921-14.png",
+    stockQuantity: 5,
   },
 ];
 

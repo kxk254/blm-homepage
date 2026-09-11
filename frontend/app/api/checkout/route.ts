@@ -46,6 +46,12 @@ export async function POST(req: NextRequest) {
       Math.max(Math.trunc(Number(quantity)) || 1, 1),
       10
     );
+    if (product.stockQuantity < safeQuantity) {
+      return NextResponse.json(
+        { error: `在庫が不足しています: ${product.productName}` },
+        { status: 400 }
+      );
+    }
     lineItems.push({
       quantity: safeQuantity,
       price_data: {
