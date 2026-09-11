@@ -1,8 +1,9 @@
 import styles from "./page.module.css";
 import HomeCard from "@/src/components/card/HomeCard";
 
-// 商品はDB管理のため、1分ごとに再生成して反映する(ISR)
-export const revalidate = 60;
+// 商品在庫はDB管理のため常に最新を出す(ISRだとクライアント側ルーターキャッシュが
+// 数分効いてしまい、在庫・商品説明の編集がすぐ反映されない)
+export const dynamic = "force-dynamic";
 
 export default function ShopPage() {
   return (

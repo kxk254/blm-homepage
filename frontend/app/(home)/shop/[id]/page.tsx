@@ -7,8 +7,9 @@ import { db } from "@/src/lib/db/client";
 import { products } from "@/src/lib/db/schema";
 import AddToCartButton from "@/src/components/ui/AddToCartButton";
 
-// 商品はDB管理のため、1分ごとに再生成して反映する(ISR)
-export const revalidate = 60;
+// 在庫・商品説明はDB管理のため常に最新を出す(ISRだとクライアント側ルーターキャッシュが
+// 数分効いてしまい、在庫・商品説明の編集がすぐ反映されない)
+export const dynamic = "force-dynamic";
 
 export default async function ProductDetailPage({
   params,
