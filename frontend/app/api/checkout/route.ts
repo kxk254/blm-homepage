@@ -22,6 +22,18 @@ interface PurchasedItemSnapshot {
 }
 
 export async function POST(req: NextRequest) {
+  // ゲスト購入は許可しない（注文を必ず会員アカウントに紐づけるため）
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json(
+      { error: "ご購入にはログインが必要です", requiresLogin: true },
+      { status: 401 }
+    );
+  }
+
   let body: { items?: CheckoutRequestItem[] };
   try {
     body = await req.json();
@@ -84,21 +96,15 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // ログイン中の顧客であれば注文をアカウントに紐づけ、メールも事前入力する
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
       shipping_address_collection: { allowed_countries: ["JP"] },
       phone_number_collection: { enabled: true },
-      customer_email: user?.email,
+      customer_email: user.email,
       metadata: {
-        customerId: user?.id ?? "",
+        customerId: user.id,
         items: JSON.stringify(purchasedItems),
       },
       // TODO: 実際の送料ポリシーに合わせて金額を調整してください（現在は仮で全国一律300円）

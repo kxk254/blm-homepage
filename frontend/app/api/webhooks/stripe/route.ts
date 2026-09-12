@@ -4,6 +4,7 @@ import type Stripe from "stripe";
 import { stripe } from "@/src/lib/stripe/server";
 import { db } from "@/src/lib/db/client";
 import { orders, orderItems, products } from "@/src/lib/db/schema";
+import { sendOrderConfirmationEmail } from "@/src/lib/email/order-confirmation";
 
 // /api/checkout がセッション作成時にmetadata.itemsへ埋め込んだ購入内容のスナップショット
 interface PurchasedItemSnapshot {
@@ -107,6 +108,27 @@ export async function POST(req: NextRequest) {
           stockQuantity: sql`GREATEST(${products.stockQuantity} - ${item.q}, 0)`,
         })
         .where(eq(products.id, item.id));
+    }
+  }
+
+  if (order.customerEmail) {
+    // メール送信の失敗で注文処理そのものを失敗扱いにしない
+    // （200を返さないとStripeが再送し、この分岐に到達しないまま
+    // メールが永久に送れなくなる）
+    try {
+      await sendOrderConfirmationEmail({
+        toEmail: order.customerEmail,
+        orderId: order.id,
+        items: items.map((item) => ({
+          name: item.n,
+          unitPrice: item.p,
+          quantity: item.q,
+        })),
+        totalAmount: order.totalAmount,
+        orderDate: order.createdAt,
+      });
+    } catch (err) {
+      console.error("Failed to send order confirmation email", order.id, err);
     }
   }
 

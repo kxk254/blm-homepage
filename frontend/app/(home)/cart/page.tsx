@@ -15,6 +15,7 @@ export default function CartPage() {
   const { items, subtotal, updateQuantityBy, removeItem } = useCart();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [requiresLogin, setRequiresLogin] = useState(false);
   // null = 未取得（判定を保留し、+ボタン等をロックしない）
   const [stockById, setStockById] = useState<Map<string, StockStatus> | null>(
     null
@@ -80,6 +81,7 @@ export default function CartPage() {
     if (items.length === 0 || hasBlockingIssue) return;
     setIsCheckingOut(true);
     setError(null);
+    setRequiresLogin(false);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -92,6 +94,11 @@ export default function CartPage() {
         }),
       });
       const data = await res.json();
+      if (res.status === 401 && data.requiresLogin) {
+        setRequiresLogin(true);
+        setIsCheckingOut(false);
+        return;
+      }
       if (!res.ok || !data.url) {
         throw new Error(data.error ?? "決済ページの作成に失敗しました");
       }
@@ -208,6 +215,14 @@ export default function CartPage() {
           </p>
         )}
         {error && <p className={styles.errorMessage}>{error}</p>}
+        {requiresLogin && (
+          <p className={styles.errorMessage}>
+            ご購入にはログインが必要です。
+            <Link href="/account/login" className={styles.loginPromptLink}>
+              ログインする
+            </Link>
+          </p>
+        )}
         <button
           type="button"
           className={styles.checkoutButton}

@@ -21,6 +21,7 @@
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "next": "16.1.6",
+    "nodemailer": "^10.0.8",
     "postgres": "^3.4.9",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.31.10",
