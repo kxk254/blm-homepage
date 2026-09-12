@@ -57,6 +57,12 @@ export default function CarePage() {
           ※商品価格に対して修理費用が高額になる場合がございます。あらかじめご了承のうえお問い合わせください。
         </p>
         <p className={styles.note}>
+          ※修理対応は、ご購入から1ヶ月以内のお客様を対象とさせていただいております。
+        </p>
+        <p className={styles.note}>
+          ※片方を紛失された場合の対応は、実費にて承ります。
+        </p>
+        <p className={styles.note}>
           ※修理の可否、費用、納期については、商品の状態やパーツの在庫を確認したうえでご案内いたします。
         </p>
       </section>

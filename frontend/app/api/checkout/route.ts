@@ -4,10 +4,21 @@ import type Stripe from "stripe";
 import { stripe } from "@/src/lib/stripe/server";
 import { db } from "@/src/lib/db/client";
 import { products } from "@/src/lib/db/schema";
+import { createClient } from "@/src/lib/supabase/server";
 
 interface CheckoutRequestItem {
   id: string;
   quantity: number;
+}
+
+// Webhook側で追加のStripe API呼び出しをせずに済むよう、購入内容そのものを
+// セッションのmetadataに載せる。Stripeのmetadata値は1項目500文字までのため
+// キー名を短くしている（大量点数のカートは想定していない）
+interface PurchasedItemSnapshot {
+  id: string;
+  n: string;
+  p: number;
+  q: number;
 }
 
 export async function POST(req: NextRequest) {
@@ -25,6 +36,7 @@ export async function POST(req: NextRequest) {
 
   // 価格は必ずサーバー側のデータから取得する（クライアントから送られた金額は信用しない）
   const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+  const purchasedItems: PurchasedItemSnapshot[] = [];
   const origin =
     process.env.NEXT_PUBLIC_SITE_URL ??
     req.headers.get("origin") ??
@@ -64,7 +76,19 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+    purchasedItems.push({
+      id: product.id,
+      n: product.productName,
+      p: product.productPrice,
+      q: safeQuantity,
+    });
   }
+
+  // ログイン中の顧客であれば注文をアカウントに紐づけ、メールも事前入力する
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -72,6 +96,11 @@ export async function POST(req: NextRequest) {
       line_items: lineItems,
       shipping_address_collection: { allowed_countries: ["JP"] },
       phone_number_collection: { enabled: true },
+      customer_email: user?.email,
+      metadata: {
+        customerId: user?.id ?? "",
+        items: JSON.stringify(purchasedItems),
+      },
       // TODO: 実際の送料ポリシーに合わせて金額を調整してください（現在は仮で全国一律300円）
       shipping_options: [
         {

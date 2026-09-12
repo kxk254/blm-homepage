@@ -92,3 +92,45 @@ export const customers = pgTable(
 
 export type Customer = typeof customers.$inferSelect;
 export type NewCustomer = typeof customers.$inferInsert;
+
+// Stripeのcheckout.session.completed Webhookから作成される注文record。
+// customerIdはゲスト購入も許容するためnull可
+export const orders = pgTable("orders", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  customerId: uuid("customer_id").references(() => customers.id, {
+    onDelete: "set null",
+  }),
+  stripeCheckoutSessionId: varchar("stripe_checkout_session_id", {
+    length: 255,
+  })
+    .notNull()
+    .unique(),
+  stripePaymentIntentId: varchar("stripe_payment_intent_id", { length: 255 }),
+  customerEmail: varchar("customer_email", { length: 255 }),
+  totalAmount: integer("total_amount").notNull(),
+  status: varchar("status", { length: 30 }).notNull().default("paid"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+export type Order = typeof orders.$inferSelect;
+export type NewOrder = typeof orders.$inferInsert;
+
+// 商品名・単価は購入時点のスナップショット（後から商品情報が変わっても注文履歴は変えない）
+export const orderItems = pgTable("order_items", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  orderId: uuid("order_id")
+    .notNull()
+    .references(() => orders.id, { onDelete: "cascade" }),
+  productId: varchar("product_id", { length: 20 }).references(
+    () => products.id,
+    { onDelete: "set null" }
+  ),
+  productName: varchar("product_name", { length: 200 }).notNull(),
+  unitPrice: integer("unit_price").notNull(),
+  quantity: integer("quantity").notNull(),
+});
+
+export type OrderItem = typeof orderItems.$inferSelect;
+export type NewOrderItem = typeof orderItems.$inferInsert;
