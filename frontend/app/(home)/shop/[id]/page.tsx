@@ -8,6 +8,7 @@ import styles from "./page.module.css";
 import { db } from "@/src/lib/db/client";
 import { products } from "@/src/lib/db/schema";
 import AddToCartButton from "@/src/components/ui/AddToCartButton";
+import ShareButtons from "@/src/components/ui/ShareButtons";
 
 // 在庫・商品説明はDB管理のため常に最新を出す(ISRだとクライアント側ルーターキャッシュが
 // 数分効いてしまい、在庫・商品説明の編集がすぐ反映されない)
@@ -155,6 +156,11 @@ export default async function ProductDetailPage({
             productPrice={product.productPrice}
             imageSrc={product.imageSrc}
             stockQuantity={product.stockQuantity}
+          />
+
+          <ShareButtons
+            url={`https://blmf.jp/shop/${product.id}`}
+            title={product.productName}
           />
 
           <section className={styles.detailSection}>

@@ -1,0 +1,50 @@
+.shareButtons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  position: relative;
+}
+
+.label {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bm-silver-deep);
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--bm-silver-soft);
+  border-radius: 50%;
+  color: var(--bm-text-sub);
+  background: none;
+  cursor: pointer;
+  transition:
+    opacity 0.4s,
+    border-color 0.4s;
+}
+
+.iconLink:hover {
+  opacity: 0.6;
+  border-color: var(--bm-silver-deep);
+}
+
+.copiedNote {
+  position: absolute;
+  left: 0;
+  bottom: -22px;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--bm-text-sub);
+}
