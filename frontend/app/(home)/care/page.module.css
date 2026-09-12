@@ -1,0 +1,82 @@
+.content {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 180px 6% 160px;
+}
+
+.eyebrow {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--bm-silver-deep);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+  margin: 0 0 80px;
+  color: var(--bm-text-main);
+}
+
+.body {
+  font-size: 0.85rem;
+  line-height: 2.2;
+  letter-spacing: 0.03em;
+  color: var(--bm-text-main);
+}
+
+.body p {
+  margin: 0 0 32px;
+}
+
+.contactSection {
+  margin-top: 80px;
+  padding-top: 60px;
+  border-top: 1px solid var(--bm-gray-shabby);
+  text-align: center;
+}
+
+.subheading {
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bm-silver-deep);
+  font-weight: normal;
+  margin: 0 0 32px;
+}
+
+.contactSection p {
+  font-size: 0.85rem;
+  line-height: 2.2;
+  letter-spacing: 0.03em;
+  color: var(--bm-text-main);
+  margin: 0 0 32px;
+}
+
+.emailLink {
+  display: inline-block;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--bm-text-main);
+  text-decoration: none;
+  border-bottom: 1px solid var(--bm-silver-deep);
+  padding-bottom: 4px;
+  margin-bottom: 40px;
+  transition: opacity 0.4s;
+}
+
+.emailLink:hover {
+  opacity: 0.6;
+}
+
+.contactSection .note {
+  font-size: 0.75rem;
+  color: var(--bm-text-sub);
+  line-height: 1.9;
+  margin: 0 0 8px;
+}
