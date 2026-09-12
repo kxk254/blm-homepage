@@ -1,10 +1,15 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import type { User } from "@supabase/supabase-js";
 
 // アクセスの度にSupabaseのセッショントークンを更新し、Cookieに書き戻す。
 // これをmiddlewareでやらないと、有効期限が切れたセッションがServer Componentに
 // 渡り続けてログアウトが検知できなくなる。
-export async function updateSession(request: NextRequest) {
+// ついでにgetUser()の結果も返す（proxy.ts側でadminロール判定に使うため、
+// 二重にSupabaseへ問い合わせずに済む）。
+export async function updateSession(
+  request: NextRequest
+): Promise<{ response: NextResponse; user: User | null }> {
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -29,7 +34,9 @@ export async function updateSession(request: NextRequest) {
   );
 
   // getUser()はSupabaseに問い合わせてトークンを検証する（getSession()はしない）
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  return supabaseResponse;
+  return { response: supabaseResponse, user };
 }

@@ -16,6 +16,9 @@ export default function NoramNav({ className }: MobileNavProps) {
           <li>
             <a href="/contact">CONTACT</a>
           </li>
+          <li>
+            <a href="/account">MY PAGE</a>
+          </li>
         </ul>
       </nav>
     </>

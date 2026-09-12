@@ -1,0 +1,41 @@
+.content {
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  font-family: system-ui, sans-serif;
+}
+
+.heading {
+  font-size: 1.2rem;
+  margin-bottom: 32px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+.field input {
+  font-size: 0.95rem;
+  padding: 8px 10px;
+}
+
+.error {
+  color: #a33;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.button {
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}

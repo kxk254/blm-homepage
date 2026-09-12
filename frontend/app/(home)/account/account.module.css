@@ -1,0 +1,121 @@
+.content {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 180px 6% 160px;
+}
+
+.eyebrow {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--bm-silver-deep);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--bm-text-sub);
+  letter-spacing: 0.05em;
+}
+
+.field input {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 10px 12px;
+  border: 1px solid var(--bm-silver-soft);
+  border-radius: 2px;
+  background-color: var(--bm-white);
+  color: var(--bm-text-main);
+}
+
+.error {
+  font-size: 0.8rem;
+  color: #a33;
+  margin: 0;
+}
+
+.message {
+  font-size: 0.8rem;
+  color: var(--bm-text-sub);
+  margin: 0;
+}
+
+.submitButton {
+  margin-top: 8px;
+  padding: 12px 32px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bm-text-main);
+  background: transparent;
+  border: 1px solid var(--bm-silver-deep);
+  cursor: pointer;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.submitButton:hover {
+  background-color: var(--bm-silver-deep);
+  color: var(--bm-white);
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.switchLink {
+  display: block;
+  text-align: center;
+  margin-top: 30px;
+  color: var(--bm-text-sub);
+  font-size: 0.8rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--bm-silver-soft);
+  padding-bottom: 2px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  transition: opacity 0.4s;
+}
+
+.switchLink:hover {
+  opacity: 0.6;
+}
+
+.email {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 40px;
+}
+
+.logoutButton {
+  display: block;
+  margin: 0 auto;
+  padding: 12px 32px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bm-text-main);
+  background: transparent;
+  border: 1px solid var(--bm-silver-deep);
+  cursor: pointer;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.logoutButton:hover {
+  background-color: var(--bm-silver-deep);
+  color: var(--bm-white);
+}

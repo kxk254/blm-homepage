@@ -5,9 +5,15 @@
   font-family: system-ui, sans-serif;
 }
 
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
 .heading {
   font-size: 1.4rem;
-  margin-bottom: 40px;
 }
 
 .section {

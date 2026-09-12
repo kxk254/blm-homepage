@@ -1,10 +1,18 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db } from "@/src/lib/db/client";
 import { products } from "@/src/lib/db/schema";
 import { createAdminClient } from "@/src/lib/supabase/admin";
+import { createClient } from "@/src/lib/supabase/server";
 import { PRODUCT_IMAGES_BUCKET } from "@/src/lib/supabase/storage";
+
+export async function signOutAdmin() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/admin/login");
+}
 
 export async function updateProductImage(formData: FormData) {
   const productId = formData.get("productId");

@@ -3,7 +3,7 @@ import { db } from "@/src/lib/db/client";
 import { products } from "@/src/lib/db/schema";
 import { createAdminClient } from "@/src/lib/supabase/admin";
 import { PRODUCT_IMAGES_BUCKET } from "@/src/lib/supabase/storage";
-import { updateProductImage, uploadProductImage } from "./actions";
+import { signOutAdmin, updateProductImage, uploadProductImage } from "./actions";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -39,7 +39,14 @@ export default async function AdminProductsPage() {
 
   return (
     <div className={styles.content}>
-      <h1 className={styles.heading}>商品画像管理</h1>
+      <div className={styles.headerRow}>
+        <h1 className={styles.heading}>商品画像管理</h1>
+        <form action={signOutAdmin}>
+          <button type="submit" className={styles.button}>
+            ログアウト
+          </button>
+        </form>
+      </div>
 
       <section className={styles.section}>
         <h2 className={styles.subHeading}>新しい画像をアップロード</h2>

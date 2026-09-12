@@ -41,6 +41,11 @@ export default function MobileNav({ className }: MobileNavProps) {
                 CONTACT
               </Link>
             </li>
+            <li>
+              <Link href="/account" onClick={closeMenu}>
+                MY PAGE
+              </Link>
+            </li>
           </ul>
         </div>
       ) : null}
