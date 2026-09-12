@@ -30,6 +30,7 @@ interface CartContextValue {
   addItem: (product: CartProduct, quantity?: number) => void;
   removeItem: (id: string) => void;
   setQuantity: (id: string, quantity: number) => void;
+  updateQuantityBy: (id: string, delta: number) => void;
   clearCart: () => void;
 }
 
@@ -108,6 +109,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  // +/-ボタンから連打された場合でも直前のstateから正しく積算されるよう、
+  // 呼び出し側のitem.quantityというクロージャ経由の値ではなく
+  // setState内のprevを基準に計算する
+  const updateQuantityBy = (id: string, delta: number) => {
+    setItems((prev) =>
+      prev.flatMap((item) => {
+        if (item.id !== id) return [item];
+        const nextQuantity = item.quantity + delta;
+        return nextQuantity < 1 ? [] : [{ ...item, quantity: nextQuantity }];
+      })
+    );
+  };
+
   const clearCart = () => setItems([]);
 
   const itemCount = useMemo(
@@ -122,7 +136,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ items, itemCount, subtotal, addItem, removeItem, setQuantity, clearCart }}
+      value={{
+        items,
+        itemCount,
+        subtotal,
+        addItem,
+        removeItem,
+        setQuantity,
+        updateQuantityBy,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>

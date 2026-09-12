@@ -29,6 +29,7 @@ export default async function AdminThemesPage() {
         <Link href="/admin/products">商品一覧</Link>
         <Link href="/admin/themes">テーマ管理</Link>
         <Link href="/admin/orders">注文管理</Link>
+        <Link href="/admin/customers">顧客一覧</Link>
       </nav>
 
       <section className={styles.section}>

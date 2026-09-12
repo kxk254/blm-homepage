@@ -90,6 +90,13 @@
   margin: 4px 0 0;
 }
 
+.stockWarning {
+  font-size: 0.75rem;
+  color: #b23b3b;
+  letter-spacing: 0.05em;
+  margin: 4px 0 0;
+}
+
 .quantityControl {
   display: flex;
   align-items: center;
@@ -111,6 +118,15 @@
 
 .quantityControl button:hover {
   background-color: var(--bm-gray-light);
+}
+
+.quantityControl button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.quantityControl button:disabled:hover {
+  background-color: transparent;
 }
 
 .quantityControl span {

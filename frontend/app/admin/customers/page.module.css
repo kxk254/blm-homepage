@@ -1,0 +1,50 @@
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 24px 120px;
+  font-family: system-ui, sans-serif;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.heading {
+  font-size: 1.4rem;
+}
+
+.adminNav {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 0.9rem;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.button {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
