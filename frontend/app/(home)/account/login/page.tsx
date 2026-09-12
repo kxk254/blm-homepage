@@ -36,6 +36,9 @@ export default function LoginPage() {
           {isPending ? "ログイン中..." : "ログイン"}
         </button>
       </form>
+      <Link href="/account/forgot-password" className={styles.switchLink}>
+        パスワードをお忘れですか？
+      </Link>
       <Link href="/account/signup" className={styles.switchLink}>
         アカウントをお持ちでない方はこちら
       </Link>

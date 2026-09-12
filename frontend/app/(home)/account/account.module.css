@@ -120,6 +120,12 @@
   color: var(--bm-white);
 }
 
+.profileSection {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid var(--bm-gray-shabby);
+}
+
 .orderSection {
   margin-top: 80px;
   padding-top: 40px;

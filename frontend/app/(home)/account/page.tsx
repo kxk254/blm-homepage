@@ -4,7 +4,7 @@ import styles from "./account.module.css";
 import { createClient } from "@/src/lib/supabase/server";
 import { db } from "@/src/lib/db/client";
 import { customers, orderItems, orders } from "@/src/lib/db/schema";
-import { signOut } from "./actions";
+import { signOut, updateProfile } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -66,6 +66,47 @@ export default async function AccountPage() {
           ログアウト
         </button>
       </form>
+
+      <section className={styles.profileSection}>
+        <h2 className={styles.orderHeading}>お客様情報</h2>
+        <form action={updateProfile} className={styles.form}>
+          <label className={styles.field}>
+            <span>お名前</span>
+            <input
+              type="text"
+              name="fullName"
+              defaultValue={customer?.fullName ?? ""}
+            />
+          </label>
+          <label className={styles.field}>
+            <span>電話番号</span>
+            <input
+              type="tel"
+              name="phone"
+              defaultValue={customer?.phone ?? ""}
+            />
+          </label>
+          <label className={styles.field}>
+            <span>郵便番号</span>
+            <input
+              type="text"
+              name="postalCode"
+              defaultValue={customer?.postalCode ?? ""}
+            />
+          </label>
+          <label className={styles.field}>
+            <span>ご住所</span>
+            <input
+              type="text"
+              name="address"
+              defaultValue={customer?.address ?? ""}
+            />
+          </label>
+          <button type="submit" className={styles.submitButton}>
+            保存
+          </button>
+        </form>
+      </section>
 
       <section className={styles.orderSection}>
         <h2 className={styles.orderHeading}>注文履歴</h2>
