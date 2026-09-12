@@ -1,29 +1,8 @@
 import { asc } from "drizzle-orm";
 import { db } from "@/src/lib/db/client";
 import { products, themes, type Product } from "@/src/lib/db/schema";
-import ItemCard from "@/src/components/ui/ItemCard";
-import gridStyles from "./HomeCard.module.css";
+import ExpandableGrid from "./ExpandableGrid";
 import styles from "./ThemedShopGrid.module.css";
-
-function renderGrid(items: Product[]) {
-  return (
-    <div className={gridStyles.itemGrid}>
-      {items.map((product) => (
-        <ItemCard
-          key={product.id}
-          id={product.id}
-          productType={product.productType}
-          productColor={product.productColor}
-          productName={product.productName}
-          productDescription={product.productDescription}
-          productPrice={product.productPrice}
-          imageSrc={product.imageSrc}
-          stockQuantity={product.stockQuantity}
-        />
-      ))}
-    </div>
-  );
-}
 
 export default async function ThemedShopGrid() {
   const [allProducts, allThemes] = await Promise.all([
@@ -53,7 +32,7 @@ export default async function ThemedShopGrid() {
 
   // テーマが一つも無い場合は従来通りフラットな一覧として表示する
   if (sections.length === 0) {
-    return renderGrid(allProducts);
+    return <ExpandableGrid items={allProducts} />;
   }
 
   return (
@@ -61,14 +40,14 @@ export default async function ThemedShopGrid() {
       {sections.map(({ theme, items }) => (
         <section key={theme.id} className={styles.section}>
           <h2 className={styles.themeTitle}>{theme.name}</h2>
-          {renderGrid(items)}
+          <ExpandableGrid items={items} />
         </section>
       ))}
 
       {untagged.length > 0 && (
         <section className={styles.section}>
           <h2 className={styles.themeTitle}>その他の商品</h2>
-          {renderGrid(untagged)}
+          <ExpandableGrid items={untagged} />
         </section>
       )}
     </div>

@@ -1,0 +1,19 @@
+.moreButton {
+  display: block;
+  margin: 40px auto 0;
+  padding: 12px 40px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bm-text-main);
+  background: transparent;
+  border: 1px solid var(--bm-silver-deep);
+  cursor: pointer;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.moreButton:hover {
+  background-color: var(--bm-silver-deep);
+  color: var(--bm-white);
+}
