@@ -3,12 +3,27 @@ import {
   integer,
   pgPolicy,
   pgTable,
+  serial,
   text,
   timestamp,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { authenticatedRole, authUid, authUsers } from "drizzle-orm/supabase";
+
+// 季節・企画ごとの商品グルーピング（例: "秋冬新作2026", "推し活"）。
+// displayOrderが小さいほどShopページで先頭・目立つ位置に表示される。
+export const themes = pgTable("themes", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  displayOrder: integer("display_order").notNull().default(100),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+export type Theme = typeof themes.$inferSelect;
+export type NewTheme = typeof themes.$inferInsert;
 
 export const products = pgTable("products", {
   // 「No. 001」のような品番表示・Stripeの行アイテム検索にそのまま使うため文字列IDのまま
@@ -23,6 +38,10 @@ export const products = pgTable("products", {
   imageSrc: text("image_src").notNull(),
   // 手作り・一点物在庫の点数管理。0になったら購入不可（欠品）として扱う
   stockQuantity: integer("stock_quantity").notNull().default(0),
+  // 未設定(null)は「テーマなし」として扱う。テーマ削除時は自動でnullに戻す
+  themeId: integer("theme_id").references(() => themes.id, {
+    onDelete: "set null",
+  }),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),

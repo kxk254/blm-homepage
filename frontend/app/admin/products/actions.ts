@@ -24,6 +24,7 @@ export async function updateProductDetails(formData: FormData) {
   const detailDescription = formData.get("detailDescription");
   const productPriceRaw = formData.get("productPrice");
   const stockQuantityRaw = formData.get("stockQuantity");
+  const themeIdRaw = formData.get("themeId");
 
   if (
     typeof productId !== "string" ||
@@ -38,7 +39,8 @@ export async function updateProductDetails(formData: FormData) {
     !productDescription ||
     typeof detailDescription !== "string" ||
     typeof productPriceRaw !== "string" ||
-    typeof stockQuantityRaw !== "string"
+    typeof stockQuantityRaw !== "string" ||
+    typeof themeIdRaw !== "string"
   ) {
     throw new Error("入力内容を確認してください");
   }
@@ -54,6 +56,12 @@ export async function updateProductDetails(formData: FormData) {
     throw new Error("価格・在庫数は0以上の数値で入力してください");
   }
 
+  // 空文字は「テーマなし」を意味する
+  const themeId = themeIdRaw === "" ? null : Math.trunc(Number(themeIdRaw));
+  if (themeId !== null && !Number.isFinite(themeId)) {
+    throw new Error("テーマの指定が不正です");
+  }
+
   await db
     .update(products)
     .set({
@@ -64,10 +72,12 @@ export async function updateProductDetails(formData: FormData) {
       detailDescription,
       productPrice,
       stockQuantity,
+      themeId,
     })
     .where(eq(products.id, productId));
 
   revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${productId}`);
   revalidatePath("/");
   revalidatePath("/shop");
   revalidatePath(`/shop/${productId}`);
@@ -91,6 +101,7 @@ export async function updateProductImage(formData: FormData) {
     .where(eq(products.id, productId));
 
   revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${productId}`);
   revalidatePath("/");
   revalidatePath("/shop");
   revalidatePath(`/shop/${productId}`);

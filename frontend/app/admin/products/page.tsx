@@ -1,44 +1,28 @@
 import Image from "next/image";
+import Link from "next/link";
+import { eq } from "drizzle-orm";
 import { db } from "@/src/lib/db/client";
-import { products } from "@/src/lib/db/schema";
-import { createAdminClient } from "@/src/lib/supabase/admin";
-import { PRODUCT_IMAGES_BUCKET } from "@/src/lib/supabase/storage";
-import {
-  signOutAdmin,
-  updateProductDetails,
-  updateProductImage,
-  uploadProductImage,
-} from "./actions";
+import { products, themes } from "@/src/lib/db/schema";
+import { listBucketImages } from "@/src/lib/supabase/productImages";
+import { signOutAdmin, uploadProductImage } from "./actions";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
-interface BucketImage {
-  name: string;
-  url: string;
-}
-
-async function listBucketImages(): Promise<BucketImage[]> {
-  const admin = createAdminClient();
-  const { data, error } = await admin.storage
-    .from(PRODUCT_IMAGES_BUCKET)
-    .list("", { sortBy: { column: "created_at", order: "desc" } });
-
-  if (error || !data) return [];
-
-  return data
-    .filter((file) => file.id !== null) // フォルダのプレースホルダー行を除外
-    .map((file) => {
-      const { data: publicUrlData } = admin.storage
-        .from(PRODUCT_IMAGES_BUCKET)
-        .getPublicUrl(file.name);
-      return { name: file.name, url: publicUrlData.publicUrl };
-    });
-}
-
 export default async function AdminProductsPage() {
   const [items, images] = await Promise.all([
-    db.select().from(products).orderBy(products.id),
+    db
+      .select({
+        id: products.id,
+        productName: products.productName,
+        productPrice: products.productPrice,
+        stockQuantity: products.stockQuantity,
+        imageSrc: products.imageSrc,
+        themeName: themes.name,
+      })
+      .from(products)
+      .leftJoin(themes, eq(products.themeId, themes.id))
+      .orderBy(products.id),
     listBucketImages(),
   ]);
 
@@ -53,6 +37,11 @@ export default async function AdminProductsPage() {
         </form>
       </div>
 
+      <nav className={styles.adminNav}>
+        <Link href="/admin/products">商品一覧</Link>
+        <Link href="/admin/themes">テーマ管理</Link>
+      </nav>
+
       <section className={styles.section}>
         <h2 className={styles.subHeading}>新しい画像をアップロード</h2>
         <form action={uploadProductImage} className={styles.uploadForm}>
@@ -63,130 +52,56 @@ export default async function AdminProductsPage() {
         </form>
         {images.length === 0 && (
           <p className={styles.hint}>
-            まだアップロード済みの画像がありません。上のフォームから画像を追加すると、下の各商品の画像選択欄で選べるようになります。
+            まだアップロード済みの画像がありません。上のフォームから画像を追加すると、各商品の編集ページで選べるようになります。
           </p>
         )}
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.subHeading}>商品ごとの編集</h2>
-        <ul className={styles.productList}>
-          {items.map((product) => (
-            <li key={product.id} className={styles.productCard}>
-              <div className={styles.productHeader}>
-                <div className={styles.thumbWrap}>
-                  <Image
-                    src={product.imageSrc}
-                    alt={product.productName}
-                    fill
-                    sizes="80px"
-                    className={styles.thumb}
-                  />
-                </div>
-                <span className={styles.productLabel}>
-                  No. {product.id} {product.productName}
-                </span>
-              </div>
-
-              <form action={updateProductImage} className={styles.selectForm}>
-                <input type="hidden" name="productId" value={product.id} />
-                <select
-                  name="imageSrc"
-                  defaultValue={product.imageSrc}
-                  className={styles.select}
-                >
-                  {!images.some((img) => img.url === product.imageSrc) && (
-                    <option value={product.imageSrc}>
-                      現在の画像: {product.imageSrc}
-                    </option>
-                  )}
-                  {images.map((img) => (
-                    <option key={img.name} value={img.url}>
-                      {img.name}
-                    </option>
-                  ))}
-                </select>
-                <button type="submit" className={styles.button}>
-                  画像を更新
-                </button>
-              </form>
-
-              <form
-                action={updateProductDetails}
-                className={styles.detailsForm}
-              >
-                <input type="hidden" name="productId" value={product.id} />
-                <label className={styles.field}>
-                  <span>商品名</span>
-                  <input
-                    type="text"
-                    name="productName"
-                    defaultValue={product.productName}
-                    required
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span>種類</span>
-                  <input
-                    type="text"
-                    name="productType"
-                    defaultValue={product.productType}
-                    required
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span>カラー</span>
-                  <input
-                    type="text"
-                    name="productColor"
-                    defaultValue={product.productColor}
-                    required
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span>価格（円）</span>
-                  <input
-                    type="number"
-                    name="productPrice"
-                    defaultValue={product.productPrice}
-                    min={0}
-                    required
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span>在庫数</span>
-                  <input
-                    type="number"
-                    name="stockQuantity"
-                    defaultValue={product.stockQuantity}
-                    min={0}
-                    required
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span>一覧用の短い説明</span>
-                  <textarea
-                    name="productDescription"
-                    defaultValue={product.productDescription}
-                    rows={2}
-                    required
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span>商品詳細ページの説明文</span>
-                  <textarea
-                    name="detailDescription"
-                    defaultValue={product.detailDescription}
-                    rows={4}
-                  />
-                </label>
-                <button type="submit" className={styles.button}>
-                  保存
-                </button>
-              </form>
-            </li>
-          ))}
-        </ul>
+        <h2 className={styles.subHeading}>商品一覧（{items.length}件）</h2>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>No.</th>
+              <th>商品名</th>
+              <th>テーマ</th>
+              <th>価格</th>
+              <th>在庫</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((product) => (
+              <tr key={product.id}>
+                <td>
+                  <div className={styles.thumbWrap}>
+                    <Image
+                      src={product.imageSrc}
+                      alt={product.productName}
+                      fill
+                      sizes="48px"
+                      className={styles.thumb}
+                    />
+                  </div>
+                </td>
+                <td>{product.id}</td>
+                <td>{product.productName}</td>
+                <td>{product.themeName ?? "—"}</td>
+                <td>¥{product.productPrice.toLocaleString()}</td>
+                <td>{product.stockQuantity}</td>
+                <td>
+                  <Link
+                    href={`/admin/products/${product.id}`}
+                    className={styles.button}
+                  >
+                    編集
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
     </div>
   );

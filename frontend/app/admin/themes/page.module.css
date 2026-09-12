@@ -1,5 +1,5 @@
 .content {
-  max-width: 960px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 60px 24px 120px;
   font-family: system-ui, sans-serif;
@@ -34,16 +34,30 @@
   margin-bottom: 16px;
 }
 
-.uploadForm {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .hint {
-  margin-top: 12px;
   font-size: 0.85rem;
   color: #777;
+}
+
+.createForm {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.field input {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 6px 8px;
 }
 
 .table {
@@ -59,25 +73,27 @@
   border-bottom: 1px solid #e5e5e5;
 }
 
-.thumbWrap {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  background-color: #f5f5f5;
-  border: 1px solid #e5e5e5;
+.orderInput {
+  width: 70px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 4px 6px;
 }
 
-.thumb {
-  object-fit: cover;
+.nameInput {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 4px 6px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
 }
 
 .button {
-  display: inline-block;
   padding: 6px 16px;
   font-size: 0.85rem;
   cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-  border: 1px solid #ccc;
-  background: #fff;
 }
