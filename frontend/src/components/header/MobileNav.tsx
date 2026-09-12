@@ -1,11 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "@/src/layout/Header.module.css";
 import Link from "next/link";
 
-type MobileNavProps = { className?: string };
+type MobileNavProps = { className?: string; isAdmin?: boolean };
 
-export default function MobileNav({ className }: MobileNavProps) {
+export default function MobileNav({ className, isAdmin }: MobileNavProps) {
   const [isActive, setIsActive] = useState(false);
 
   const toggleMenu = () => {
@@ -46,6 +46,13 @@ export default function MobileNav({ className }: MobileNavProps) {
                 MY PAGE
               </Link>
             </li>
+            {isAdmin && (
+              <li>
+                <Link href="/admin/products" onClick={closeMenu}>
+                  ADMIN
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       ) : null}

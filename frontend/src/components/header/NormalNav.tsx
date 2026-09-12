@@ -1,11 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import styles from "@/src/layout/Header.module.css";
-import Link from "next/link";
+import React from "react";
 
-type MobileNavProps = { className?: string };
+type MobileNavProps = { className?: string; isAdmin?: boolean };
 
-export default function NoramNav({ className }: MobileNavProps) {
+export default function NoramNav({ className, isAdmin }: MobileNavProps) {
   return (
     <>
       <nav className={className}>
@@ -19,6 +17,11 @@ export default function NoramNav({ className }: MobileNavProps) {
           <li>
             <a href="/account">MY PAGE</a>
           </li>
+          {isAdmin && (
+            <li>
+              <a href="/admin/products">ADMIN</a>
+            </li>
+          )}
         </ul>
       </nav>
     </>
