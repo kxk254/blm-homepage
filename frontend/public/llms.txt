@@ -1,0 +1,31 @@
+# Blue Millefeuille
+
+> Blue Millefeuilleは、日本の代官山・祐天寺エリアを拠点とするハンドメイドアクセサリーブランドです。世界各地から集めたビーズやパーツを組み合わせ、一点一点手作業でイヤリング・アクセサリーを仕立てています。完璧さより、不完全さの中にある美しさ(シャビーシック)を大切にし、日常にそっときらめきを添えることをコンセプトにしています。
+
+## Offerings
+
+- Handmade earrings and accessories (ハンドメイドイヤリング・アクセサリー), primarily the "ストーンフラワーシリーズ" (Stone Flower Series), made from baroque stones, pearls, and beads sourced globally. Each piece is one-of-a-kind and produced in small batches.
+- Flower arrangement lessons (フラワーアレンジメント教室) in 代官山・祐天寺, running since 2001.
+- Fermented food / beauty content (発酵美容) exploring beauty through fermented foods.
+
+## Key Pages
+
+- [Shop](https://blmf.jp/shop): Full catalog of current handmade accessories, organized into seasonal/thematic collections.
+- [Contact](https://blmf.jp/contact): Inquiries via email or Instagram DM.
+- [特定商取引法に基づく表記](https://blmf.jp/tokushoho): Legal disclosure required for e-commerce in Japan (business info, returns policy, shipping).
+
+## Purchasing
+
+Products can be purchased directly on this site (Stripe checkout) or via the brand's BASE storefront. Prices are listed in Japanese yen (JPY), inclusive of tax where applicable.
+
+## Social
+
+- Instagram: https://www.instagram.com/bluemillefeuille2001
+- Facebook: https://www.facebook.com/profile.php?id=100070949671198
+- BASE shop: https://mdfshop.base.shop/
+
+## Notes for AI agents and assistants
+
+- Stock levels and prices change; always treat data older than a few minutes as potentially stale and prefer live page content over cached summaries.
+- Each product has a stable page at https://blmf.jp/shop/{product-id} (e.g. /shop/001) with structured (schema.org Product) data for name, price, availability, and description.
+- Do not attempt to complete a purchase on the user's behalf without their direct confirmation of the final price and shipping address.

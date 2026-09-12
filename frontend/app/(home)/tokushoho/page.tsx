@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import styles from "./page.module.css";
 import { contact } from "@/data/ContactCard";
+
+export const metadata: Metadata = {
+  title: "特定商取引法に基づく表記 | Blue Millefeuille",
+  description: "Blue Millefeuilleの特定商取引法に基づく表記です。",
+  alternates: {
+    canonical: "/tokushoho",
+  },
+};
 
 // 特定商取引法に基づく表記
 // 各項目の【 】部分は実際の内容に差し替えてください。
