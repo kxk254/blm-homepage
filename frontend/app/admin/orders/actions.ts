@@ -1,9 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
-import { db } from "@/src/lib/db/client";
-import { orders } from "@/src/lib/db/schema";
+import { apiPatch } from "@/src/lib/api/client";
 
 const VALID_STATUSES = ["paid", "shipped", "cancelled", "refunded"];
 
@@ -20,7 +18,7 @@ export async function updateOrderStatus(formData: FormData) {
     throw new Error("不正なリクエストです");
   }
 
-  await db.update(orders).set({ status }).where(eq(orders.id, orderId));
+  await apiPatch(`/api/admin/orders/${orderId}`, { status });
 
   revalidatePath("/admin/orders");
 }

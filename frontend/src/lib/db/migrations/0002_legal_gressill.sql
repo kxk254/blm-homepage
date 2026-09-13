@@ -1,1 +1,0 @@
-ALTER TABLE "products" ADD COLUMN "detail_description" text DEFAULT '' NOT NULL;

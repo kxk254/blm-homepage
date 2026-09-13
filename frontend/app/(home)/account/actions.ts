@@ -1,25 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
-import { createClient } from "@/src/lib/supabase/server";
-import { db } from "@/src/lib/db/client";
-import { customers } from "@/src/lib/db/schema";
+import { ApiError, apiPatch, apiPost } from "@/src/lib/api/client";
 
 export interface AuthActionState {
   error?: string;
   message?: string;
-}
-
-async function getSiteOrigin() {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL;
-  if (configured) return configured;
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("host");
-  const protocol = host?.startsWith("localhost") ? "http" : "https";
-  return `${protocol}://${host}`;
 }
 
 export async function signUp(
@@ -40,20 +27,13 @@ export async function signUp(
     return { error: "パスワードは8文字以上で入力してください" };
   }
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.signUp({ email, password });
-  if (error) {
-    return { error: `登録に失敗しました: ${error.message}` };
-  }
-
-  // メール確認が必須の設定だとsignUp直後にはセッションが発行されない。
-  // そのままredirectすると/accountで未ログイン扱いになりログイン画面に
-  // 戻されて意味不明になるため、その場合は案内を表示して留まる。
-  if (!data.session) {
-    return {
-      message:
-        "確認メールを送信しました。メール内のリンクから登録を完了してください。",
-    };
+  try {
+    await apiPost("/api/auth/signup", { email, password });
+  } catch (err) {
+    if (err instanceof ApiError) {
+      return { error: `登録に失敗しました: ${err.message}` };
+    }
+    return { error: "登録に失敗しました" };
   }
 
   redirect("/account");
@@ -74,12 +54,9 @@ export async function signIn(
     return { error: "メールアドレスとパスワードを入力してください" };
   }
 
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  if (error) {
+  try {
+    await apiPost("/api/auth/login", { email, password });
+  } catch {
     return { error: "メールアドレスまたはパスワードが正しくありません" };
   }
 
@@ -87,8 +64,7 @@ export async function signIn(
 }
 
 export async function signOut() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
+  await apiPost("/api/auth/logout");
   redirect("/");
 }
 
@@ -101,15 +77,12 @@ export async function requestPasswordReset(
     return { error: "メールアドレスを入力してください" };
   }
 
-  const origin = await getSiteOrigin();
-  const supabase = await createClient();
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/confirm?next=/account/reset-password`,
-  });
-  if (error) {
-    // 登録済みメールかどうかを外部に推測されないよう、失敗してもログにのみ残し
-    // 同じ成功メッセージを返す
-    console.error("Failed to send password reset email", error);
+  // 登録済みメールかどうかを外部に推測されないよう、失敗してもログにのみ残し
+  // 同じ成功メッセージを返す（バックエンド側でも同様の配慮をしている）
+  try {
+    await apiPost("/api/auth/request-password-reset", { email });
+  } catch (err) {
+    console.error("Failed to request password reset", err);
   }
 
   return {
@@ -127,50 +100,38 @@ export async function updatePassword(
     return { error: "パスワードは8文字以上で入力してください" };
   }
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    return {
-      error:
-        "セッションの有効期限が切れています。再設定メールのリンクをもう一度開いてください。",
-    };
-  }
-
-  const { error } = await supabase.auth.updateUser({ password });
-  if (error) {
-    return { error: `パスワードの更新に失敗しました: ${error.message}` };
+  try {
+    await apiPost("/api/auth/update-password", { password });
+  } catch (err) {
+    if (err instanceof ApiError) {
+      return { error: err.message };
+    }
+    return { error: "パスワードの更新に失敗しました" };
   }
 
   redirect("/account");
 }
 
 export async function updateProfile(formData: FormData) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    redirect("/account/login");
-  }
-
   const fullName = formData.get("fullName");
   const phone = formData.get("phone");
   const postalCode = formData.get("postalCode");
   const address = formData.get("address");
 
-  await db
-    .update(customers)
-    .set({
-      fullName: typeof fullName === "string" && fullName ? fullName : null,
+  try {
+    await apiPatch("/api/auth/profile", {
+      full_name: typeof fullName === "string" && fullName ? fullName : null,
       phone: typeof phone === "string" && phone ? phone : null,
-      postalCode:
+      postal_code:
         typeof postalCode === "string" && postalCode ? postalCode : null,
       address: typeof address === "string" && address ? address : null,
-      updatedAt: new Date(),
-    })
-    .where(eq(customers.id, user.id));
+    });
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401) {
+      redirect("/account/login");
+    }
+    throw err;
+  }
 
   revalidatePath("/account");
 }

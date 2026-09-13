@@ -1,9 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { eq } from "drizzle-orm";
-import { db } from "@/src/lib/db/client";
-import { products, themes } from "@/src/lib/db/schema";
-import { listBucketImages } from "@/src/lib/supabase/productImages";
+import { apiFetch } from "@/src/lib/api/client";
+import type { AdminProductListItem, MediaImage } from "@/src/lib/api/types";
 import { signOutAdmin, uploadProductImage } from "./actions";
 import styles from "./page.module.css";
 
@@ -11,19 +9,8 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminProductsPage() {
   const [items, images] = await Promise.all([
-    db
-      .select({
-        id: products.id,
-        productName: products.productName,
-        productPrice: products.productPrice,
-        stockQuantity: products.stockQuantity,
-        imageSrc: products.imageSrc,
-        themeName: themes.name,
-      })
-      .from(products)
-      .leftJoin(themes, eq(products.themeId, themes.id))
-      .orderBy(products.id),
-    listBucketImages(),
+    apiFetch<AdminProductListItem[]>("/api/admin/products"),
+    apiFetch<MediaImage[]>("/api/admin/media"),
   ]);
 
   return (

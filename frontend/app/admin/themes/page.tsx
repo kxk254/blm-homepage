@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { asc } from "drizzle-orm";
-import { db } from "@/src/lib/db/client";
-import { themes } from "@/src/lib/db/schema";
+import { apiFetch } from "@/src/lib/api/client";
+import type { Theme } from "@/src/lib/api/types";
 import { signOutAdmin } from "@/app/admin/products/actions";
 import { createTheme, deleteTheme, updateTheme } from "./actions";
 import styles from "./page.module.css";
@@ -9,10 +8,7 @@ import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
 
 export default async function AdminThemesPage() {
-  const items = await db
-    .select()
-    .from(themes)
-    .orderBy(asc(themes.displayOrder));
+  const items = await apiFetch<Theme[]>("/api/themes");
 
   return (
     <div className={styles.content}>

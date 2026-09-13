@@ -1,13 +1,12 @@
-import { asc } from "drizzle-orm";
-import { db } from "@/src/lib/db/client";
-import { products, themes, type Product } from "@/src/lib/db/schema";
+import { apiFetch } from "@/src/lib/api/client";
+import type { Product, Theme } from "@/src/lib/api/types";
 import ExpandableGrid from "./ExpandableGrid";
 import styles from "./ThemedShopGrid.module.css";
 
 export default async function ThemedShopGrid() {
   const [allProducts, allThemes] = await Promise.all([
-    db.select().from(products).orderBy(products.id),
-    db.select().from(themes).orderBy(asc(themes.displayOrder)),
+    apiFetch<Product[]>("/api/products"),
+    apiFetch<Theme[]>("/api/themes"),
   ]);
 
   const productsByTheme = new Map<number, Product[]>();

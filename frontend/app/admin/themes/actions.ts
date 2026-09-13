@@ -1,9 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
-import { db } from "@/src/lib/db/client";
-import { themes } from "@/src/lib/db/schema";
+import { apiDelete, apiPost, apiPut } from "@/src/lib/api/client";
 
 function revalidateThemeAffectedPaths() {
   revalidatePath("/admin/themes");
@@ -23,7 +21,7 @@ export async function createTheme(formData: FormData) {
     throw new Error("表示順は数値で入力してください");
   }
 
-  await db.insert(themes).values({ name, displayOrder });
+  await apiPost("/api/admin/themes", { name, display_order: displayOrder });
 
   revalidateThemeAffectedPaths();
 }
@@ -41,10 +39,7 @@ export async function updateTheme(formData: FormData) {
     throw new Error("表示順は数値で入力してください");
   }
 
-  await db
-    .update(themes)
-    .set({ name, displayOrder })
-    .where(eq(themes.id, id));
+  await apiPut(`/api/admin/themes/${id}`, { name, display_order: displayOrder });
 
   revalidateThemeAffectedPaths();
 }
@@ -56,8 +51,8 @@ export async function deleteTheme(formData: FormData) {
     throw new Error("不正なリクエストです");
   }
 
-  // 紐づく商品はテーマ削除時にthemeIdがnullになる(スキーマのonDelete: set null)
-  await db.delete(themes).where(eq(themes.id, id));
+  // 紐づく商品はテーマ削除時にtheme_idがnullになる(ProductモデルのondeleteSET NULL)
+  await apiDelete(`/api/admin/themes/${id}`);
 
   revalidateThemeAffectedPaths();
 }

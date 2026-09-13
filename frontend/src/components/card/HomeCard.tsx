@@ -1,10 +1,10 @@
-import { db } from "@/src/lib/db/client";
-import { products } from "@/src/lib/db/schema";
+import { apiFetch } from "@/src/lib/api/client";
+import type { Product } from "@/src/lib/api/types";
 import styles from "./HomeCard.module.css";
 import ItemCard from "@/src/components/ui/ItemCard";
 
 export default async function HomeCard() {
-  const items = await db.select().from(products).orderBy(products.id);
+  const items = await apiFetch<Product[]>("/api/products");
 
   return (
     <div className={styles.itemGrid}>

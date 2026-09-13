@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { desc, inArray } from "drizzle-orm";
-import { db } from "@/src/lib/db/client";
-import { orderItems, orders } from "@/src/lib/db/schema";
+import { apiFetch } from "@/src/lib/api/client";
+import type { Order } from "@/src/lib/api/types";
 import { signOutAdmin } from "@/app/admin/products/actions";
 import { updateOrderStatus } from "./actions";
 import styles from "./page.module.css";
@@ -16,26 +15,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export default async function AdminOrdersPage() {
-  const allOrders = await db.select().from(orders).orderBy(desc(orders.createdAt));
-
-  const orderIds = allOrders.map((order) => order.id);
-  const items =
-    orderIds.length > 0
-      ? await db
-          .select()
-          .from(orderItems)
-          .where(inArray(orderItems.orderId, orderIds))
-      : [];
-
-  const itemsByOrder = new Map<string, typeof items>();
-  for (const item of items) {
-    const list = itemsByOrder.get(item.orderId);
-    if (list) {
-      list.push(item);
-    } else {
-      itemsByOrder.set(item.orderId, [item]);
-    }
-  }
+  const allOrders = await apiFetch<Order[]>("/api/admin/orders");
 
   const formatPrice = (amount: number) => `¥${amount.toLocaleString()}`;
 
@@ -66,7 +46,7 @@ export default async function AdminOrdersPage() {
               <div className={styles.orderHeader}>
                 <div>
                   <span className={styles.orderDate}>
-                    {order.createdAt.toLocaleString("ja-JP")}
+                    {new Date(order.createdAt).toLocaleString("ja-JP")}
                   </span>
                   <span className={styles.orderEmail}>
                     {order.customerEmail ?? "（メール不明）"}
@@ -78,7 +58,7 @@ export default async function AdminOrdersPage() {
               </div>
 
               <ul className={styles.itemList}>
-                {(itemsByOrder.get(order.id) ?? []).map((item) => (
+                {order.items.map((item) => (
                   <li key={item.id}>
                     {item.productName} × {item.quantity}（
                     {formatPrice(item.unitPrice)}）

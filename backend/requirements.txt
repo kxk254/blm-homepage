@@ -1,0 +1,16 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+alembic==1.14.0
+pydantic==2.10.4
+pydantic-settings==2.7.0
+email-validator==2.2.0
+passlib[bcrypt]==1.7.4
+# passlib 1.7.4はbcrypt>=4.1の内部API変更と非互換のため明示的に固定
+# (参照: https://github.com/pyca/bcrypt/issues/684)
+bcrypt==4.0.1
+pyjwt==2.10.1
+stripe==11.4.1
+aiosmtplib==3.0.2
+python-multipart==0.0.20

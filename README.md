@@ -1,5 +1,81 @@
 # blm-homepage
 
+## 開発環境の起動（Dockerなし）
+
+Postgresは開発機・本番サーバーいずれもDocker化せず、ネイティブインストールしたものを使う。
+backend(FastAPI)・frontend(Next.js)はDockerなしで直接起動して開発できる。
+
+### 1. バックエンド (FastAPI)
+```bash
+cd backend
+python3 -m venv .venv               # 初回のみ
+source .venv/bin/activate
+pip install -r requirements.txt     # 初回のみ
+cp .env.example .env                # 初回のみ。DATABASE_URL等を編集する
+uvicorn app.main:app --reload --port 8000
+```
+
+### 2. フロントエンド (Next.js)
+```bash
+cd frontend
+npm install                         # 初回のみ
+cp .env.example .env.local          # 初回のみ
+# .env.localのBACKEND_INTERNAL_URLをhttp://localhost:8000にしておく
+npm run dev
+```
+http://localhost:3000 で確認できる。nginxを経由しなくても、`next.config.ts`の`rewrites()`が
+ブラウザ側の相対パス`/api/...`をbackendへ転送してくれる。
+
+`docker compose up` が必要になるのは、本番同様nginx経由の構成をまるごと確認したい時か、
+実際にデプロイする時だけ。
+
+## DB設定（本番・開発共通、Postgresはネイティブ管理）
+
+Postgresはdocker-composeの中では動かさず、サーバー（または開発機）に直接インストールした
+ものを使う。docker-compose上のbackendコンテナからもこのPostgresへネットワーク経由で接続する。
+
+### 1. ロール/データベース作成
+```bash
+sudo -u postgres psql <<'SQL'
+CREATE ROLE blm WITH LOGIN PASSWORD '実際のパスワードに置き換える';
+CREATE DATABASE blm OWNER blm;
+SQL
+```
+
+### 2. 接続許可 (pg_hba.conf)
+`/etc/postgresql/16/main/pg_hba.conf` に追記する（Dockerコンテナのブリッジ網・LANからの
+接続を許可する場合の例）:
+```
+host    blm    blm    172.16.0.0/12    scram-sha-256
+host    blm    blm    192.168.11.0/24  scram-sha-256
+```
+`postgresql.conf`の`listen_addresses = '*'`も必要（Ubuntu/Debianのパッケージ版はデフォルトで有効なことが多い）。
+
+### 3. 反映
+```bash
+sudo systemctl restart postgresql
+```
+ufwが有効な場合は5432ポートも許可する:
+```bash
+sudo ufw allow from 172.16.0.0/12 to any port 5432
+sudo ufw allow from 192.168.11.0/24 to any port 5432
+```
+
+### 4. スキーマ作成・管理者アカウント
+```bash
+cd backend
+source .venv/bin/activate
+alembic upgrade head
+python scripts/create_admin.py <email> <password>
+python scripts/seed.py   # 動作確認用のダミー商品を入れる場合のみ
+```
+
+`backend/.env`の`DATABASE_URL`は `postgresql+asyncpg://blm:<パスワード>@<Postgresのホスト>:5432/blm`
+の形式。Postgresをコンテナ化していないので、docker-compose経由でbackendを起動する場合も
+このURLはPostgresが実際に動いているホストのIP（開発機のLAN IPや本番サーバー自身のIP）を指す。
+
+---
+
 ### tailscale funnel
 
 #### reset old state

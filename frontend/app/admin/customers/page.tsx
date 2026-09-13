@@ -1,28 +1,13 @@
 import Link from "next/link";
-import { desc, isNotNull, sql } from "drizzle-orm";
-import { db } from "@/src/lib/db/client";
-import { customers, orders } from "@/src/lib/db/schema";
+import { apiFetch } from "@/src/lib/api/client";
+import type { AdminCustomer } from "@/src/lib/api/types";
 import { signOutAdmin } from "@/app/admin/products/actions";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminCustomersPage() {
-  const [customerList, orderCounts] = await Promise.all([
-    db.select().from(customers).orderBy(desc(customers.createdAt)),
-    db
-      .select({
-        customerId: orders.customerId,
-        count: sql<number>`count(*)`.mapWith(Number),
-      })
-      .from(orders)
-      .where(isNotNull(orders.customerId))
-      .groupBy(orders.customerId),
-  ]);
-
-  const countByCustomer = new Map(
-    orderCounts.map((row) => [row.customerId, row.count])
-  );
+  const customerList = await apiFetch<AdminCustomer[]>("/api/admin/customers");
 
   return (
     <div className={styles.content}>
@@ -66,8 +51,8 @@ export default async function AdminCustomersPage() {
                   {customer.postalCode ? `〒${customer.postalCode} ` : ""}
                   {customer.address ?? (customer.postalCode ? "" : "—")}
                 </td>
-                <td>{customer.createdAt.toLocaleDateString("ja-JP")}</td>
-                <td>{countByCustomer.get(customer.id) ?? 0}</td>
+                <td>{new Date(customer.createdAt).toLocaleDateString("ja-JP")}</td>
+                <td>{customer.orderCount}</td>
               </tr>
             ))}
           </tbody>

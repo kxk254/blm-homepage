@@ -1,17 +1,15 @@
 import type { MetadataRoute } from "next";
-import { db } from "@/src/lib/db/client";
-import { products } from "@/src/lib/db/schema";
+import { apiFetch } from "@/src/lib/api/client";
+import type { Product } from "@/src/lib/api/types";
 
 const baseUrl = "https://blmf.jp";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const items = await db
-    .select({ id: products.id, createdAt: products.createdAt })
-    .from(products);
+  const items = await apiFetch<Product[]>("/api/products");
 
   const productUrls: MetadataRoute.Sitemap = items.map((item) => ({
     url: `${baseUrl}/shop/${item.id}`,
-    lastModified: item.createdAt,
+    lastModified: new Date(item.createdAt),
     changeFrequency: "weekly",
     priority: 0.8,
   }));

@@ -2,16 +2,10 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
-import { db } from "@/src/lib/db/client";
-import { products } from "@/src/lib/db/schema";
-import { createAdminClient } from "@/src/lib/supabase/admin";
-import { createClient } from "@/src/lib/supabase/server";
-import { PRODUCT_IMAGES_BUCKET } from "@/src/lib/supabase/storage";
+import { apiFetch, apiPost, apiPut } from "@/src/lib/api/client";
 
 export async function signOutAdmin() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
+  await apiPost("/api/auth/logout");
   redirect("/admin/login");
 }
 
@@ -62,19 +56,16 @@ export async function updateProductDetails(formData: FormData) {
     throw new Error("テーマの指定が不正です");
   }
 
-  await db
-    .update(products)
-    .set({
-      productName,
-      productType,
-      productColor,
-      productDescription,
-      detailDescription,
-      productPrice,
-      stockQuantity,
-      themeId,
-    })
-    .where(eq(products.id, productId));
+  await apiPut(`/api/admin/products/${productId}`, {
+    product_name: productName,
+    product_type: productType,
+    product_color: productColor,
+    product_description: productDescription,
+    detail_description: detailDescription,
+    product_price: productPrice,
+    stock_quantity: stockQuantity,
+    theme_id: themeId,
+  });
 
   revalidatePath("/admin/products");
   revalidatePath(`/admin/products/${productId}`);
@@ -95,10 +86,7 @@ export async function updateProductImage(formData: FormData) {
     throw new Error("不正なリクエストです");
   }
 
-  await db
-    .update(products)
-    .set({ imageSrc })
-    .where(eq(products.id, productId));
+  await apiPut(`/api/admin/products/${productId}/image`, { image_src: imageSrc });
 
   revalidatePath("/admin/products");
   revalidatePath(`/admin/products/${productId}`);
@@ -113,17 +101,9 @@ export async function uploadProductImage(formData: FormData) {
     throw new Error("ファイルを選択してください");
   }
 
-  const admin = createAdminClient();
-  // 元のファイル名の衝突・パス区切り文字混入を避けるため安全な名前に変換
-  const safeName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-
-  const { error } = await admin.storage
-    .from(PRODUCT_IMAGES_BUCKET)
-    .upload(safeName, file, { contentType: file.type });
-
-  if (error) {
-    throw new Error(`アップロードに失敗しました: ${error.message}`);
-  }
+  const uploadForm = new FormData();
+  uploadForm.set("file", file);
+  await apiFetch("/api/admin/media/upload", { method: "POST", body: uploadForm });
 
   revalidatePath("/admin/products");
 }

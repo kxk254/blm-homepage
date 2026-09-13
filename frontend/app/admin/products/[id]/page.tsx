@@ -1,10 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { asc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import { db } from "@/src/lib/db/client";
-import { products, themes } from "@/src/lib/db/schema";
-import { listBucketImages } from "@/src/lib/supabase/productImages";
+import { ApiError, apiFetch } from "@/src/lib/api/client";
+import type { MediaImage, Product, Theme } from "@/src/lib/api/types";
 import {
   signOutAdmin,
   updateProductDetails,
@@ -21,16 +19,20 @@ export default async function AdminProductEditPage({
 }) {
   const { id } = await params;
 
-  const [rows, themeList, images] = await Promise.all([
-    db.select().from(products).where(eq(products.id, id)).limit(1),
-    db.select().from(themes).orderBy(asc(themes.displayOrder)),
-    listBucketImages(),
-  ]);
-  const product = rows[0];
-
-  if (!product) {
-    notFound();
+  let product: Product;
+  try {
+    product = await apiFetch<Product>(`/api/admin/products/${id}`);
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 404) {
+      notFound();
+    }
+    throw err;
   }
+
+  const [themeList, images] = await Promise.all([
+    apiFetch<Theme[]>("/api/themes"),
+    apiFetch<MediaImage[]>("/api/admin/media"),
+  ]);
 
   return (
     <div className={styles.content}>

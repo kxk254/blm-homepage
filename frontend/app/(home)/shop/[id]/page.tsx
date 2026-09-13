@@ -2,11 +2,10 @@ import { cache } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import styles from "./page.module.css";
-import { db } from "@/src/lib/db/client";
-import { products } from "@/src/lib/db/schema";
+import { ApiError, apiFetch } from "@/src/lib/api/client";
+import type { Product } from "@/src/lib/api/types";
 import AddToCartButton from "@/src/components/ui/AddToCartButton";
 import ShareButtons from "@/src/components/ui/ShareButtons";
 
@@ -15,14 +14,16 @@ import ShareButtons from "@/src/components/ui/ShareButtons";
 export const dynamic = "force-dynamic";
 
 // generateMetadataとページ本体の両方から呼ばれるため、
-// 同一リクエスト内でのDB二重取得を避けるためcache()でメモ化する
-const getProduct = cache(async (id: string) => {
-  const [product] = await db
-    .select()
-    .from(products)
-    .where(eq(products.id, id))
-    .limit(1);
-  return product;
+// 同一リクエスト内でのバックエンド二重取得を避けるためcache()でメモ化する
+const getProduct = cache(async (id: string): Promise<Product | null> => {
+  try {
+    return await apiFetch<Product>(`/api/products/${id}`);
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 404) {
+      return null;
+    }
+    throw err;
+  }
 });
 
 export async function generateMetadata({
@@ -82,7 +83,7 @@ export default async function ProductDetailPage({
 
   const isSoldOut = product.stockQuantity <= 0;
 
-  // Supabase Storage上の画像は既に絶対URL、ローカルの/asset配下は相対パスなので
+  // NAS由来の画像は/media配下の相対パス、ローカルの/asset配下も相対パスなので、
   // JSON-LD用に絶対URLへ揃える(next/imageのMetadata APIとは異なりmetadataBaseは効かない)
   const absoluteImageUrl = product.imageSrc.startsWith("http")
     ? product.imageSrc

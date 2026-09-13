@@ -1,7 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/src/lib/supabase/server";
+import { apiPost } from "@/src/lib/api/client";
+import type { Customer } from "@/src/lib/api/types";
 
 export interface AdminAuthState {
   error?: string;
@@ -22,17 +23,15 @@ export async function signInAdmin(
     return { error: "メールアドレスとパスワードを入力してください" };
   }
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  if (error || !data.user) {
+  let user: Customer;
+  try {
+    user = await apiPost<Customer>("/api/auth/login", { email, password });
+  } catch {
     return { error: "メールアドレスまたはパスワードが正しくありません" };
   }
 
-  if (data.user.app_metadata?.role !== "admin") {
-    await supabase.auth.signOut();
+  if (!user.isAdmin) {
+    await apiPost("/api/auth/logout");
     return { error: "管理者権限がありません" };
   }
 

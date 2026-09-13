@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ItemCard from "@/src/components/ui/ItemCard";
-import type { Product } from "@/src/lib/db/schema";
+import type { Product } from "@/src/lib/api/types";
 import gridStyles from "./HomeCard.module.css";
 import styles from "./ExpandableGrid.module.css";
 

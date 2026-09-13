@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "../status.module.css";
-import { stripe } from "@/src/lib/stripe/server";
+import { apiFetch } from "@/src/lib/api/client";
 import ClearCartOnSuccess from "@/src/components/cart/ClearCartOnSuccess";
 
 export default async function CheckoutSuccessPage({
@@ -13,8 +13,10 @@ export default async function CheckoutSuccessPage({
   let customerEmail: string | null = null;
   if (sessionId) {
     try {
-      const session = await stripe.checkout.sessions.retrieve(sessionId);
-      customerEmail = session.customer_details?.email ?? null;
+      const session = await apiFetch<{ customerEmail: string | null }>(
+        `/api/checkout/session/${encodeURIComponent(sessionId)}`
+      );
+      customerEmail = session.customerEmail;
     } catch {
       customerEmail = null;
     }

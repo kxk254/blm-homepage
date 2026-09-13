@@ -1,11 +1,12 @@
-# Use official nginx image as base
-FROM nginx:stable-alpine
+FROM python:3.12-slim
 
-# Copy your custom nginx config
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-# Expose port 80 (optional, for documentation)
-EXPOSE 80
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Start nginx in the foreground (default command in nginx image)
-CMD ["nginx", "-g", "daemon off;"]
+COPY . .
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
