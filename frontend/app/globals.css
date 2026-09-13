@@ -17,6 +17,11 @@
 
   /* ヘッダーの高さを１４０ｐｘに設定　 */
   --header-height: 140px;
+  /* ヘッダー上に出す通知帯(AdminBar/CartBar)1本あたりの高さ */
+  --info-bar-height: 36px;
+  /* 表示中の通知帯の合計ぶんだけHeaderと各ページ本文を下にずらすためのオフセット。
+     Header.tsxが表示状態に応じてpx値を都度計算してセットする */
+  --header-top-offset: 0px;
 }
 /* --- 2. ベーススタイル（モバイルデフォルト） --- */
 body {

@@ -9,7 +9,7 @@
   background: var(--bm-white);
   position: fixed;
   width: 100%;
-  top: 0;
+  top: var(--header-top-offset, 0px);
   z-index: 1000;
   box-sizing: border-box;
   border-bottom: 1px solid var(--bm-gray-shabby);
@@ -124,23 +124,50 @@
   opacity: 0.6;
 }
 
+.navOverlayName {
+  font-family: "Yu Mincho", serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--bm-text-sub);
+}
+
+.navOverlayLogout {
+  font-family: "Yu Mincho", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.5em;
+  color: #333;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.4s;
+}
+
+.navOverlayLogout:hover {
+  opacity: 0.6;
+}
+
 .headerRight {
   display: flex;
   align-items: center;
   gap: 30px;
 }
 
-.cartLink {
+.accountStatus {
+  display: flex;
+  align-items: center;
+}
+
+.loginLink {
   font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0.1em;
   text-decoration: none;
-  color: inherit;
+  color: var(--bm-text-main);
   white-space: nowrap;
   transition: opacity 0.4s;
 }
 
-.cartLink:hover {
+.loginLink:hover {
   opacity: 0.6;
 }
 
@@ -179,6 +206,10 @@
     display: block;
   }
   .menuControlerNorm {
+    display: none;
+  }
+  .accountStatus {
+    /* スマホでは幅が足りないため、ハンバーガーメニュー内にまとめて表示する */
     display: none;
   }
   .logo {

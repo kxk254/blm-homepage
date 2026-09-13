@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -33,7 +33,9 @@ logger = logging.getLogger(__name__)
 
 
 @router.post("/signup", response_model=MeResponse, status_code=status.HTTP_201_CREATED)
-async def signup(body: SignupRequest, response: Response, db: AsyncSession = Depends(get_db)):
+async def signup(
+    body: SignupRequest, request: Request, response: Response, db: AsyncSession = Depends(get_db)
+):
     existing = await db.scalar(select(Customer).where(Customer.email == body.email))
     if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="このメールアドレスは既に登録されています")
@@ -46,12 +48,14 @@ async def signup(body: SignupRequest, response: Response, db: AsyncSession = Dep
     await db.refresh(customer)
 
     token = create_session_token(customer.id, customer.is_admin)
-    set_session_cookie(response, token)
+    set_session_cookie(request, response, token)
     return customer
 
 
 @router.post("/login", response_model=MeResponse)
-async def login(body: LoginRequest, response: Response, db: AsyncSession = Depends(get_db)):
+async def login(
+    body: LoginRequest, request: Request, response: Response, db: AsyncSession = Depends(get_db)
+):
     customer = await db.scalar(select(Customer).where(Customer.email == body.email))
     if not customer or not verify_password(body.password, customer.password_hash):
         raise HTTPException(
@@ -59,7 +63,7 @@ async def login(body: LoginRequest, response: Response, db: AsyncSession = Depen
         )
 
     token = create_session_token(customer.id, customer.is_admin)
-    set_session_cookie(response, token)
+    set_session_cookie(request, response, token)
     return customer
 
 
@@ -113,7 +117,9 @@ async def request_password_reset(body: RequestPasswordResetRequest, db: AsyncSes
 
 
 @router.get("/confirm")
-async def confirm_reset_token(token: str, response: Response, db: AsyncSession = Depends(get_db)):
+async def confirm_reset_token(
+    token: str, request: Request, response: Response, db: AsyncSession = Depends(get_db)
+):
     """パスワード再設定メールのリンクからのアクセス。トークンを検証し、
     パスワードを更新できるよう一時的にログイン状態にする（通常セッションと同じCookieを発行）。
     """
@@ -123,7 +129,7 @@ async def confirm_reset_token(token: str, response: Response, db: AsyncSession =
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="リンクが無効です")
 
     session_token = create_session_token(customer.id, customer.is_admin)
-    set_session_cookie(response, session_token)
+    set_session_cookie(request, response, session_token)
     return {"ok": True}
 
 

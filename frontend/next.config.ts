@@ -2,9 +2,11 @@ import type { NextConfig } from "next";
 
 // 商品画像はNAS由来で、nginxが同一オリジンの/media配下として配信するため、
 // next/imageはリモートパターン設定なしでそのまま最適化できる
-const BACKEND_URL = process.env.BACKEND_INTERNAL_URL ?? "http://backend:8000";
+// const BACKEND_URL = process.env.BACKEND_INTERNAL_URL ?? "http://backend:8000";
+const BACKEND_URL = process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8000";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["192.168.11.71"],
   async redirects() {
     return [
       {
@@ -23,6 +25,12 @@ const nextConfig: NextConfig = {
       {
         source: "/api/:path*",
         destination: `${BACKEND_URL}/api/:path*`,
+      },
+      {
+        // 本番はnginxが/mediaをNASマウントから直接配信するが、ローカル開発では
+        // backend側の/media(StaticFiles)にフォールバックする
+        source: "/media/:path*",
+        destination: `${BACKEND_URL}/media/:path*`,
       },
     ];
   },

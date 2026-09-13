@@ -1,7 +1,7 @@
 .content {
   max-width: 900px;
   margin: 0 auto;
-  padding: 60px 24px 120px;
+  padding: calc(60px + var(--header-top-offset, 0px)) 24px 120px;
   font-family: system-ui, sans-serif;
 }
 

@@ -1,0 +1,18 @@
+[Unit]
+Description=Blue Millefeuille FastAPI backend
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=konno
+WorkingDirectory=/home/konno/1-dev/blm-homepage/backend
+EnvironmentFile=/home/konno/1-dev/blm-homepage/backend/.env
+# 0.0.0.0で待ち受ける必要がある: nginxコンテナはhost.docker.internal(dockerブリッジの
+# ゲートウェイIP)経由でホストに抜けてくるため、127.0.0.1だけでは届かない。
+# その代わり8000番はLAN/インターネットに直接晒さないようufwで絞ること(README参照)。
+ExecStart=/home/konno/1-dev/blm-homepage/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

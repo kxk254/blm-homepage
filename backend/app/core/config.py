@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     # ホストのNAS共有をdocker-composeでこのパスにbind mountしておく前提。
     media_root: str = "/mnt/media"
 
+    # 適格請求書発行事業者の登録番号(インボイス制度)。注文確認メールに記載する。
+    # 未設定のうちはプレースホルダーのまま表示される
+    invoice_registration_number: str = "T-（登録番号未設定）"
+
 
 # アプリ起動時に一度だけ読み込めば十分なのでモジュールレベルのシングルトンにする
 settings = Settings()

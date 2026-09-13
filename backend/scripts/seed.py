@@ -27,7 +27,7 @@ SEED_PRODUCTS = [
             "一点物のイヤリングです。"
         ),
         product_price=4400,
-        image_src="/media/0921-2.PNG",
+        image_srcs=["/media/0921-2.PNG"],
         stock_quantity=5,
     ),
     dict(
@@ -44,7 +44,7 @@ SEED_PRODUCTS = [
             "フラワーシリーズのイヤリングです。"
         ),
         product_price=3300,
-        image_src="/media/0921-5.png",
+        image_srcs=["/media/0921-5.png"],
         stock_quantity=5,
     ),
     dict(
@@ -60,7 +60,7 @@ SEED_PRODUCTS = [
             "（仮テキスト）小さなモザイクパールを花びらのように配した、上品な印象のイヤリングです。"
         ),
         product_price=3300,
-        image_src="/media/0921-14.png",
+        image_srcs=["/media/0921-14.png"],
         stock_quantity=5,
     ),
 ]

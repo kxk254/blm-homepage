@@ -1,7 +1,7 @@
 .content {
   max-width: 960px;
   margin: 0 auto;
-  padding: 180px 6% 160px;
+  padding: calc(var(--header-height) + var(--header-top-offset, 0px) + 40px) 6% 160px;
 }
 
 .backLink {
@@ -32,20 +32,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 60px;
   }
-}
-
-.imageWrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background-color: var(--bm-gray-light);
-  border: 1px solid var(--bm-silver-soft);
-  border-radius: 2px;
-}
-
-.image {
-  object-fit: cover;
 }
 
 .info {
@@ -124,4 +110,24 @@
   color: var(--bm-text-main);
   white-space: pre-line;
   margin: 0;
+}
+
+.specList {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 24px;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.specList dt {
+  color: var(--bm-silver-deep);
+  letter-spacing: 0.1em;
+}
+
+.specList dd {
+  margin: 0;
+  color: var(--bm-text-main);
+  white-space: pre-line;
 }

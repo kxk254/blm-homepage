@@ -27,6 +27,9 @@ interface CartContextValue {
   items: CartItem[];
   itemCount: number;
   subtotal: number;
+  // localStorageからの初回読み込みが完了したか。これがfalseのうちにclearCart()等で
+  // 書き換えると、直後の読み込みで上書きされてしまうため、呼び出し側で待つ必要がある
+  isLoaded: boolean;
   addItem: (product: CartProduct, quantity?: number) => void;
   removeItem: (id: string) => void;
   setQuantity: (id: string, quantity: number) => void;
@@ -140,6 +143,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         items,
         itemCount,
         subtotal,
+        isLoaded,
         addItem,
         removeItem,
         setQuantity,

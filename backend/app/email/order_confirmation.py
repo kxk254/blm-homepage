@@ -47,9 +47,11 @@ async def send_order_confirmation_email(
 
 商品は一つひとつ手作業でお仕立てするため、発送まで今しばらくお待ちください。
 ご不明な点がございましたら、このメールにご返信いただくか、下記までお気軽にお問い合わせください。
+お問い合わせの際は、上記の注文番号をお伝えいただけるとスムーズです。
 
 Blue Millefeuille
 {RECORD_EMAIL}
+登録番号：{settings.invoice_registration_number}
 """
 
     message = EmailMessage()

@@ -13,3 +13,10 @@ class AdminCustomerOut(CamelModel):
     address: str | None
     created_at: datetime
     order_count: int = 0
+
+
+class CustomerFieldHistoryOut(CamelModel):
+    field_name: str
+    old_value: str | None
+    new_value: str | None
+    changed_at: datetime

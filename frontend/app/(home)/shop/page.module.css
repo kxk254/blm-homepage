@@ -1,5 +1,5 @@
 .content {
-  padding: 180px 0 140px;
+  padding: calc(var(--header-height) + var(--header-top-offset, 0px) + 40px) 0 140px;
   text-align: center;
 }
 

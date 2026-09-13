@@ -48,6 +48,14 @@ export default function CartPage() {
             });
           }
           setStockById(map);
+
+          // 在庫が0になった商品はカートから自動で取り除く
+          for (const item of items) {
+            const status = map.get(item.id);
+            if (status && status.stockQuantity <= 0) {
+              removeItem(item.id);
+            }
+          }
         }
       )
       .catch(() => {

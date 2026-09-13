@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { apiFetch } from "@/src/lib/api/client";
 import type { AdminCustomer } from "@/src/lib/api/types";
-import { signOutAdmin } from "@/app/admin/products/actions";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -13,11 +12,6 @@ export default async function AdminCustomersPage() {
     <div className={styles.content}>
       <div className={styles.headerRow}>
         <h1 className={styles.heading}>顧客管理</h1>
-        <form action={signOutAdmin}>
-          <button type="submit" className={styles.button}>
-            ログアウト
-          </button>
-        </form>
       </div>
 
       <nav className={styles.adminNav}>
@@ -25,6 +19,7 @@ export default async function AdminCustomersPage() {
         <Link href="/admin/themes">テーマ管理</Link>
         <Link href="/admin/orders">注文管理</Link>
         <Link href="/admin/customers">顧客一覧</Link>
+        <Link href="/admin/admins">管理者</Link>
       </nav>
 
       {customerList.length === 0 ? (
@@ -39,6 +34,7 @@ export default async function AdminCustomersPage() {
               <th>ご住所</th>
               <th>登録日</th>
               <th>注文数</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +49,14 @@ export default async function AdminCustomersPage() {
                 </td>
                 <td>{new Date(customer.createdAt).toLocaleDateString("ja-JP")}</td>
                 <td>{customer.orderCount}</td>
+                <td>
+                  <Link
+                    href={`/admin/customers/${customer.id}/history`}
+                    className={styles.button}
+                  >
+                    変更履歴
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>

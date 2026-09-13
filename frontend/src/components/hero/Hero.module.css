@@ -8,8 +8,9 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  /* 固定ヘッダー分の高さを常に確保し、ヘッダーの高さが変わっても追従する */
-  padding: calc(var(--header-height) + 40px) 10% 130px;
+  /* 固定ヘッダー分の高さを常に確保し、ヘッダーの高さやAdminBar/CartBarの表示状態が
+     変わっても追従する */
+  padding: calc(var(--header-height) + var(--header-top-offset, 0px) + 40px) 10% 130px;
 }
 
 .heroImage {
@@ -68,7 +69,7 @@
 
 @media (max-width: 600px) {
   .hero {
-    padding: calc(var(--header-height) + 20px) 24px 90px;
+    padding: calc(var(--header-height) + var(--header-top-offset, 0px) + 20px) 24px 90px;
   }
 
   .heroText h1 {

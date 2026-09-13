@@ -1,31 +1,37 @@
 import Link from "next/link";
 import { apiFetch } from "@/src/lib/api/client";
 import type { Theme } from "@/src/lib/api/types";
-import { signOutAdmin } from "@/app/admin/products/actions";
 import { createTheme, deleteTheme, updateTheme } from "./actions";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminThemesPage() {
+export default async function AdminThemesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ saved?: string }>;
+}) {
   const items = await apiFetch<Theme[]>("/api/themes");
+  const { saved } = await searchParams;
 
   return (
     <div className={styles.content}>
       <div className={styles.headerRow}>
         <h1 className={styles.heading}>テーマ管理</h1>
-        <form action={signOutAdmin}>
-          <button type="submit" className={styles.button}>
-            ログアウト
-          </button>
-        </form>
       </div>
+
+      {saved === "1" && (
+        <p role="status" className={styles.savedBanner}>
+          保存しました
+        </p>
+      )}
 
       <nav className={styles.adminNav}>
         <Link href="/admin/products">商品一覧</Link>
         <Link href="/admin/themes">テーマ管理</Link>
         <Link href="/admin/orders">注文管理</Link>
         <Link href="/admin/customers">顧客一覧</Link>
+        <Link href="/admin/admins">管理者</Link>
       </nav>
 
       <section className={styles.section}>
@@ -76,7 +82,14 @@ export default async function AdminThemesPage() {
                 return (
                   <tr key={theme.id}>
                     <td>
-                      <form id={formId} action={updateTheme}>
+                      {/* defaultValue(非制御)のため、保存後のrevalidateだけでは
+                          画面が追従しない。key を内容依存にしてフォームごと
+                          再マウントさせる */}
+                      <form
+                        id={formId}
+                        key={`${theme.id}-${theme.displayOrder}-${theme.name}`}
+                        action={updateTheme}
+                      >
                         <input type="hidden" name="id" value={theme.id} />
                         <input
                           type="number"
@@ -93,6 +106,7 @@ export default async function AdminThemesPage() {
                         defaultValue={theme.name}
                         form={formId}
                         className={styles.nameInput}
+                        key={`${theme.id}-${theme.name}`}
                       />
                     </td>
                     <td className={styles.actions}>

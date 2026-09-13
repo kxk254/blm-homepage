@@ -1,0 +1,51 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mainImageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: var(--bm-gray-light);
+  border: 1px solid var(--bm-silver-soft);
+  border-radius: 2px;
+}
+
+.mainImage {
+  object-fit: cover;
+}
+
+.thumbRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.thumbButton {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  padding: 0;
+  background-color: var(--bm-gray-light);
+  border: 1px solid var(--bm-silver-soft);
+  border-radius: 2px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.3s ease, opacity 0.3s ease;
+}
+
+.thumbButton:hover {
+  opacity: 0.8;
+}
+
+.thumbButtonActive {
+  border-color: var(--bm-text-main);
+}
+
+.thumbImage {
+  object-fit: cover;
+}

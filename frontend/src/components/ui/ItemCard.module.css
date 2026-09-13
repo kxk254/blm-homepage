@@ -64,6 +64,33 @@
   color: var(--bm-silver-deep);
 }
 
+.addToCartRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  /* ボタン側のmargin-topはItemCard単体表示(一覧カード)用なので、
+     ここでは打ち消して行の余白として持たせ、2つの要素を横並びで揃える */
+  margin-top: 28px;
+}
+
+.addToCartRow .addButton {
+  margin-top: 0;
+}
+
+.viewCartLink {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  color: var(--bm-text-main);
+  white-space: nowrap;
+}
+
+.viewCartLink:hover {
+  color: var(--bm-silver-deep);
+}
+
 .addButton {
   display: inline-block;
   margin-top: 28px;

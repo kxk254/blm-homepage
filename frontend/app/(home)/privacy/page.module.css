@@ -1,7 +1,7 @@
 .content {
   max-width: 680px;
   margin: 0 auto;
-  padding: 180px 6% 160px;
+  padding: calc(var(--header-height) + var(--header-top-offset, 0px) + 40px) 6% 160px;
 }
 
 .eyebrow {

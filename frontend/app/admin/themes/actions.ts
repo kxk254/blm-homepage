@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { apiDelete, apiPost, apiPut } from "@/src/lib/api/client";
 
@@ -24,6 +25,7 @@ export async function createTheme(formData: FormData) {
   await apiPost("/api/admin/themes", { name, display_order: displayOrder });
 
   revalidateThemeAffectedPaths();
+  redirect("/admin/themes?saved=1");
 }
 
 export async function updateTheme(formData: FormData) {
@@ -42,6 +44,7 @@ export async function updateTheme(formData: FormData) {
   await apiPut(`/api/admin/themes/${id}`, { name, display_order: displayOrder });
 
   revalidateThemeAffectedPaths();
+  redirect("/admin/themes?saved=1");
 }
 
 export async function deleteTheme(formData: FormData) {

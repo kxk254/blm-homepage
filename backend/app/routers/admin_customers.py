@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -5,8 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.security import SessionUser, get_current_admin
 from app.db.base import get_db
 from app.models.customer import Customer
+from app.models.customer_field_history import CustomerFieldHistory
 from app.models.order import Order
-from app.schemas.customer import AdminCustomerOut
+from app.schemas.customer import AdminCustomerOut, CustomerFieldHistoryOut
 
 router = APIRouter(prefix="/api/admin/customers", tags=["admin-customers"])
 
@@ -25,6 +28,9 @@ async def list_customers(
     result = await db.execute(
         select(Customer, func.coalesce(order_counts_subq.c.order_count, 0))
         .outerjoin(order_counts_subq, Customer.id == order_counts_subq.c.customer_id)
+        # 管理者アカウントは別画面(/admin/admins相当)で管理するため、
+        # 一般のお客様一覧には出さない
+        .where(Customer.is_admin.is_(False))
         .order_by(Customer.created_at.desc())
     )
 
@@ -41,3 +47,18 @@ async def list_customers(
         )
         for customer, order_count in result.all()
     ]
+
+
+@router.get("/{customer_id}/history", response_model=list[CustomerFieldHistoryOut])
+async def get_customer_history(
+    customer_id: UUID,
+    _admin: SessionUser = Depends(get_current_admin),
+    db: AsyncSession = Depends(get_db),
+):
+    # 氏名・電話番号・住所・メールアドレスの変更履歴(DBトリガーが自動記録したもの)
+    result = await db.execute(
+        select(CustomerFieldHistory)
+        .where(CustomerFieldHistory.customer_id == customer_id)
+        .order_by(CustomerFieldHistory.changed_at.desc())
+    )
+    return result.scalars().all()

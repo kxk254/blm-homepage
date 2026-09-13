@@ -1,9 +1,11 @@
 "use client";
 import React from "react";
 
-type MobileNavProps = { className?: string; isAdmin?: boolean };
+type NormalNavProps = { className?: string };
 
-export default function NoramNav({ className, isAdmin }: MobileNavProps) {
+// MY PAGEへの導線とADMINへのリンクは、それぞれヘッダー右上のアカウント欄・
+// AdminBar(ヘッダー上の専用の帯)に集約したので、ここには置かない
+export default function NormalNav({ className }: NormalNavProps) {
   return (
     <>
       <nav className={className}>
@@ -14,14 +16,6 @@ export default function NoramNav({ className, isAdmin }: MobileNavProps) {
           <li>
             <a href="/contact">CONTACT</a>
           </li>
-          <li>
-            <a href="/account">MY PAGE</a>
-          </li>
-          {isAdmin && (
-            <li>
-              <a href="/admin/products">ADMIN</a>
-            </li>
-          )}
         </ul>
       </nav>
     </>

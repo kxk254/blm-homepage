@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import styles from "./account.module.css";
 import { ApiError, apiFetch } from "@/src/lib/api/client";
 import type { Customer, Order } from "@/src/lib/api/types";
-import { signOut, updateProfile } from "./actions";
+import AccountCartSummary from "@/src/components/cart/AccountCartSummary";
+import { updateProfile } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,12 @@ interface AccountResponse {
   orders: Order[];
 }
 
-export default async function AccountPage() {
+export default async function AccountPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ saved?: string }>;
+}) {
+  const { saved } = await searchParams;
   let account: AccountResponse;
   try {
     account = await apiFetch<AccountResponse>("/api/account");
@@ -36,15 +42,57 @@ export default async function AccountPage() {
     <div className={styles.content}>
       <span className={styles.eyebrow}>My Page</span>
       <p className={styles.email}>{customer.email}</p>
-      <form action={signOut}>
-        <button type="submit" className={styles.logoutButton}>
-          ログアウト
-        </button>
-      </form>
+
+      {/* 動線: まず「今すぐ完了できること」(カート)→「過去の確認」(注文履歴)→
+          「たまに使う設定」(お客様情報)の順に並べる */}
+      <AccountCartSummary />
+
+      <section className={styles.orderSection}>
+        <h2 className={styles.orderHeading}>注文履歴</h2>
+        {customerOrders.length === 0 ? (
+          <p className={styles.noOrders}>まだご注文はありません。</p>
+        ) : (
+          <ul className={styles.orderList}>
+            {customerOrders.map((order) => (
+              <li key={order.id} className={styles.orderCard}>
+                <div className={styles.orderMeta}>
+                  <span>
+                    {new Date(order.createdAt).toLocaleDateString("ja-JP", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
+                  <span>{formatPrice(order.totalAmount)}</span>
+                </div>
+                <ul className={styles.orderItemList}>
+                  {order.items.map((item) => (
+                    <li key={item.id}>
+                      {item.productName} × {item.quantity}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       <section className={styles.profileSection}>
-        <h2 className={styles.orderHeading}>お客様情報</h2>
-        <form action={updateProfile} className={styles.form}>
+        <h2 className={styles.orderHeading}>アカウント設定</h2>
+        {saved === "1" && (
+          <p role="status" className={styles.savedBanner}>
+            保存しました
+          </p>
+        )}
+        {/* defaultValue(非制御)のため、保存後のrevalidateだけでは
+            画面が追従しない。key を内容依存にしてフォームごと
+            再マウントさせる */}
+        <form
+          key={`${customer.fullName}-${customer.phone}-${customer.postalCode}-${customer.address}`}
+          action={updateProfile}
+          className={styles.form}
+        >
           <label className={styles.field}>
             <span>お名前</span>
             <input
@@ -77,37 +125,6 @@ export default async function AccountPage() {
             保存
           </button>
         </form>
-      </section>
-
-      <section className={styles.orderSection}>
-        <h2 className={styles.orderHeading}>注文履歴</h2>
-        {customerOrders.length === 0 ? (
-          <p className={styles.noOrders}>まだご注文はありません。</p>
-        ) : (
-          <ul className={styles.orderList}>
-            {customerOrders.map((order) => (
-              <li key={order.id} className={styles.orderCard}>
-                <div className={styles.orderMeta}>
-                  <span>
-                    {new Date(order.createdAt).toLocaleDateString("ja-JP", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </span>
-                  <span>{formatPrice(order.totalAmount)}</span>
-                </div>
-                <ul className={styles.orderItemList}>
-                  {order.items.map((item) => (
-                    <li key={item.id}>
-                      {item.productName} × {item.quantity}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        )}
       </section>
     </div>
   );

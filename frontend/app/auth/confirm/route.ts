@@ -11,9 +11,13 @@ export async function GET(request: NextRequest) {
   const next = searchParams.get("next") ?? "/account";
 
   if (token) {
+    const forwardedProto = request.headers.get("x-forwarded-proto");
     const backendRes = await fetch(
       `${BACKEND_URL}/api/auth/confirm?token=${encodeURIComponent(token)}`,
-      { cache: "no-store" }
+      {
+        cache: "no-store",
+        headers: forwardedProto ? { "X-Forwarded-Proto": forwardedProto } : undefined,
+      }
     );
 
     if (backendRes.ok) {

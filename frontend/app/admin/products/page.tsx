@@ -1,27 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { apiFetch } from "@/src/lib/api/client";
-import type { AdminProductListItem, MediaImage } from "@/src/lib/api/types";
-import { signOutAdmin, uploadProductImage } from "./actions";
+import type { AdminProductListItem } from "@/src/lib/api/types";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminProductsPage() {
-  const [items, images] = await Promise.all([
-    apiFetch<AdminProductListItem[]>("/api/admin/products"),
-    apiFetch<MediaImage[]>("/api/admin/media"),
-  ]);
+  const items = await apiFetch<AdminProductListItem[]>("/api/admin/products");
 
   return (
     <div className={styles.content}>
       <div className={styles.headerRow}>
         <h1 className={styles.heading}>商品管理</h1>
-        <form action={signOutAdmin}>
-          <button type="submit" className={styles.button}>
-            ログアウト
-          </button>
-        </form>
       </div>
 
       <nav className={styles.adminNav}>
@@ -29,25 +20,19 @@ export default async function AdminProductsPage() {
         <Link href="/admin/themes">テーマ管理</Link>
         <Link href="/admin/orders">注文管理</Link>
         <Link href="/admin/customers">顧客一覧</Link>
+        <Link href="/admin/admins">管理者</Link>
       </nav>
 
       <section className={styles.section}>
-        <h2 className={styles.subHeading}>新しい画像をアップロード</h2>
-        <form action={uploadProductImage} className={styles.uploadForm}>
-          <input type="file" name="file" accept="image/*" required />
-          <button type="submit" className={styles.button}>
-            アップロード
-          </button>
-        </form>
-        {images.length === 0 && (
-          <p className={styles.hint}>
-            まだアップロード済みの画像がありません。上のフォームから画像を追加すると、各商品の編集ページで選べるようになります。
-          </p>
-        )}
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.subHeading}>商品一覧（{items.length}件）</h2>
+        <div className={styles.headerRow}>
+          <h2 className={styles.subHeading}>商品一覧（{items.length}件）</h2>
+          <Link href="/admin/products/new" className={styles.button}>
+            ＋ 新しい商品を追加
+          </Link>
+        </div>
+        <p className={styles.hint}>
+          画像のアップロード・選択は各商品の「編集」ページで行います（商品ごとにフォルダを分けて管理します）。
+        </p>
         <table className={styles.table}>
           <thead>
             <tr>

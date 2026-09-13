@@ -1,7 +1,7 @@
 .content {
   max-width: 720px;
   margin: 0 auto;
-  padding: 60px 24px 120px;
+  padding: calc(60px + var(--header-top-offset, 0px)) 24px 120px;
   font-family: system-ui, sans-serif;
 }
 
@@ -14,6 +14,16 @@
 
 .heading {
   font-size: 1.4rem;
+}
+
+.savedBanner {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding: 8px 16px;
+  background: #eaf6ec;
+  color: #2e7d32;
+  border-radius: 4px;
+  font-size: 0.85rem;
 }
 
 .adminNav {

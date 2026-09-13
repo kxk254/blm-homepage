@@ -1,0 +1,38 @@
+.cartBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: var(--info-bar-height);
+  z-index: 1090; /* Header(1000)より上、AdminBar(1100)より下 */
+  background-color: var(--bm-silver-deep);
+  color: var(--bm-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  box-sizing: border-box;
+  padding: 0 16px;
+}
+
+.label {
+  white-space: nowrap;
+}
+
+.cartLink {
+  color: var(--bm-white);
+  text-decoration: underline;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.cartLink:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 480px) {
+  .label {
+    display: none;
+  }
+}

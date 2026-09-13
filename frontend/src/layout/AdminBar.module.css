@@ -1,0 +1,37 @@
+.adminBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: var(--info-bar-height);
+  z-index: 1100; /* Header(1000)より上 */
+  background-color: var(--bm-text-main);
+  color: var(--bm-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  box-sizing: border-box;
+  padding: 0 16px;
+}
+
+.label {
+  white-space: nowrap;
+}
+
+.adminLink {
+  color: var(--bm-white);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.adminLink:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 480px) {
+  .label {
+    display: none;
+  }
+}

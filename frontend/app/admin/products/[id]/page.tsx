@@ -1,23 +1,22 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ApiError, apiFetch } from "@/src/lib/api/client";
 import type { MediaImage, Product, Theme } from "@/src/lib/api/types";
-import {
-  signOutAdmin,
-  updateProductDetails,
-  updateProductImage,
-} from "../actions";
+import ProductImagePicker from "@/src/components/admin/ProductImagePicker";
+import { updateProductDetails } from "../actions";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminProductEditPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ saved?: string }>;
 }) {
   const { id } = await params;
+  const { saved } = await searchParams;
 
   let product: Product;
   try {
@@ -31,67 +30,42 @@ export default async function AdminProductEditPage({
 
   const [themeList, images] = await Promise.all([
     apiFetch<Theme[]>("/api/themes"),
-    apiFetch<MediaImage[]>("/api/admin/media"),
+    apiFetch<MediaImage[]>(`/api/admin/products/${id}/media`),
   ]);
 
   return (
     <div className={styles.content}>
       <div className={styles.headerRow}>
         <h1 className={styles.heading}>商品編集: No. {product.id}</h1>
-        <form action={signOutAdmin}>
-          <button type="submit" className={styles.button}>
-            ログアウト
-          </button>
-        </form>
       </div>
 
       <Link href="/admin/products" className={styles.backLink}>
         ← 商品一覧へ戻る
       </Link>
 
+      {saved === "1" && (
+        <p role="status" className={styles.savedBanner}>
+          保存しました
+        </p>
+      )}
+
       <div className={styles.layout}>
         <div className={styles.imageSection}>
-          <div className={styles.thumbWrap}>
-            <Image
-              src={product.imageSrc}
-              alt={product.productName}
-              fill
-              sizes="240px"
-              className={styles.thumb}
-            />
-          </div>
-          <form action={updateProductImage} className={styles.selectForm}>
-            <input type="hidden" name="productId" value={product.id} />
-            <select
-              name="imageSrc"
-              defaultValue={product.imageSrc}
-              className={styles.select}
-            >
-              {!images.some((img) => img.url === product.imageSrc) && (
-                <option value={product.imageSrc}>
-                  現在の画像: {product.imageSrc}
-                </option>
-              )}
-              {images.map((img) => (
-                <option key={img.name} value={img.url}>
-                  {img.name}
-                </option>
-              ))}
-            </select>
-            <button type="submit" className={styles.button}>
-              画像を更新
-            </button>
-          </form>
-          {images.length === 0 && (
-            <p className={styles.hint}>
-              アップロード済みの画像がありません。
-              <Link href="/admin/products">商品一覧</Link>
-              ページから追加してください。
-            </p>
-          )}
+          <ProductImagePicker
+            productId={product.id}
+            availableImages={images}
+            initialSelected={product.imageSrcs}
+          />
         </div>
 
-        <form action={updateProductDetails} className={styles.detailsForm}>
+        {/* input/select/textareaはdefaultValue(非制御)のため、保存後にサーバー側で
+            revalidateされても値が自動で追従しない。keyを内容依存にして保存の度に
+            フォームごと再マウントさせ、常に最新の保存値が表示されるようにする */}
+        <form
+          key={JSON.stringify(product)}
+          action={updateProductDetails}
+          className={styles.detailsForm}
+        >
           <input type="hidden" name="productId" value={product.id} />
           <label className={styles.field}>
             <span>商品名</span>
@@ -166,6 +140,34 @@ export default async function AdminProductEditPage({
               name="detailDescription"
               defaultValue={product.detailDescription}
               rows={6}
+            />
+          </label>
+          <label className={styles.field}>
+            <span>ストーリー（任意）</span>
+            <textarea name="story" defaultValue={product.story} rows={4} />
+          </label>
+          <label className={styles.field}>
+            <span>サイズ（任意）</span>
+            <textarea name="sizeInfo" defaultValue={product.sizeInfo} rows={2} />
+          </label>
+          <label className={styles.field}>
+            <span>素材（任意）</span>
+            <textarea
+              name="materialInfo"
+              defaultValue={product.materialInfo}
+              rows={2}
+            />
+          </label>
+          <label className={styles.field}>
+            <span>お手入れ方法（任意）</span>
+            <textarea name="careInfo" defaultValue={product.careInfo} rows={3} />
+          </label>
+          <label className={styles.field}>
+            <span>片方を無くした場合の対応（任意）</span>
+            <textarea
+              name="lostItemNote"
+              defaultValue={product.lostItemNote}
+              rows={3}
             />
           </label>
           <button type="submit" className={styles.button}>

@@ -134,4 +134,5 @@ export async function updateProfile(formData: FormData) {
   }
 
   revalidatePath("/account");
+  redirect("/account?saved=1");
 }

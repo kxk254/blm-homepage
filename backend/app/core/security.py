@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from uuid import UUID
 
 import jwt
-from fastapi import Cookie, Depends, HTTPException, Response, status
+from fastapi import Cookie, Depends, HTTPException, Request, Response, status
 from passlib.context import CryptContext
 
 from app.core.config import settings
@@ -59,12 +59,22 @@ def decode_reset_token(token: str) -> UUID:
     return UUID(payload["sub"])
 
 
-def set_session_cookie(response: Response, token: str) -> None:
+def _is_https_request(request: Request) -> bool:
+    # nginx等のリバースプロキシ経由だとrequest.url.schemeは常にhttpになるため、
+    # X-Forwarded-Protoがあればそちらを優先する。TLS未導入で開発中はhttpのままなので、
+    # SITE_URLの固定値ではなく実際のリクエストで判定しないとSecure Cookieが送られなくなる。
+    forwarded_proto = request.headers.get("x-forwarded-proto")
+    if forwarded_proto:
+        return forwarded_proto.split(",")[0].strip().lower() == "https"
+    return request.url.scheme == "https"
+
+
+def set_session_cookie(request: Request, response: Response, token: str) -> None:
     response.set_cookie(
         key=SESSION_COOKIE_NAME,
         value=token,
         httponly=True,
-        secure=settings.site_url.startswith("https://"),
+        secure=_is_https_request(request),
         samesite="lax",
         max_age=settings.jwt_expire_minutes * 60,
         path="/",

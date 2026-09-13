@@ -1,8 +1,19 @@
 # blm-homepage
 
+## 全体構成
+
+- **Postgres**: サーバー/開発機に直接インストールしたネイティブ環境（Docker化しない）
+- **backend (FastAPI)**: サーバー上でsystemdが常駐させるネイティブプロセス（Docker化しない）
+- **商品画像フォルダ**: サーバーのローカルディスク上のフォルダ（NASの共有フォルダではなく、
+  サーバー自身のディスク上に直接置く。Docker化しない）
+- **frontend (Next.js) / nginx**: Dockerコンテナ（`docker-compose.yml`）
+
+backendがコンテナではなくホスト常駐なので、nginxコンテナからは`host.docker.internal`
+（コンテナからホストへ抜けるための特別なDNS名。`docker-compose.yml`で
+`extra_hosts: host.docker.internal:host-gateway`を設定済み）経由でアクセスする。
+
 ## 開発環境の起動（Dockerなし）
 
-Postgresは開発機・本番サーバーいずれもDocker化せず、ネイティブインストールしたものを使う。
 backend(FastAPI)・frontend(Next.js)はDockerなしで直接起動して開発できる。
 
 ### 1. バックエンド (FastAPI)
@@ -14,6 +25,7 @@ pip install -r requirements.txt     # 初回のみ
 cp .env.example .env                # 初回のみ。DATABASE_URL等を編集する
 uvicorn app.main:app --reload --port 8000
 ```
+本番でもこの同じ`.venv`/`uvicorn`をsystemdから起動する（後述の「本番デプロイ」参照）。
 
 ### 2. フロントエンド (Next.js)
 ```bash
@@ -32,7 +44,8 @@ http://localhost:3000 で確認できる。nginxを経由しなくても、`next
 ## DB設定（本番・開発共通、Postgresはネイティブ管理）
 
 Postgresはdocker-composeの中では動かさず、サーバー（または開発機）に直接インストールした
-ものを使う。docker-compose上のbackendコンテナからもこのPostgresへネットワーク経由で接続する。
+ものを使う。backend自体もネイティブプロセスなので、同じホストの場合は`127.0.0.1`、
+別ホスト（開発機からLAN上のサーバーへ、など）の場合はそのIPへネットワーク経由で接続する。
 
 ### 1. ロール/データベース作成
 ```bash
@@ -43,12 +56,12 @@ SQL
 ```
 
 ### 2. 接続許可 (pg_hba.conf)
-`/etc/postgresql/16/main/pg_hba.conf` に追記する（Dockerコンテナのブリッジ網・LANからの
-接続を許可する場合の例）:
+`/etc/postgresql/16/main/pg_hba.conf` に追記する（LANからの接続を許可する例）:
 ```
-host    blm    blm    172.16.0.0/12    scram-sha-256
 host    blm    blm    192.168.11.0/24  scram-sha-256
 ```
+（backendはネイティブプロセスなのでDockerブリッジ網からの接続許可は本来不要。
+既に`172.16.0.0/12`を追加済みの場合も害はないが、絞りたければ削除してよい）
 `postgresql.conf`の`listen_addresses = '*'`も必要（Ubuntu/Debianのパッケージ版はデフォルトで有効なことが多い）。
 
 ### 3. 反映
@@ -57,7 +70,6 @@ sudo systemctl restart postgresql
 ```
 ufwが有効な場合は5432ポートも許可する:
 ```bash
-sudo ufw allow from 172.16.0.0/12 to any port 5432
 sudo ufw allow from 192.168.11.0/24 to any port 5432
 ```
 
@@ -71,8 +83,81 @@ python scripts/seed.py   # 動作確認用のダミー商品を入れる場合�
 ```
 
 `backend/.env`の`DATABASE_URL`は `postgresql+asyncpg://blm:<パスワード>@<Postgresのホスト>:5432/blm`
-の形式。Postgresをコンテナ化していないので、docker-compose経由でbackendを起動する場合も
-このURLはPostgresが実際に動いているホストのIP（開発機のLAN IPや本番サーバー自身のIP）を指す。
+の形式。開発機からは本番サーバーのLAN IP、本番サーバー自身で動かす場合は`127.0.0.1`を指す。
+
+## 商品画像フォルダ（本番、NASではなくサーバーのローカルディスク）
+
+商品画像はNASではなく、サーバーのローカルディスク上のフォルダで管理する。backend(ネイティブ)が
+読み書きし、nginx(コンテナ)はそこを読み取り専用でバインドして直接配信する。
+
+### 1. フォルダを作成
+```bash
+sudo mkdir -p /home/konno/media
+sudo chown konno:konno /home/konno/media
+```
+backendはこのユーザー(`konno`)権限のuvicornプロセスとして動くので、そのユーザーが書き込める
+必要がある。
+
+### 2. 既存の商品写真を移す（旧`frontend/public/asset`から）
+サイトのロゴ・アイコン類(`favicon.jpg`, `icon-*.png`など)は`frontend/public/`に残したままでよい
+(Next.jsのビルドに含まれる)。商品写真だけをフラットに(サブフォルダを作らずに)コピーする。
+backend側は`MEDIA_ROOT`直下のファイルしか一覧・配信しないため、ここでサブフォルダを作ると
+管理画面の画像選択に出てこなくなる点に注意。
+
+```bash
+# Mac側で実行。-r を使わずファイルだけをフラットにコピーする
+scp /Users/konno/1-Projects/1-blm/blm-homepage/frontend/public/asset/*.{png,PNG,jpg,JPG} \
+    konno@192.168.11.71:/home/konno/media/
+```
+
+### 3. backend/.envの確認
+```
+MEDIA_ROOT=/home/konno/media
+```
+（ホストの実パスをそのまま指定する。backendはコンテナ化していないため`/mnt/media`のような
+コンテナ内パスではなく、この実パスで正しい）
+
+### 4. ルートの`.env`(docker-compose用)にも同じパスを設定
+nginxコンテナが読み取り専用でバインドするためのパス。
+```
+NAS_MEDIA_PATH=/home/konno/media
+```
+
+## 本番デプロイ
+
+### 1. backend をsystemdサービス化
+```bash
+sudo cp backend/deploy/blm-backend.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now blm-backend
+sudo systemctl status blm-backend
+```
+`backend/deploy/blm-backend.service`はリポジトリの絶対パス・実行ユーザーを前提にしているので、
+配置パスやユーザーが違う場合はコピーしたユニットファイル側を編集する。
+
+ポート8000はnginxコンテナ(Dockerブリッジ経由)からのみアクセスできればよいので、
+LAN/インターネットには公開しない:
+```bash
+sudo ufw deny 8000
+sudo ufw allow from 172.16.0.0/12 to any port 8000   # Dockerブリッジ網のみ許可
+```
+
+### 2. frontend / nginx をDockerで起動
+```bash
+cp .env.example .env   # NAS_MEDIA_PATHを設定
+docker compose up -d --build
+```
+
+### 3. コード更新時
+```bash
+# backend更新時
+git pull
+cd backend && source .venv/bin/activate && pip install -r requirements.txt && alembic upgrade head
+sudo systemctl restart blm-backend
+
+# frontend/nginx更新時
+docker compose up -d --build
+```
 
 ---
 

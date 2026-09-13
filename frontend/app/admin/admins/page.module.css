@@ -1,0 +1,92 @@
+.content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: calc(60px + var(--header-top-offset, 0px)) 24px 120px;
+  font-family: system-ui, sans-serif;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.heading {
+  font-size: 1.4rem;
+}
+
+.adminNav {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 0.9rem;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.subHeading {
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.createForm {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.field input {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 6px 8px;
+}
+
+.button {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.error {
+  font-size: 0.85rem;
+  color: #a33;
+  margin-top: 12px;
+}
+
+.message {
+  font-size: 0.85rem;
+  color: #277;
+  margin-top: 12px;
+}

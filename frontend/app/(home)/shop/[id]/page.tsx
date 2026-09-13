@@ -1,5 +1,4 @@
 import { cache } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -7,6 +6,7 @@ import styles from "./page.module.css";
 import { ApiError, apiFetch } from "@/src/lib/api/client";
 import type { Product } from "@/src/lib/api/types";
 import AddToCartButton from "@/src/components/ui/AddToCartButton";
+import ProductGallery from "@/src/components/ui/ProductGallery";
 import ShareButtons from "@/src/components/ui/ShareButtons";
 
 // 在庫・商品説明はDB管理のため常に最新を出す(ISRだとクライアント側ルーターキャッシュが
@@ -51,13 +51,13 @@ export async function generateMetadata({
       title,
       description,
       url: `https://blmf.jp/shop/${product.id}`,
-      images: [{ url: product.imageSrc }],
+      images: product.imageSrcs.map((src) => ({ url: src })),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [product.imageSrc],
+      images: product.imageSrcs,
     },
   };
 }
@@ -85,9 +85,8 @@ export default async function ProductDetailPage({
 
   // NAS由来の画像は/media配下の相対パス、ローカルの/asset配下も相対パスなので、
   // JSON-LD用に絶対URLへ揃える(next/imageのMetadata APIとは異なりmetadataBaseは効かない)
-  const absoluteImageUrl = product.imageSrc.startsWith("http")
-    ? product.imageSrc
-    : `https://blmf.jp${product.imageSrc}`;
+  const toAbsoluteUrl = (src: string) =>
+    src.startsWith("http") ? src : `https://blmf.jp${src}`;
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -95,7 +94,7 @@ export default async function ProductDetailPage({
     name: product.productName,
     description: product.productDescription,
     sku: product.id,
-    image: absoluteImageUrl,
+    image: product.imageSrcs.map(toAbsoluteUrl),
     offers: {
       "@type": "Offer",
       url: `https://blmf.jp/shop/${product.id}`,
@@ -118,15 +117,7 @@ export default async function ProductDetailPage({
       </Link>
 
       <div className={styles.layout}>
-        <div className={styles.imageWrap}>
-          <Image
-            src={product.imageSrc}
-            alt={product.productName}
-            fill
-            sizes="(max-width: 768px) 90vw, 45vw"
-            className={styles.image}
-          />
-        </div>
+        <ProductGallery images={product.imageSrcs} alt={product.productName} />
 
         <div className={styles.info}>
           <span className={styles.itemNumber}>No. {product.id}</span>
@@ -170,6 +161,47 @@ export default async function ProductDetailPage({
               {product.detailDescription || "商品説明は準備中です。"}
             </p>
           </section>
+
+          {product.story && (
+            <section className={styles.detailSection}>
+              <h2 className={styles.detailHeading}>ストーリー</h2>
+              <p className={styles.detailText}>{product.story}</p>
+            </section>
+          )}
+
+          {(product.sizeInfo || product.materialInfo) && (
+            <section className={styles.detailSection}>
+              <h2 className={styles.detailHeading}>商品情報</h2>
+              <dl className={styles.specList}>
+                {product.sizeInfo && (
+                  <>
+                    <dt>サイズ</dt>
+                    <dd>{product.sizeInfo}</dd>
+                  </>
+                )}
+                {product.materialInfo && (
+                  <>
+                    <dt>素材</dt>
+                    <dd>{product.materialInfo}</dd>
+                  </>
+                )}
+              </dl>
+            </section>
+          )}
+
+          {product.careInfo && (
+            <section className={styles.detailSection}>
+              <h2 className={styles.detailHeading}>お手入れ方法</h2>
+              <p className={styles.detailText}>{product.careInfo}</p>
+            </section>
+          )}
+
+          {product.lostItemNote && (
+            <section className={styles.detailSection}>
+              <h2 className={styles.detailHeading}>片方を無くされた場合</h2>
+              <p className={styles.detailText}>{product.lostItemNote}</p>
+            </section>
+          )}
         </div>
       </div>
     </div>

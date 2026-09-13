@@ -1,5 +1,5 @@
 import "server-only";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 // docker-compose内ではサービス名で名前解決できるため、Next.jsのサーバー側から
 // FastAPIを直接(nginxを経由せず)呼ぶ。ブラウザからの相対パス`/api/...`はnginxが
@@ -92,17 +92,24 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
     .map((c) => `${c.name}=${c.value}`)
     .join("; ");
 
-  const headers: Record<string, string> = { cookie: cookieHeader };
+  const requestHeaders: Record<string, string> = { cookie: cookieHeader };
   // FormData(画像アップロード等)の場合はboundary付きのContent-Typeを
   // fetchに自動設定させる必要があるため、ここでは付与しない
   if (typeof init.body === "string") {
-    headers["Content-Type"] = "application/json";
+    requestHeaders["Content-Type"] = "application/json";
   }
-  Object.assign(headers, init.headers as Record<string, string> | undefined);
+  // ブラウザ→nginx→Next.jsの実際のプロトコル(nginxがX-Forwarded-Protoを付与)を
+  // backendまで伝える。backend(uvicorn)自体は常にhttpで喋るため、これが無いと
+  // 本番でHTTPS化してもセッションCookieにSecure属性が付かなくなる
+  const forwardedProto = (await headers()).get("x-forwarded-proto");
+  if (forwardedProto) {
+    requestHeaders["X-Forwarded-Proto"] = forwardedProto;
+  }
+  Object.assign(requestHeaders, init.headers as Record<string, string> | undefined);
 
   const res = await fetch(`${BACKEND_URL}${path}`, {
     ...init,
-    headers,
+    headers: requestHeaders,
     cache: "no-store",
   });
 

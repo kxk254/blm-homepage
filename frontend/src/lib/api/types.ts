@@ -8,8 +8,17 @@ export interface Product {
   productName: string;
   productDescription: string;
   detailDescription: string;
+  // 商品詳細ページの補足情報。すべて空文字の場合がある(未入力なら非表示にする)
+  story: string;
+  sizeInfo: string;
+  materialInfo: string;
+  careInfo: string;
+  lostItemNote: string;
   productPrice: number;
+  // カバー画像(1枚目)。一覧・カート等、1枚だけでよい箇所向け
   imageSrc: string;
+  // 商品詳細ページのギャラリー表示用。1〜8枚、順番が表示順
+  imageSrcs: string[];
   stockQuantity: number;
   themeId: number | null;
   createdAt: string;
@@ -37,9 +46,16 @@ export interface Order {
   stripeCheckoutSessionId: string;
   stripePaymentIntentId: string | null;
   customerEmail: string | null;
+  shippingName: string | null;
+  shippingPhone: string | null;
+  shippingPostalCode: string | null;
+  shippingAddress: string | null;
   totalAmount: number;
   status: string;
   createdAt: string;
+  refundedAt: string | null;
+  refundAmount: number | null;
+  refundReason: string | null;
   items: OrderItem[];
 }
 
@@ -76,4 +92,22 @@ export interface AdminProductListItem {
 export interface MediaImage {
   name: string;
   url: string;
+}
+
+export interface ProductCategory {
+  code: string;
+  label: string;
+}
+
+export interface AdminAccount {
+  id: string;
+  email: string;
+  createdAt: string;
+}
+
+export interface CustomerFieldHistory {
+  fieldName: string;
+  oldValue: string | null;
+  newValue: string | null;
+  changedAt: string;
 }
